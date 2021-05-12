@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/mute"
+        android:title="mute"
+        android:icon="@drawable/ic_bell"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/ban"
+        android:title="ban"
+        android:icon="@drawable/ic_ban"
+        app:showAsAction="always"
+        />
+
+</menu>

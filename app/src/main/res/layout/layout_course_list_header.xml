@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <TextView
+        android:id="@+id/nav_header_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="1dp"
+        android:text="USTChat"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
+
+<!--    <AutoCompleteTextView-->
+<!--        android:id="@+id/search_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:imeOptions="actionSearch"-->
+<!--        android:inputType="textAutoComplete|textAutoCorrect"-->
+<!--        android:queryHint="Search for Courses"-->
+<!--        android:textColor="@color/black" >-->
+<!--        <requestFocus />-->
+<!--    </AutoCompleteTextView>-->
+
+
+
+<!--    <SearchView-->
+<!--        android:id="@+id/search_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:queryHint="Search for Courses"-->
+<!--        android:iconifiedByDefault="false"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        />-->
+
+
+</LinearLayout>

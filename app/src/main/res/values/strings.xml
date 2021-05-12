@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">USTChat</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="edit_hint_login_student_email">student email</string>
+    <string name="edit_hint_login_password">password</string>
+    <string name="tv_text_login_forgot_password">forgot your password?</string>
+    <string name="btn_text_login_login">Login</string>
+    <string name="btn_text_login_sign_up">Student Sign-up</string>
+    <string name="link_continue_as_a_visitor"><u>continue as a visitor</u></string>
+
+    <string name="create_account_description">A verification code will be sent to your ITSC email address ending in @connect.ust.hk. Enter the code to proceed in the next step."</string>
+
+
+    <string name="chip_general_tag_1">Chit-Chat</string>
+    <string name="chip_general_tag_2">Question</string>
+    <string name="chip_general_tag_3">Graduation</string>
+    <string name="chip_general_tag_4">Rant</string>
+    <string name="chip_general_tag_5">Show-off</string>
+
+    <string name="chip_course_tag_1">Chit-Chat</string>
+    <string name="chip_course_tag_2">Sharing</string>
+    <string name="chip_course_tag_3">Review</string>
+    <string name="chip_course_tag_4">Recruitment</string>
+    <string name="chip_course_tag_5">Lecture</string>
+    <string name="chip_course_tag_6">Lab</string>
+    <string name="chip_course_tag_7">Tutorial</string>
+    <string name="chip_course_tag_8">Exam</string>
+    <string name="chip_course_tag_9">Assignment</string>
+    <string name="chip_course_tag_10">Project</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
