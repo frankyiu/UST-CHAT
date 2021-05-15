@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipgroup_tag_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag_chit_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/chip_general_tag_1"
+            android:textSize="@dimen/chip_text_size"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/chip_general_tag_2"
+            android:textSize="@dimen/chip_text_size"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag_graduation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/chip_general_tag_3"
+            android:textSize="@dimen/chip_text_size"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag_rant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/chip_general_tag_4"
+            android:textSize="@dimen/chip_text_size"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tag_show_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/chip_general_tag_5"
+            android:textSize="@dimen/chip_text_size"
+            />
+
+    </com.google.android.material.chip.ChipGroup>
+</LinearLayout>

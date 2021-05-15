@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523871011613",
+    "project_id": "chatroom-comp4521",
+    "storage_bucket": "chatroom-comp4521.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523871011613:android:67e2c4e821183615c557f4",
+        "android_client_info": {
+          "package_name": "com.example.ustchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523871011613-qd8bd11h34lt7qrqokdfpen7l71bb66g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9JpJLeX3cLSOY-KgJ63qr7tvF_cMvg4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523871011613-qd8bd11h34lt7qrqokdfpen7l71bb66g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

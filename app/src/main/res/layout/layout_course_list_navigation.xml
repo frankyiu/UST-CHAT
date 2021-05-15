@@ -1,0 +1,56 @@
+<com.google.android.material.navigation.NavigationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/side_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    app:headerLayout="@layout/layout_course_list_header"
+    app:menu="@menu/menu_course_list"
+    >
+
+    <EditText
+        android:id="@+id/et_course_list_search"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="56dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:hint="Search for Courses"
+        android:textSize="18dp"
+        android:paddingLeft="10dp"
+        android:drawablePadding="6dp"
+        android:background="@drawable/search_view_bg"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:drawableLeft="@drawable/ic_search"
+        android:maxLines="1"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginTop="120dp"
+        app:menu="@menu/menu_nav"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="139dp"
+            android:background="@color/preferences_divider"/>
+    </LinearLayout>
+
+
+    <ExpandableListView
+        android:id="@+id/expandible_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:dividerHeight="0dp"
+        android:groupIndicator="@null"
+        android:layout_marginTop="260dp"
+        />
+
+</com.google.android.material.navigation.NavigationView>

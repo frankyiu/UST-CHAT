@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="360dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        tools:ignore="MissingClass">
+
+        <TextView
+            android:id="@+id/tv_create_chatroom"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Create a chatroom"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dip"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_chatroom_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Title:"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/tv_create_chatroom"
+            />
+
+        <EditText
+            android:id="@+id/et_create_chatroom_title"
+            android:inputType="text"
+            android:layout_below="@id/tv_create_chatroom_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="12sp"
+            android:padding="5dp"
+            android:hint="type your title here..."
+            android:maxLines="1"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_chatroom_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Name:"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/et_create_chatroom_title"
+            />
+
+        <EditText
+            android:id="@+id/et_create_chatroom_name"
+            android:inputType="text"
+            android:layout_below="@id/tv_create_chatroom_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="5dp"
+            android:textSize="12sp"
+            android:text="Student76538"
+            android:maxLines="1"
+            android:maxLength="12"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_chatroom_tag"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Tags:"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/et_create_chatroom_name"
+            />
+
+        <ViewFlipper
+            android:id="@+id/vf_create_chatroom_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_create_chatroom_tag"
+            >
+            <include
+                android:id="@+id/vf_create_chatroom_chip_course"
+                layout="@layout/layout_chip_group_course"
+                />
+            <include
+                android:id="@+id/vf_create_chatroom_chip_general"
+                layout="@layout/layout_chip_group_general"
+                />
+        </ViewFlipper>
+
+        <TextView
+            android:id="@+id/tv_create_chatroom_warning_invalid_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="title can't be empty."
+            android:textColor="@color/pm_unread_counter_bg_color"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingTop="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/et_create_chatroom_title"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_chatroom_warning_invalid_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="name can't be empty."
+            android:textColor="@color/pm_unread_counter_bg_color"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingTop="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/et_create_chatroom_name"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_create_chatroom_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="?android:selectableItemBackgroundBorderless"
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
