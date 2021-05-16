@@ -3,8 +3,14 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
-    <string name="edit_hint_login_student_email">student email</string>
-    <string name="edit_hint_login_password">password</string>
+    <string name="et_hint_login_ITSC">ITSC Account</string>
+    <string name="et_hint_login_password">USTChat password</string>
+    <string name="et_warning_login_ITSC_empty">ITSC account required.</string>
+    <string name="et_warning_login_ITSC_invalid">invalid ITSC account.</string>
+    <string name="et_warning_login_password_empty">password required.</string>
+    <string name="et_warning_login_password_invalid">invalid password.</string>
+    <string name="et_warning_login_failure">login failure: account does not exist.</string>
+
     <string name="tv_text_login_forgot_password">forgot your password?</string>
     <string name="btn_text_login_login">Login</string>
     <string name="btn_text_login_sign_up">Student Sign-up</string>

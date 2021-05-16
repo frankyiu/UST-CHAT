@@ -41,8 +41,8 @@ public class PrivateMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_message);
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Private Message"); //??
+        toolbar = findViewById(R.id.toolbar_center_title);
+        toolbar.setTitle("Private Message");
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);

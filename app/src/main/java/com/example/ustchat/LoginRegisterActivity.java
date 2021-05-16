@@ -3,7 +3,6 @@ package com.example.ustchat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,54 +24,64 @@ public class LoginRegisterActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView tvContinue;
     TextView tvForgotPW;
+    TextView tvWarningInvalidITSC;
+    TextView tvWarningInvalidPW;
+    TextView tvWarningLoginFailure;
     Button btnLogin;
     Button btnSignup;
-    EditText etEmail;
-    EditText etPassword;
-
+    EditText etITSC;
+    EditText etPW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
-        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        toolbar = findViewById(R.id.login_toolbar);
+        toolbar = findViewById(R.id.toolbar_center_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         btnLogin = findViewById(R.id.btn_login_login);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+
         btnSignup = findViewById(R.id.btn_login_sign_up);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRegisterDialog();
+            }
+        });
 
         tvContinue = findViewById(R.id.tv_login_continue_as_a_visitor);
         tvContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CourseActivity.class));
-                overridePendingTransition(0, 0);
+                // TO-DO: no login
+                switchToGeneralCourseActicity();
             }
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+        etITSC = findViewById(R.id.et_login_itsc);
+        etPW = findViewById(R.id.et_login_password);
+        tvForgotPW = findViewById(R.id.tv_login_forgot_password);
+        tvForgotPW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
+                handleForgetPW();
             }
         });
 
-        etEmail = findViewById(R.id.edit_login_student_email);
-
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View view = getCurrentFocus();
-        if (view instanceof EditText) {
-            ((EditText) view).clearFocus();
-            InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        return super.dispatchTouchEvent(ev);
+        tvWarningInvalidITSC = findViewById(R.id.tv_login_warning_itsc);
+        tvWarningInvalidITSC.setVisibility(View.GONE);
+        tvWarningInvalidPW = findViewById(R.id.tv_login_warning_password);
+        tvWarningInvalidPW.setVisibility(View.GONE);
+        tvWarningLoginFailure = findViewById(R.id.tv_login_warning_login_failure);
+        tvWarningLoginFailure.setVisibility(View.GONE);
     }
 
     @Override
@@ -85,15 +94,93 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.login_info) {
-            //openDialog();
+            // openDialog();
         }
         return true;
     }
 
-    public void openDialog() {
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
+    public void login() {
+        String istc = etITSC.getText().toString();
+        String password = etPW.getText().toString();
+        if (validateLoginSubmission(istc, password)) {
+            switchToGeneralCourseActicity();
+        }
+    }
+
+    public boolean validateLoginSubmission(String itsc, String password) {
+        boolean success = true;
+
+        if (itsc.isEmpty()) {
+            tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
+            tvWarningInvalidITSC.setVisibility(View.VISIBLE);
+            etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
+            success = false;
+        }
+        else {
+            etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            tvWarningInvalidITSC.setVisibility(View.GONE);
+        }
+
+        if (password.isEmpty()) {
+            tvWarningInvalidPW.setText(R.string.et_warning_login_ITSC_invalid);
+            tvWarningInvalidPW.setVisibility(View.VISIBLE);
+            etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
+            success = false;
+        }
+        else {
+            etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            tvWarningInvalidPW.setVisibility(View.GONE);
+        }
+
+        // TO-DO : check if the login records exist in the database
+        if (success) {
+            boolean existInDatabase = true;
+            // ....
+
+            if (existInDatabase) {
+                tvWarningLoginFailure.setVisibility(View.GONE);
+            }
+            else {
+                tvWarningInvalidPW.setText(R.string.et_warning_login_failure);
+                tvWarningLoginFailure.setVisibility(View.VISIBLE);
+                success = false;
+            }
+        }
+
+        return success;
+    }
+
+    public void openRegisterDialog() {
         RegisterDialog dialogRegister = new RegisterDialog(this);
         dialogRegister.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogRegister.show();
+    }
+
+    public void switchToGeneralCourseActicity() {
+        startActivity(new Intent(getApplicationContext(), CourseActivity.class));
+        overridePendingTransition(0, 0);
+    }
+
+    // TO-DO
+    public void handleForgetPW() {
+
     }
 
 }
@@ -137,7 +224,7 @@ class RegisterDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -151,7 +238,7 @@ class RegisterDialog extends Dialog {
         String istc = etITSC.getText().toString();
         String password = etPW.getText().toString();
         if (validateRegistrationSubmission(istc, password)) {
-
+            // TO-DO : register
         }
     }
 
@@ -161,23 +248,23 @@ class RegisterDialog extends Dialog {
         boolean pwErrorFlag = false;
 
         if (itsc.isEmpty()) {
-            tvWarningInvalidITSC.setText("ITSC account is required.");
+            tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
             itscErrorFlag = true;
             success = false;
         }
         else if (!itsc.matches("[a-z]+")) {
-            tvWarningInvalidITSC.setText("invalid ITSC account.");
+            tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_invalid);
             itscErrorFlag = true;
             success = false;
         }
 
         if (password.isEmpty()) {
-            tvWarningInvalidPW.setText("password is required.");
+            tvWarningInvalidPW.setText(R.string.et_warning_login_password_empty);
             pwErrorFlag = true;
             success = false;
         }
         else if (password.length() < 7) {
-            tvWarningInvalidPW.setText("length of the password should be at least 7.");
+            tvWarningInvalidPW.setText(R.string.et_warning_login_password_invalid);
             pwErrorFlag = true;
             success = false;
         }
