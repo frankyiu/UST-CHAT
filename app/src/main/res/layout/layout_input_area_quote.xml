@@ -8,7 +8,8 @@
     <View
         android:background="@color/toolbar_header_border_color"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -16,18 +17,20 @@
         android:layout_height="wrap_content">
 
         <View
-            android:layout_width="8dp"
+            android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="@color/light_blue_200"
             android:layout_marginRight="6dp"
+            android:background="@color/light_blue_200"
             android:clickable="true"
-            android:focusable="true"
-            />
+            android:focusable="true" />
 
         <ImageView
-            android:id="@+id/tv_chat_input_area_quote_image"
+            android:id="@+id/iv_chat_input_area_quote_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_photo"
+            android:visibility="gone"
             />
 
         <TextView
@@ -37,9 +40,9 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/gray_400"
-            android:text="Testing..."
             android:layout_marginBottom="2dp"
             android:maxLines="1"
+            android:maxWidth="300sp"
             />
 
         <Space

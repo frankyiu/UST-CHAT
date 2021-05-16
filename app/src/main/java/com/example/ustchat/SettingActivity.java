@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
@@ -38,6 +39,9 @@ public class SettingActivity extends AppCompatActivity {
         toolbar.setTitle("Setting"); //??
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
+        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        //TO-DO : hardcode for now
+        badge.setNumber(1);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new SettingFragment()).commit();
 

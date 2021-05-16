@@ -35,6 +35,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -83,6 +84,9 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.chatroom);
+        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        //TO-DO : hardcode for now
+        badge.setNumber(1);
 
         setSupportActionBar(toolbar);
 
@@ -267,13 +271,11 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     public void openCreateChatroomDialog() {
         CreateChatroomDialog dialogCreateChatroom = new CreateChatroomDialog(this, category);
-        dialogCreateChatroom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogCreateChatroom.show();
     }
 
     public void openSearchChatroomDialog() {
         SearchChatroomDialog dialogSearchChatroom = new SearchChatroomDialog(this, category);
-        dialogSearchChatroom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogSearchChatroom.show();
     }
 
@@ -384,6 +386,7 @@ class CreateChatroomDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_create_chatroom);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         vfChipGroup = findViewById(R.id.vf_create_chatroom_chip_group);
         etTitle = findViewById(R.id.et_create_chatroom_title);
@@ -528,6 +531,7 @@ class SearchChatroomDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_search_chatroom);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         vfChipGroup = findViewById(R.id.vf_search_chatroom_chip_group);
         etTitle = findViewById(R.id.et_search_chatroom_title);

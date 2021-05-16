@@ -2,18 +2,20 @@ package com.example.ustchat;
 
 public class ChatroomChatRecord {
     private String name;
-    private String content;
+    private String text;
+    private String image;
     private String time;
-    private String quotedContent;
+    private String quotedID;
     private boolean isUser;
 
     public ChatroomChatRecord() {}
 
-    public ChatroomChatRecord(String name, String content, String time, String quotedContent, boolean isUser) {
+    public ChatroomChatRecord(String name, String text, String image, String time, String quotedID, boolean isUser) {
         this.name = name;
-        this.content = content;
+        this.text = text;
+        this.image = image;
         this.time = time;
-        this.quotedContent = quotedContent;
+        this.quotedID = quotedID;
         this.isUser = isUser;
     }
 
@@ -25,12 +27,20 @@ public class ChatroomChatRecord {
         this.name = name;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTime() {
@@ -41,12 +51,12 @@ public class ChatroomChatRecord {
         this.time = time;
     }
 
-    public String getQuotedContent() {
-        return quotedContent;
+    public String getQuotedID() {
+        return quotedID;
     }
 
-    public void setQuotedContent(String quotedContent) {
-        this.quotedContent = quotedContent;
+    public void setQuotedID(String quotedID) {
+        this.quotedID = quotedID;
     }
 
     public boolean isUser() {

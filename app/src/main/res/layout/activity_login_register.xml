@@ -11,7 +11,7 @@
 
     >
     <include
-        layout="@layout/layout_toolbar_login"
+        layout="@layout/layout_toolbar_center_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

@@ -6,14 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -27,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,10 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-
     Toolbar toolbar;
-    EditText etReply;
-    EditText etName;
 
     RecyclerView recyclerView;
     ChatroomChatRecyclerAdapter adapter;
@@ -57,15 +58,16 @@ public class ChatActivity extends AppCompatActivity {
 
     LinearLayout llQuoteArea;
 
-    Dialog dialog;
+    private static String JSON_URL = "https://jsonkeeper.com/b/DY95";
+    private static String username = "CPEG guy";
+    private static boolean userRepliedBefore = true;
 
-    private static String JSON_URL = "https://jsonkeeper.com/b/QZRG";
-
-    static String userName = "CPEG guy";
-    static boolean userRepliedBefore = true;
-
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -81,18 +83,15 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        etReply = findViewById(R.id.et_input_area_reply);
-        etName = findViewById(R.id.et_input_area_name);
-        if (userRepliedBefore) {
-            etName.setEnabled(false);
-        }
-        etName.setText(userName);
-
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
         recyclerView = findViewById(R.id.recyclerView);
         chatroomChatRecords = new ArrayList<>();
         extractChatroomChatRecords();
+
+        // TO-DO: hardcode for now
+        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(username, userRepliedBefore);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
     }
 
     private void extractChatroomChatRecords() {
@@ -105,8 +104,9 @@ public class ChatActivity extends AppCompatActivity {
                         JSONObject chatroomObject = response.getJSONObject(i);
                         ChatroomChatRecord chatroomChatRecord = new ChatroomChatRecord();
                         chatroomChatRecord.setName(chatroomObject.getString("name"));
-                        chatroomChatRecord.setContent(chatroomObject.getString("content"));
-                        chatroomChatRecord.setQuotedContent(chatroomObject.getString("quoted_content"));
+                        chatroomChatRecord.setText(chatroomObject.getString("text"));
+                        chatroomChatRecord.setImage(chatroomObject.getString("image"));
+                        chatroomChatRecord.setQuotedID(chatroomObject.getString("quoted_id"));
                         chatroomChatRecord.setTime(chatroomObject.getString("time"));
                         chatroomChatRecord.setUser(chatroomObject.getBoolean("is_user"));
                         chatroomChatRecords.add(chatroomChatRecord);
@@ -128,17 +128,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View view = getCurrentFocus();
-        if (view instanceof EditText) {
-            ((EditText) view).clearFocus();
-            InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
@@ -146,15 +135,30 @@ public class ChatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openDialog(ChatroomChatRecord chatroomChatRecord) {
-        dialog = new ReplyHandlerDialog(ChatActivity.this, chatroomChatRecord);
+    public void searchChatroomChatRecordByID(String chatroomID) {
+        // TO-DO: should search for the chatroomChatRecord in the backend
+
+    }
+
+    public void openReplyHandlerDialog(ChatroomChatRecord chatroomChatRecord) {
+        Dialog dialog = new ReplyHandlerDialog(ChatActivity.this, chatroomChatRecord, null);
         dialog.show();
     }
 
     public void quote(ChatroomChatRecord chatroomChatRecord) {
         llQuoteArea.setVisibility(View.VISIBLE);
         TextView tvQuotedText = llQuoteArea.findViewById(R.id.tv_chat_input_area_quote_text);
-        tvQuotedText.setText(chatroomChatRecord.getContent());
+        ImageView tvQuotedImage = llQuoteArea.findViewById(R.id.iv_chat_input_area_quote_image);
+
+        if (chatroomChatRecord.getImage().isEmpty()) {
+            tvQuotedImage.setVisibility(View.GONE);
+            tvQuotedText.setText(chatroomChatRecord.getText());
+        }
+        else {
+            tvQuotedImage.setVisibility(View.VISIBLE);
+            tvQuotedText.setText("");
+        }
+
         ImageButton ibQuotedCancel = llQuoteArea.findViewById(R.id.iv_chat_input_area_quote_cancel);
         ibQuotedCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,18 +167,38 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
 }
 
 class ReplyHandlerDialog extends Dialog {
-
     private ListView listView;
-    private ChatroomChatRecord referChatroomChatRecord;
+    private ChatroomChatRecord chatroomChatRecord;
+    private ChatroomChatRecord quotedChatroomChatRecord;
+    TextView lvName;
     Context context;
 
-    public ReplyHandlerDialog(@NonNull Context context, ChatroomChatRecord chatroomChatRecord) {
+    public ReplyHandlerDialog(@NonNull Context context, ChatroomChatRecord chatroomChatRecord, ChatroomChatRecord quotedChatroomChatRecord) {
         super(context);
-        referChatroomChatRecord = chatroomChatRecord;
         this.context = context;
+        this.chatroomChatRecord = chatroomChatRecord;
+        this.quotedChatroomChatRecord = quotedChatroomChatRecord;
     }
 
     @Override
@@ -190,9 +214,18 @@ class ReplyHandlerDialog extends Dialog {
         List<String> ls = new ArrayList<>();
         ls.add("Copy");
         ls.add("Reply");
-        ls.add("Send a private message");
+        if (chatroomChatRecord.isUser()) {
+            ls.add("Delete");
+        }
+        else {
+            ls.add("Send a private message");
+        }
         ls.add("Cancel");
         setContentView(R.layout.layout_dialog_reply_handler);
+
+        lvName = findViewById(R.id.lv_reply_handler_name);
+        lvName.setText(chatroomChatRecord.getName());
+
         listView = findViewById(R.id.lv_reply_handler_choices);
         ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.layout_dialog_reply_handler_item, ls);
         listView.setAdapter(adapter);
@@ -201,18 +234,26 @@ class ReplyHandlerDialog extends Dialog {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch(position){
-                    case 0: //copy
+                    case 0: // copy
                         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("text", referChatroomChatRecord.getContent());
+                        // TO-DO: if the it is an image...
+                        ClipData clip = ClipData.newPlainText("text", chatroomChatRecord.getText());
                         clipboard.setPrimaryClip(clip);
                         break;
-                    case 1: //reply
-                        ((ChatActivity) context).quote(referChatroomChatRecord);
+                    case 1: // quote
+                        ((ChatActivity) context).quote(chatroomChatRecord);
                         break;
-                    case 2: //send a private message
-                        //intent = new Intent(Activity.this,thirdActivity.class);
+                    case 2:
+                        if (chatroomChatRecord.isUser()) {
+                            // TO-DO: delete the reply (Backend)
+
+                        }
+                        else {
+                            // TO-DO: send a private message
+                            // intent = new Intent(Activity.this,thirdActivity.class);
+                        }
                         break;
-                    case 3: //cancel
+                    case 3: // cancel
                         break;
                 }
                 dismiss();
@@ -221,3 +262,4 @@ class ReplyHandlerDialog extends Dialog {
     }
 
 }
+

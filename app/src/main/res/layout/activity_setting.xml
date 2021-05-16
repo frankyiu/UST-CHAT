@@ -8,7 +8,7 @@
     tools:context=".SettingActivity">
 
     <LinearLayout
-        android:id="@+id/toolbar_wrapper"
+        android:id="@+id/ll_toolbar_pm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <include
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_nav_wrapper"
-        android:layout_below="@+id/toolbar_wrapper"
+        android:layout_below="@+id/ll_toolbar_pm"
         />
 
     <LinearLayout

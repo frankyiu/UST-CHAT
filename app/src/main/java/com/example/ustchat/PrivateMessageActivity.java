@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
@@ -33,7 +34,7 @@ public class PrivateMessageActivity extends AppCompatActivity {
     RecyclerView pmRecyclerView;
     PrivateMessageRecyclerAdapter privateMessageRecyclerAdapter;
     List<PrivateMessageRecord> privateMessageRecords;
-    private static String JSON_URL = "https://jsonkeeper.com/b/TG23";
+    private static String JSON_URL = "https://jsonkeeper.com/b/IVWS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class PrivateMessageActivity extends AppCompatActivity {
         toolbar.setTitle("Private Message"); //??
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
+        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        //TO-DO : hardcode for now
+        badge.setNumber(1);
 
         setSupportActionBar(toolbar);
 
@@ -69,10 +73,6 @@ public class PrivateMessageActivity extends AppCompatActivity {
         pmRecyclerView = findViewById(R.id.recyclerView);
         privateMessageRecords = new ArrayList<>();
         extractPMRecords();
-
-
-
-
     }
 
     private void extractPMRecords() {
@@ -85,6 +85,8 @@ public class PrivateMessageActivity extends AppCompatActivity {
                         JSONObject pmRecordObject = response.getJSONObject(i);
                         PrivateMessageRecord privateMessageRecord = new PrivateMessageRecord();
                         privateMessageRecord.setTitle(pmRecordObject.getString("title"));
+                        privateMessageRecord.setUsername(pmRecordObject.getString("username"));
+                        privateMessageRecord.setTargetName(pmRecordObject.getString("targetName"));
                         privateMessageRecord.setLatestName(pmRecordObject.getString("latestName"));
                         privateMessageRecord.setLatestReply(pmRecordObject.getString("latestReply"));
                         privateMessageRecord.setLatestReplyTime(pmRecordObject.getString("latestTime"));

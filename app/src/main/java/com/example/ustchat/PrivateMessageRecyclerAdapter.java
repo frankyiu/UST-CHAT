@@ -1,6 +1,8 @@
 package com.example.ustchat;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,17 +61,19 @@ public class PrivateMessageRecyclerAdapter extends RecyclerView.Adapter<PrivateM
             holder.tvUnreadCounter.setText(unreadCountStr);
         }
 
-//        holder.cvPM.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), ChatActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("chatroomTitle", PMRecords.get(position).getTitle());
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtras(bundle);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
+        holder.cvPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PrivateMessageChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("chatroomTitle", PrivateMessageRecords.get(position).getTitle());
+                bundle.putString("username", PrivateMessageRecords.get(position).getUsername());
+                bundle.putString("targetUsername", PrivateMessageRecords.get(position).getTargetName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
