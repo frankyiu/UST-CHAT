@@ -8,7 +8,7 @@
     tools:context=".PrivateMessageActivity">
 
     <LinearLayout
-        android:id="@+id/ll_toolbar_pm"
+        android:id="@+id/ll_toolbar_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <include
@@ -22,7 +22,7 @@
         android:background="@color/background_color"
         android:id="@+id/recyclerView"
         android:layout_above="@+id/bottom_nav_wrapper"
-        android:layout_below="@+id/ll_toolbar_pm"
+        android:layout_below="@+id/ll_toolbar_setting"
         />
 
     <LinearLayout

@@ -3,49 +3,43 @@ package com.example.ustchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Switch;
+import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.card.MaterialCardView;
 
 public class SettingActivity extends AppCompatActivity {
+    private String userID;
+    private String ITSCAccount;
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
+
+    TextView tvUserID, tvITSC;
+    MaterialCardView cvAboutUs, cvContactUs, cvFeedback, cvLogout;
+    Switch switchNightMode, switchEnableNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Setting"); //??
+        toolbar = findViewById(R.id.toolbar_center_title);
+        ((TextView) toolbar.findViewById(R.id.tv_toolbar_center_title)).setText("Setting");
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
         badge.setNumber(1);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new SettingFragment()).commit();
-
-        setSupportActionBar(toolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,5 +59,44 @@ public class SettingActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        tvUserID = findViewById(R.id.tv_setting_user_id);
+        tvITSC = findViewById(R.id.tv_setting_itsc);
+
+        cvAboutUs = findViewById(R.id.cv_setting_about_us);
+        cvAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cvContactUs = findViewById(R.id.cv_setting_contact_us);
+        cvContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cvFeedback = findViewById(R.id.cv_setting_feedback);
+        cvFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cvLogout = findViewById(R.id.cv_setting_logout);
+        cvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
+            }
+        });
+
+        switchNightMode = findViewById(R.id.switch_setting_night_mode);
+        switchEnableNotification = findViewById(R.id.switch_setting_enable_notification);
+
     }
 }

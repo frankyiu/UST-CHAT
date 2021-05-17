@@ -234,18 +234,16 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        }
-//        else {
-//            //TO-DO: collapse all
-//            drawerLayout.openDrawer(GravityCompat.START);
-//        }
-//        super.onBackPressed();
-//    }
-
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            closeDrawer();
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -317,38 +315,20 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View view = getCurrentFocus();
-            if (isHideInput(view, ev)) {
-                hideSoftInput(view.getWindowToken());
-                view.clearFocus();
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
             }
         }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    private boolean isHideInput(View v, MotionEvent ev) {
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left + v.getWidth();
-            if (ev.getX() > left && ev.getX() < right && ev.getY() > top && ev.getY() < bottom) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void hideSoftInput(IBinder token) {
-        if (token != null) {
-            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+        return super.dispatchTouchEvent( event );
     }
 
     @Override
@@ -377,9 +357,9 @@ class CreateChatroomDialog extends Dialog {
     private TextView tvWarningInvalidTitle;
     private TextView tvWarningInvalidName;
 
-    public CreateChatroomDialog(final Context context, String _chatroomCategory) {
+    public CreateChatroomDialog(final Context context, String chatroomCategory) {
         super(context);
-        chatroomCategory = _chatroomCategory;
+        this.chatroomCategory = chatroomCategory;
     }
 
     @Override
@@ -440,7 +420,7 @@ class CreateChatroomDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -522,9 +502,9 @@ class SearchChatroomDialog extends Dialog {
     private ViewFlipper vfChipGroup;
     private TextView tvWarningInvalidTitle;
 
-    public SearchChatroomDialog(final Context context, String _chatroomCategory) {
+    public SearchChatroomDialog(final Context context, String chatroomCategory) {
         super(context);
-        chatroomCategory = _chatroomCategory;
+        this.chatroomCategory = chatroomCategory;
     }
 
     @Override
@@ -580,7 +560,7 @@ class SearchChatroomDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);

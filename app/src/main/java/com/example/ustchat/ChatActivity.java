@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -51,6 +52,7 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
     Toolbar toolbar;
+    String chatroomTitle;
 
     RecyclerView recyclerView;
     ChatroomChatRecyclerAdapter adapter;
@@ -72,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Bundle bundle = getIntent().getExtras();
-        String chatroomTitle = ""; // or other values
+        chatroomTitle = ""; // or other values
         if(bundle != null) {
             chatroomTitle = bundle.getString("chatroomTitle");
         }
@@ -185,6 +187,17 @@ public class ChatActivity extends AppCompatActivity {
         return super.dispatchTouchEvent( event );
     }
 
+    public void startPrivateMessageChat(String targetUser) {
+        Intent intent = new Intent(ChatActivity.this, PrivateMessageChatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("chatroomTitle", chatroomTitle);
+        bundle.putString("username", username);
+        bundle.putString("targetUsername", targetUser);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
 }
 
 class ReplyHandlerDialog extends Dialog {
@@ -250,7 +263,8 @@ class ReplyHandlerDialog extends Dialog {
                         }
                         else {
                             // TO-DO: send a private message
-                            // intent = new Intent(Activity.this,thirdActivity.class);
+                            // should create a new json
+                            ((ChatActivity) context).startPrivateMessageChat(chatroomChatRecord.getName());
                         }
                         break;
                     case 3: // cancel

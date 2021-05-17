@@ -201,7 +201,7 @@ class PrivateReplyHandlerDialog extends Dialog {
     private ListView listView;
     private PrivateChatRecord privateChatRecord;
     private PrivateChatRecord quotedPrivateChatRecord;
-    TextView lvName;
+    TextView lvName; // To-DO
     Context context;
 
     public PrivateReplyHandlerDialog(@NonNull Context context, PrivateChatRecord privateChatRecord, PrivateChatRecord quotedPrivateChatRecord) {
@@ -226,9 +226,6 @@ class PrivateReplyHandlerDialog extends Dialog {
         ls.add("Reply");
         if (privateChatRecord.isUser()) {
             ls.add("Delete");
-        }
-        else {
-            ls.add("Send a private message");
         }
         ls.add("Cancel");
         setContentView(R.layout.layout_dialog_reply_handler);
@@ -258,9 +255,8 @@ class PrivateReplyHandlerDialog extends Dialog {
                             // TO-DO: delete the reply (Backend)
 
                         }
-                        else {
-                            // TO-DO: send a private message
-                            // intent = new Intent(Activity.this,thirdActivity.class);
+                        else { //cancel
+
                         }
                         break;
                     case 3: // cancel

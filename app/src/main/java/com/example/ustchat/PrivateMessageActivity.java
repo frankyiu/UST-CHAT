@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,7 +43,8 @@ public class PrivateMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_message);
 
         toolbar = findViewById(R.id.toolbar_center_title);
-        toolbar.setTitle("Private Message");
+        ((TextView) toolbar.findViewById(R.id.tv_toolbar_center_title)).setText("Private Message");
+        toolbar.setTitle("");
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
