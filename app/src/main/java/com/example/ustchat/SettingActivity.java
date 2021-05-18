@@ -67,7 +67,7 @@ public class SettingActivity extends AppCompatActivity {
         cvAboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openAboutUsDialog();
             }
         });
 
@@ -75,15 +75,7 @@ public class SettingActivity extends AppCompatActivity {
         cvContactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-
-        cvFeedback = findViewById(R.id.cv_setting_feedback);
-        cvFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                openContactUsDialog();
             }
         });
 
@@ -91,6 +83,7 @@ public class SettingActivity extends AppCompatActivity {
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Logout
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
             }
         });
@@ -99,4 +92,26 @@ public class SettingActivity extends AppCompatActivity {
         switchEnableNotification = findViewById(R.id.switch_setting_enable_notification);
 
     }
+
+    private void openAboutUsDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_about_us_title),
+                getResources().getString(R.string.ustchat_about_us_description));
+        dialogInfo.show();
+    }
+
+    private void openContactUsDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_contact_us_title),
+                getResources().getString(R.string.ustchat_contact_us_description));
+        dialogInfo.show();
+    }
+
+    private void setNightMode(boolean nightModeOn) {
+        if (nightModeOn) {
+
+        }
+        else {
+
+        }
+    }
+
 }

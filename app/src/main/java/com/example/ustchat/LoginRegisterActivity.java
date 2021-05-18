@@ -94,7 +94,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.login_info) {
-            // openDialog();
+            openInfoDialog();
         }
         return true;
     }
@@ -169,8 +169,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     public void openRegisterDialog() {
         RegisterDialog dialogRegister = new RegisterDialog(this);
-        dialogRegister.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogRegister.show();
+    }
+
+
+    private void openInfoDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_info_title),
+                getResources().getString(R.string.ustchat_info_description));
+        dialogInfo.show();
     }
 
     public void switchToGeneralCourseActicity() {
@@ -200,6 +206,7 @@ class RegisterDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_create_account);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         etITSC = findViewById(R.id.et_create_account_itsc_account);
         etPW = findViewById(R.id.et_create_account_pw);

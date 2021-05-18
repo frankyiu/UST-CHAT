@@ -146,36 +146,11 @@
                 />
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_setting_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cv_setting_contact_us"
-            android:clickable="true"
-            android:focusable="true"
-            app:rippleColor="@color/background_color"
-            >
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_D5"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Feedback"
-                android:textColor="@color/black"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                />
-        </com.google.android.material.card.MaterialCardView>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_D5"
-            android:layout_below="@+id/cv_setting_feedback"
+            android:layout_below="@+id/cv_setting_contact_us"
             />
 
     </RelativeLayout>
