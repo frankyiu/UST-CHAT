@@ -33,6 +33,7 @@
 
             <TextView
                 android:id="@+id/tv_chat_name"
+                android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Student54321"
@@ -66,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/tv_chat_quote_text"
-                    android:inputType="text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="2dp"
@@ -95,6 +96,7 @@
 
                 <TextView
                     android:id="@+id/tv_chat_text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="testing..."

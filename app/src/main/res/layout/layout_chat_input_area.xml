@@ -24,6 +24,7 @@
 
     <EditText
         android:id="@+id/et_input_area_reply"
+        android:inputType="textNoSuggestions"
         android:layout_width="290dp"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"

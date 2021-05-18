@@ -49,7 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatroomChatActivity extends AppCompatActivity {
     Toolbar toolbar;
     String chatroomTitle;
 
@@ -70,7 +70,7 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chatroom_chat);
 
         Bundle bundle = getIntent().getExtras();
         chatroomTitle = ""; // or other values
@@ -111,8 +111,8 @@ public class ChatActivity extends AppCompatActivity {
                         chatroomChatRecord.setTime(chatroomObject.getString("time"));
                         chatroomChatRecord.setUser(chatroomObject.getBoolean("is_user"));
                         chatroomChatRecords.add(chatroomChatRecord);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
-                        adapter = new ChatroomChatRecyclerAdapter(ChatActivity.this, chatroomChatRecords);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatroomChatActivity.this));
+                        adapter = new ChatroomChatRecyclerAdapter(ChatroomChatActivity.this, chatroomChatRecords);
                         recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,7 +142,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void openReplyHandlerDialog(ChatroomChatRecord chatroomChatRecord) {
-        Dialog dialog = new ReplyHandlerDialog(ChatActivity.this, chatroomChatRecord, null);
+        Dialog dialog = new ReplyHandlerDialog(ChatroomChatActivity.this, chatroomChatRecord, null);
         dialog.show();
     }
 
@@ -164,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
         ibQuotedCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                llQuoteArea.setVisibility(View.GONE);
+                llQuoteArea.setVisibility(View.GONE);;
             }
         });
     }
@@ -187,7 +187,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void startPrivateMessageChat(String targetUser) {
-        Intent intent = new Intent(ChatActivity.this, PrivateMessageChatActivity.class);
+        Intent intent = new Intent(ChatroomChatActivity.this, PrivateMessageChatActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("chatroomTitle", chatroomTitle);
         bundle.putString("username", username);
@@ -253,7 +253,7 @@ class ReplyHandlerDialog extends Dialog {
                         clipboard.setPrimaryClip(clip);
                         break;
                     case 1: // quote
-                        ((ChatActivity) context).quote(chatroomChatRecord);
+                        ((ChatroomChatActivity) context).quote(chatroomChatRecord);
                         break;
                     case 2:
                         if (chatroomChatRecord.isUser()) {
@@ -263,7 +263,7 @@ class ReplyHandlerDialog extends Dialog {
                         else {
                             // TO-DO: send a private message
                             // should create a new json
-                            ((ChatActivity) context).startPrivateMessageChat(chatroomChatRecord.getName());
+                            ((ChatroomChatActivity) context).startPrivateMessageChat(chatroomChatRecord.getName());
                         }
                         break;
                     case 3: // cancel

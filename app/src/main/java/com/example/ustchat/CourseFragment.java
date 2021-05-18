@@ -110,7 +110,7 @@ public class CourseFragment extends Fragment {
     }
 
     public void switchChatActivity(String chatroomTitle) {
-        startActivity(new Intent(getContext().getApplicationContext(), ChatActivity.class));
+        startActivity(new Intent(getContext().getApplicationContext(), ChatroomChatActivity.class));
         ((CourseActivity) getContext()).overridePendingTransition(0, 0);
     }
 

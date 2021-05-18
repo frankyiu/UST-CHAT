@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 
 public class CourseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
     String category;
@@ -126,12 +127,10 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -429,9 +428,9 @@ class CreateChatroomDialog extends Dialog {
         return super.dispatchTouchEvent( event );
     }
 
-    //TO-DO: generate a student name
+    // generate a random student name for a chatroom in the format of Student[\d]{5}
     public String generateStudentName() {
-        return "Student12345";
+        return "Student" + Utility.generateIntegerWithLeadingZeros(100000, 5);
     }
 
     public boolean validateChatroomSubmission(String chatroomTitle, String chatroomName) {

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.USTChat">
         <activity android:name=".PrivateMessageChatActivity"></activity>
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatroomChatActivity" />
         <activity android:name=".LoginRegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

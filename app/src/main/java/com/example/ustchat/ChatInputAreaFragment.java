@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 
@@ -57,6 +58,7 @@ public class ChatInputAreaFragment extends Fragment {
         etName = view.findViewById(R.id.et_input_area_name);
         if (userRepliedBefore) {
             etName.setEnabled(false);
+            username = generateUsername();
         }
         etName.setText(username);
 
@@ -126,10 +128,13 @@ public class ChatInputAreaFragment extends Fragment {
     }
 
 
-
     public void submitTextReply() {
         // TO-DO : submit a text reply (Backend)
 
+
+        // cancel quote area if there is quote area
+        LinearLayout llQuoteArea = getActivity().findViewById(R.id.ll_chat_input_area_quote);
+        llQuoteArea.setVisibility(View.GONE);
 
         etReply.setText("");
     }
@@ -137,6 +142,19 @@ public class ChatInputAreaFragment extends Fragment {
     public void submitImageReply() {
         // TO-DO : Submit an image reply (backend)
 
+        // cancel quote area if there is quote area
+        LinearLayout llQuoteArea = getActivity().findViewById(R.id.ll_chat_input_area_quote);
+        llQuoteArea.setVisibility(View.GONE);
+    }
+
+    public String generateUsername() {
+        // Generate a username in the format of Student[\d]{5} that does not exist in the chatroom
+        // used when the user has not replied in the chatroom before
+        String proposedUsername = "Student" + Utility.generateIntegerWithLeadingZeros(100000, 5);
+        // TO-DO : need to check if it exists
+
+
+        return proposedUsername;
     }
 
 }

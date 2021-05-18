@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Random;
 
 public class Utility {
 
@@ -25,5 +26,9 @@ public class Utility {
         }
     }
 
-
+    public static String generateIntegerWithLeadingZeros(int maxBound, int numDigits) {
+        Random rand = new Random();
+        int randint = rand.nextInt(maxBound);
+        return String.format("%0" + numDigits + "d", randint);
+    }
 }
