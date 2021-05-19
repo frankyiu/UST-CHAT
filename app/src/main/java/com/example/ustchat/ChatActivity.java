@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.net.wifi.aware.SubscribeConfig;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -42,23 +43,37 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+    private static final String TAG = "ChatActivity";
     Toolbar toolbar;
     String chatroomTitle;
-
+    String targetUserId;
     RecyclerView recyclerView;
     ChatroomChatRecyclerAdapter adapter;
     List<ChatroomChatRecord> chatroomChatRecords;
 
     LinearLayout llQuoteArea;
+
+    String chatId;
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseRef;
 
     private static String JSON_URL = "https://jsonkeeper.com/b/DY95";
     private static String username = "CPEG guy";
@@ -75,8 +90,10 @@ public class ChatActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         chatroomTitle = ""; // or other values
+        targetUserId = "";
         if(bundle != null) {
             chatroomTitle = bundle.getString("chatroomTitle");
+            chatId = bundle.getString("chatId");
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -89,44 +106,110 @@ public class ChatActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         chatroomChatRecords = new ArrayList<>();
-        extractChatroomChatRecords();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        //check name first
+        getNameListener(new Callback() {
+            @Override
+            public void callback() {
+                mDatabaseRef.child("chatroom/"+chatId+"/viewCount/").setValue(ServerValue.increment(1));
+                extractChatroomChatRecords();
+                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, false, userRepliedBefore);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+            }
+        });
 
         // TO-DO: hardcode for now
-        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(username, userRepliedBefore);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+//        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(username, userRepliedBefore);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+    }
+
+    private void getNameListener(Callback callback) {
+        String id= mAuth.getCurrentUser().getUid();
+        Query query = mDatabaseRef.child("nameToId/"+chatId).orderByChild("id").equalTo(id);
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        userRepliedBefore = true;
+                        username = postSnapshot.getKey();
+                    }
+                }else{
+                    userRepliedBefore = false;
+                    username = null;
+                }
+                callback.callback();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
     }
 
     private void extractChatroomChatRecords() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+        Query query = mDatabaseRef.child("message/"+chatId);
+        query.addValueEventListener(new ValueEventListener()
+        {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject chatroomObject = response.getJSONObject(i);
-                        ChatroomChatRecord chatroomChatRecord = new ChatroomChatRecord();
-                        chatroomChatRecord.setName(chatroomObject.getString("name"));
-                        chatroomChatRecord.setText(chatroomObject.getString("text"));
-                        chatroomChatRecord.setImage(chatroomObject.getString("image"));
-                        chatroomChatRecord.setQuotedID(chatroomObject.getString("quoted_id"));
-                        chatroomChatRecord.setTime(chatroomObject.getString("time"));
-                        chatroomChatRecord.setUser(chatroomObject.getBoolean("is_user"));
-                        chatroomChatRecords.add(chatroomChatRecord);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
-                        adapter = new ChatroomChatRecyclerAdapter(ChatActivity.this, chatroomChatRecords);
-                        recyclerView.setAdapter(adapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                chatroomChatRecords.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    ChatroomChatRecord chatRecord = postSnapshot.getValue(ChatroomChatRecord.class);
+                    chatRecord.setTime(postSnapshot.child("timeStamp").getValue(Long.class));
+                    chatRecord.setId(postSnapshot.getKey());
+                    if(username !=null){
+                        chatRecord.setUser(username.equals(chatRecord.getName()));
                     }
+
+                    chatroomChatRecords.add(chatRecord);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+                    adapter = new ChatroomChatRecyclerAdapter(ChatActivity.this, chatroomChatRecords);
+                    recyclerView.setAdapter(adapter);
                 }
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("tag", "onErrorResponse: " + error.getMessage());
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
             }
         });
-        queue.add(jsonArrayRequest);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++) {
+//                    try {
+//                        JSONObject chatroomObject = response.getJSONObject(i);
+//                        ChatroomChatRecord chatroomChatRecord = new ChatroomChatRecord();
+//                        chatroomChatRecord.setName(chatroomObject.getString("name"));
+//                        chatroomChatRecord.setText(chatroomObject.getString("text"));
+//                        chatroomChatRecord.setImage(chatroomObject.getString("image"));
+//                        chatroomChatRecord.setQuotedID(chatroomObject.getString("quoted_id"));
+//                        chatroomChatRecord.setTime(chatroomObject.getString("time"));
+//                        chatroomChatRecord.setUser(chatroomObject.getBoolean("is_user"));
+//                        chatroomChatRecords.add(chatroomChatRecord);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+//                        adapter = new ChatroomChatRecyclerAdapter(ChatActivity.this, chatroomChatRecords);
+//                        recyclerView.setAdapter(adapter);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("tag", "onErrorResponse: " + error.getMessage());
+//            }
+//        });
+//        queue.add(jsonArrayRequest);
     }
 
     @Override
@@ -187,9 +270,59 @@ public class ChatActivity extends AppCompatActivity {
         return super.dispatchTouchEvent( event );
     }
 
-    public void startPrivateMessageChat(String targetUser) {
+    public void startPrivateMessageChat(String targetUserName) {
+        PrivateMessageRecord PM_Chat = new PrivateMessageRecord();
+        PM_Chat.setTitle(chatroomTitle);
+        mDatabaseRef.child("privateChat/").push().setValue(PM_Chat,  new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError,
+                                   DatabaseReference databaseReference) {
+                String pChatId = databaseReference.getKey();
+                getTargetUserUID(targetUserName, new Callback() {
+                    @Override
+                    public void callback() {
+                        Log.d(TAG, "addNametoId");
+                        mDatabaseRef.child("nameToId/" + pChatId).child(username+"/id").setValue(mAuth.getCurrentUser().getUid());
+                        mDatabaseRef.child("nameToId/" + pChatId).child(targetUserName+"/id").setValue(targetUserId);
+                        //subscribe PrivateChat
+                        mDatabaseRef.child("users/"+targetUserId+"/privateChat/"+pChatId+"/unread/").setValue(0);
+                        mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+pChatId+"/unread/").setValue(0);
+
+                        createPrivateMessageActivity(pChatId, targetUserName);
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    private void getTargetUserUID(String targetName, Callback callback){
+        Log.d(TAG, "nameToId/"+chatId+"/"+targetName);
+        Query query = mDatabaseRef.child("nameToId/"+chatId+"/"+targetName);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                Log.d(TAG, "dataSnapshot"+dataSnapshot);
+                targetUserId = dataSnapshot.child("id").getValue(String.class);
+                Log.d(TAG, "targetUserId"+targetUserId);
+                callback.callback();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+
+    private void createPrivateMessageActivity(String chatId,String targetUser){
         Intent intent = new Intent(ChatActivity.this, PrivateMessageChatActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("chatId", chatId);
         bundle.putString("chatroomTitle", chatroomTitle);
         bundle.putString("username", username);
         bundle.putString("targetUsername", targetUser);
@@ -197,7 +330,9 @@ public class ChatActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
+    public void deleteMessage(String id) {
+        mDatabaseRef.child("message/" + chatId+"/"+id).removeValue();
+    }
 }
 
 class ReplyHandlerDialog extends Dialog {
@@ -259,7 +394,7 @@ class ReplyHandlerDialog extends Dialog {
                     case 2:
                         if (chatroomChatRecord.isUser()) {
                             // TO-DO: delete the reply (Backend)
-
+                            ((ChatActivity) context).deleteMessage(chatroomChatRecord.getId());
                         }
                         else {
                             // TO-DO: send a private message

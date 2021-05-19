@@ -20,21 +20,35 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PrivateMessageActivity extends AppCompatActivity {
+    private static final String TAG = "PrivateMessageActivity";
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
 
     RecyclerView pmRecyclerView;
     PrivateMessageRecyclerAdapter privateMessageRecyclerAdapter;
     List<PrivateMessageRecord> privateMessageRecords;
+    Map<String, Integer> myPMChatUnreadMap;
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseRef;
     private static String JSON_URL = "https://jsonkeeper.com/b/IVWS";
 
     @Override
@@ -74,40 +88,103 @@ public class PrivateMessageActivity extends AppCompatActivity {
 
         pmRecyclerView = findViewById(R.id.recyclerView);
         privateMessageRecords = new ArrayList<>();
-        extractPMRecords();
-    }
+        myPMChatUnreadMap = new HashMap<>();
 
-    private void extractPMRecords() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef  = FirebaseDatabase.getInstance().getReference();
+        extractMyPMChatUnreadMap(new Callback(){
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject pmRecordObject = response.getJSONObject(i);
-                        PrivateMessageRecord privateMessageRecord = new PrivateMessageRecord();
-                        privateMessageRecord.setTitle(pmRecordObject.getString("title"));
-                        privateMessageRecord.setUsername(pmRecordObject.getString("username"));
-                        privateMessageRecord.setTargetName(pmRecordObject.getString("targetName"));
-                        privateMessageRecord.setLatestName(pmRecordObject.getString("latestName"));
-                        privateMessageRecord.setLatestReply(pmRecordObject.getString("latestReply"));
-                        privateMessageRecord.setLatestReplyTime(pmRecordObject.getString("latestTime"));
-                        privateMessageRecord.setUnreadCount(pmRecordObject.getInt("unreadCount"));
-                        privateMessageRecords.add(privateMessageRecord);
-                        pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
-                        pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("tag", "onErrorResponse: " + error.getMessage());
+            public void callback() {
+                extractPMRecords();
             }
         });
-        queue.add(jsonArrayRequest);
     }
+
+    private void extractMyPMChatUnreadMap(Callback callback) {
+        Query query = mDatabaseRef.child("users/"+ mAuth.getCurrentUser().getUid()+"/privateChat/");
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                myPMChatUnreadMap.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    myPMChatUnreadMap.put(postSnapshot.getKey(), postSnapshot.child("unread").getValue(Integer.class));
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+
+    private void extractPMRecords(){
+        Query query = mDatabaseRef.child("privateChat/").orderByChild("timeStamp");
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                privateMessageRecords.clear();
+                Log.d(TAG, "myMap"+myPMChatUnreadMap);
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(myPMChatUnreadMap.containsKey(postSnapshot.getKey())){
+                        Log.d(TAG, "parsing");
+                        PrivateMessageRecord pmRecord = postSnapshot.getValue(PrivateMessageRecord.class);
+                        pmRecord.setId(postSnapshot.getKey());
+                        pmRecord.setUnreadCount(myPMChatUnreadMap.get(postSnapshot.getKey()));
+                        pmRecord.setLatestReplyTime(postSnapshot.child("latestReplyTime").getValue(Long.class));
+                        privateMessageRecords.add(pmRecord);
+                    }
+                }
+                Collections.reverse(privateMessageRecords);
+                pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
+                pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+
+//    private void extractPMRecords(){
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++) {
+//                    try {
+//                        JSONObject pmRecordObject = response.getJSONObject(i);
+//                        PrivateMessageRecord privateMessageRecord = new PrivateMessageRecord();
+//                        privateMessageRecord.setTitle(pmRecordObject.getString("title"));
+//                        privateMessageRecord.setUsername(pmRecordObject.getString("username"));
+//                        privateMessageRecord.setTargetName(pmRecordObject.getString("targetName"));
+//                        privateMessageRecord.setLatestName(pmRecordObject.getString("latestName"));
+//                        privateMessageRecord.setLatestReply(pmRecordObject.getString("latestReply"));
+//                        privateMessageRecord.setLatestReplyTime(pmRecordObject.getString("latestTime"));
+//                        privateMessageRecord.setUnreadCount(pmRecordObject.getInt("unreadCount"));
+//                        privateMessageRecords.add(privateMessageRecord);
+//                        pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//                        privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
+//                        pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("tag", "onErrorResponse: " + error.getMessage());
+//            }
+//        });
+//        queue.add(jsonArrayRequest);
+//    }
 }

@@ -1,11 +1,17 @@
 package com.example.ustchat;
 
+import com.google.firebase.database.Exclude;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ChatroomRecord {
+    private String id;
+    private String cat;
     private String title;
     private String posterName;
-    private String createDate;
+    private Object createDate;
     private String latestName;
     private String latestReply;
     private List<String> tags;
@@ -15,9 +21,10 @@ public class ChatroomRecord {
 
     public ChatroomRecord() {}
 
-    public ChatroomRecord(String title, String posterName, String createDate,
+    public ChatroomRecord(String cat,String title, String posterName, Object createDate,
                           String latestName, String latestReply, List<String> tags,
                           int viewCount, int chatCount, boolean isBookmarked) {
+        this.cat = cat;
         this.title = title;
         this.posterName = posterName;
         this.createDate = createDate;
@@ -45,11 +52,17 @@ public class ChatroomRecord {
         this.posterName = posterName;
     }
 
-    public String getCreateDate() {
+    public Object getTimeStamp() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    @Exclude
+    public String getCreateDate() {
+        Date date = new Date((Long) createDate);
+        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy");
+        return sfd.format(date);
+    }
+    public void setCreateDate(Object createDate) {
         this.createDate = createDate;
     }
 
@@ -92,8 +105,22 @@ public class ChatroomRecord {
     public void setChatCount(int chatCount) {
         this.chatCount = chatCount;
     }
-
+    @Exclude
     public boolean isBookmarked() {  return isBookmarked; }
 
     public void setBookmarked(boolean bookmarked) { isBookmarked = bookmarked; }
+
+    @Exclude
+    public String getId() {return id;}
+
+    public void setId(String id) {this.id = id;}
+
+    public String getCat() {
+        return cat;
+    }
+
+    public void setCat(String cat) {
+        this.cat = cat;
+    }
+
 }

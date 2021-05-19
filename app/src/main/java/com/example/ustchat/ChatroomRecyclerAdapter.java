@@ -16,16 +16,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.List;
 
 public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecyclerAdapter.ViewHolder> {
     List<ChatroomRecord> chatroomRecords;
     LayoutInflater inflater;
-
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseReference;
     public ChatroomRecyclerAdapter(Context context, List<ChatroomRecord> _chatroomRecords) {
         inflater = LayoutInflater.from(context);
         chatroomRecords = _chatroomRecords;
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     @NonNull
@@ -38,6 +45,7 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
     @Override
     public void onBindViewHolder(@NonNull ChatroomRecyclerAdapter.ViewHolder holder, int position) {
         ChatroomRecord chatroomRecord = chatroomRecords.get(position);
+        holder.setChatId(chatroomRecord.getId());
         holder.tvTitle.setText(chatroomRecord.getTitle());
         holder.tvLatestName.setText(chatroomRecord.getLatestName());
         String latestReply = chatroomRecord.getLatestReply();
@@ -70,10 +78,12 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
         for (int i = 0; i < holder.tagGroup.getChildCount(); i++) {
             Chip tag = (Chip) holder.tagGroup.getChildAt(i);
             boolean contains = false;
-            for (int j = 0; j < selectedTags.size(); j++) {
-                if (tag.getText().equals(selectedTags.get(j))) {
-                    contains = true;
-                    break;
+            if (selectedTags != null) {
+                for (int j = 0; j < selectedTags.size(); j++) {
+                    if (tag.getText().equals(selectedTags.get(j))) {
+                        contains = true;
+                        break;
+                    }
                 }
             }
             if (!contains) {
@@ -87,11 +97,14 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
                 Intent intent = new Intent(v.getContext(), ChatActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("chatroomTitle", chatroomRecords.get(position).getTitle());
+                bundle.putString("chatId", chatroomRecords.get(position).getId());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });
+        holder.fillBookmarkIconColor();
+
     }
 
     @Override
@@ -100,6 +113,7 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        String chatId;
         MaterialCardView cvChatroom;
         TextView tvTitle, tvLatestName, tvLatestReply, tvChatCnt, tvViewCnt, tvPosterName, tvCreateDate;
         ImageView ivLatestReply, ivBookmark;
@@ -124,6 +138,15 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
             public void onClick(View v){
                 isBookmarked = !isBookmarked;
                 fillBookmarkIconColor();
+                System.out.println("Hello");
+                if(mAuth.getCurrentUser() != null && chatId!=null) {
+                    String path = "users/" +mAuth.getCurrentUser().getUid()+"/bookmarked/"+chatId+"/timeStamp";
+                    if(!isBookmarked){
+                        mDatabaseReference.child(path).removeValue();
+                    }else {
+                        mDatabaseReference.child(path).setValue(ServerValue.TIMESTAMP);
+                    }
+                }
             }
         };
 
@@ -145,6 +168,10 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
 
             fillBookmarkIconColor();
 
+        }
+
+        public void setChatId(String chatId) {
+            this.chatId = chatId;
         }
     }
 }

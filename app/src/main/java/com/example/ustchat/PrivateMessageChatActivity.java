@@ -40,6 +40,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +56,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrivateMessageChatActivity extends AppCompatActivity {
+    private static final String TAG = "PMChatActivity";
     Toolbar toolbar;
     private String chatroomTitle;
     private String username;
     private String targetUsername;
+    private String chatId;
 
     TextView tvTitle;
     TextView tvTargetUsername;
@@ -60,7 +69,8 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PrivateChatRecyclerAdapter adapter;
     List<PrivateChatRecord> privateChatRecords;
-
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseRef;
     LinearLayout llQuoteArea;
     private static String JSON_URL = "https://jsonkeeper.com/b/VKKN";
 
@@ -76,11 +86,16 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         chatroomTitle = "";
         username = "";
         targetUsername = "";
+        chatId = "";
         if(bundle != null) {
+            chatId = bundle.getString("chatId");
             chatroomTitle = bundle.getString("chatroomTitle");
             username = bundle.getString("username");
             targetUsername = bundle.getString("targetUsername");
         }
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
 
         toolbar = findViewById(R.id.toolbar_pm_chat);
         setSupportActionBar(toolbar);
@@ -92,47 +107,117 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         tvTargetUsername = toolbar.findViewById(R.id.tv_pm_chat_name);
         tvTargetUsername.setText(targetUsername);
 
-        // TO-DO: hardcode for now
-        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(username, true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
-
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
         recyclerView = findViewById(R.id.recyclerView);
         privateChatRecords = new ArrayList<>();
-        extractPrivateChatRecords();
-    }
 
-    private void extractPrivateChatRecords() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
+        getBothUserName(new Callback() {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject privateChatJObject = response.getJSONObject(i);
-                        PrivateChatRecord privateChatRecord = new PrivateChatRecord();
-                        privateChatRecord.setText(privateChatJObject.getString("text"));
-                        privateChatRecord.setImage(privateChatJObject.getString("image"));
-                        privateChatRecord.setQuotedID(privateChatJObject.getString("quoted_id"));
-                        privateChatRecord.setTime(privateChatJObject.getString("time"));
-                        privateChatRecord.setUser(privateChatJObject.getBoolean("is_user"));
-                        privateChatRecords.add(privateChatRecord);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageChatActivity.this));
-                        adapter = new PrivateChatRecyclerAdapter(PrivateMessageChatActivity.this, privateChatRecords);
-                        recyclerView.setAdapter(adapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("tag", "onErrorResponse: " + error.getMessage());
+            public void callback() {
+                tvTargetUsername.setText(targetUsername);
+                extractPrivateChatRecords();
+                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, true, true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
             }
         });
-        queue.add(jsonArrayRequest);
+
+        // TO-DO: hardcode for now
+//        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, true, true);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+    }
+
+
+    private void extractPrivateChatRecords() {
+        Query query = mDatabaseRef.child("message/"+chatId);
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                privateChatRecords.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    PrivateChatRecord chatRecord = postSnapshot.getValue(PrivateChatRecord.class);
+                    chatRecord.setTime(postSnapshot.child("timeStamp").getValue(Long.class));
+                    if(username !=null){
+                        chatRecord.setUser(username.equals(chatRecord.getName()));
+                    }
+                    privateChatRecords.add(chatRecord);
+                }
+                //clear unread
+                mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+chatId+"/unread/").setValue(0);
+                //update view
+                recyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageChatActivity.this));
+                adapter = new PrivateChatRecyclerAdapter(PrivateMessageChatActivity.this, privateChatRecords);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++) {
+//                    try {
+//                        JSONObject privateChatJObject = response.getJSONObject(i);
+//                        PrivateChatRecord privateChatRecord = new PrivateChatRecord();
+//                        privateChatRecord.setText(privateChatJObject.getString("text"));
+//                        privateChatRecord.setImage(privateChatJObject.getString("image"));
+//                        privateChatRecord.setQuotedID(privateChatJObject.getString("quoted_id"));
+//                        privateChatRecord.setTime(privateChatJObject.getString("time"));
+//                        privateChatRecord.setUser(privateChatJObject.getBoolean("is_user"));
+//                        privateChatRecords.add(privateChatRecord);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageChatActivity.this));
+//                        adapter = new PrivateChatRecyclerAdapter(PrivateMessageChatActivity.this, privateChatRecords);
+//                        recyclerView.setAdapter(adapter);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("tag", "onErrorResponse: " + error.getMessage());
+//            }
+//        });
+//        queue.add(jsonArrayRequest);
+    }
+
+    private void getBothUserName(Callback callback){
+        Query query = mDatabaseRef.child("nameToId/"+chatId);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String id = postSnapshot.child("id").getValue(String.class);
+                    Log.d(TAG, "username"+ username);
+                    if(!id.equals(mAuth.getCurrentUser().getUid())){
+                        targetUsername = postSnapshot.getKey();
+                    }else{
+                        username = postSnapshot.getKey();
+                    }
+                }
+                Log.d(TAG, "name"+ username+targetUsername);
+                callback.callback();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
     }
 
     @Override
@@ -195,6 +280,9 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         return super.dispatchTouchEvent( event );
     }
 
+    public void deleteMessage(String id) {
+        mDatabaseRef.child("message/" + chatId+"/"+id).removeValue();
+    }
 }
 
 class PrivateReplyHandlerDialog extends Dialog {
@@ -253,7 +341,7 @@ class PrivateReplyHandlerDialog extends Dialog {
                     case 2:
                         if (privateChatRecord.isUser()) {
                             // TO-DO: delete the reply (Backend)
-
+                            ((PrivateMessageChatActivity) context).deleteMessage(privateChatRecord.getId());
                         }
                         else { //cancel
 

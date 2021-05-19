@@ -40,6 +40,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +77,8 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
     ArrayAdapter<String> adapter;
     ThreeLevelListAdapter threeLevelListAdapterAdapter;
 
+    DatabaseReference mDatabaseRef;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +182,9 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
         category = "General Chatroom";
         switchChatroomFragment(category);
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();;
     }
 
     public void closeDrawer() {
@@ -344,6 +354,33 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onDrawerStateChanged(int newState) { }
+
+    public void createChatRoom(ChatroomRecord chatroom){
+        if(mAuth.getCurrentUser() != null) {
+            String uId = mAuth.getCurrentUser().getUid();
+            mDatabaseRef.child("chatroom").push().setValue(chatroom, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError,
+                                       DatabaseReference databaseReference) {
+                    String uniqueKey = databaseReference.getKey();
+                    mDatabaseRef.child("nameToId/" + uniqueKey).child(chatroom.getPosterName()+"/id").setValue(uId);
+
+                    Intent intent = new Intent(CourseActivity.this, ChatActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("chatroomTitle", chatroom.getTitle());
+                    bundle.putString("chatId",uniqueKey);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }
+
+    }
+    public void searchChatRoom(JSONObject critea){
+        CourseFragment courseFragment = CourseFragment.newInstance(category);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, courseFragment).commit();
+    }
 }
 
 
@@ -356,9 +393,11 @@ class CreateChatroomDialog extends Dialog {
     private ViewFlipper vfChipGroup;
     private TextView tvWarningInvalidTitle;
     private TextView tvWarningInvalidName;
+    Context context;
 
     public CreateChatroomDialog(final Context context, String chatroomCategory) {
         super(context);
+        this.context = context;
         this.chatroomCategory = chatroomCategory;
     }
 
@@ -387,9 +426,10 @@ class CreateChatroomDialog extends Dialog {
         ibCreateChatroom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                JSONObject chatroomJson = createChatroom();
-                if (chatroomJson != null) {
+                ChatroomRecord chatroomRecord = createChatroom();
+                if (chatroomRecord != null) {
                     dismiss();
+                    ((CourseActivity) context).createChatRoom(chatroomRecord);
                 }
             }
         });
@@ -465,33 +505,48 @@ class CreateChatroomDialog extends Dialog {
         tvWarningInvalidTitle.setVisibility(View.GONE);
         tvWarningInvalidName.setVisibility(View.GONE);
     }
+    
+    public ChatroomRecord createChatroom() {
 
-    public JSONObject createChatroom() {
         String chatroomTitle = etTitle.getText().toString();
-        String chatroomName = etName.getText().toString();
-
-        if (validateChatroomSubmission(chatroomTitle, chatroomName)) {
+        String posterName = etName.getText().toString();
+        if (validateChatroomSubmission(chatroomTitle, posterName)) {
             List<Integer> ids = chipGroup.getCheckedChipIds();
-            JSONArray chatroomTags = new JSONArray();
-
-            for (Integer id : ids) {
+            List<String> tags = new ArrayList<>();
+            for (Integer id: ids){
                 Chip chip = chipGroup.findViewById(id);
-                chatroomTags.put(chip.getText().toString());
+                tags.add(chip.getText().toString());
             }
-
-            JSONObject chatroom = new JSONObject();
-            try {
-                chatroom.put("title", chatroomTitle);
-                chatroom.put("name", chatroomName);
-                chatroom.put("tags", chatroomTags);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return chatroom;
+            return new ChatroomRecord(chatroomCategory,chatroomTitle,posterName, ServerValue.TIMESTAMP,"","",tags,0,0,false);
         }
         return null;
     }
+//    public JSONObject createChatroom() {
+//        String chatroomTitle = etTitle.getText().toString();
+//        String chatroomName = etName.getText().toString();
+//
+//        if (validateChatroomSubmission(chatroomTitle, chatroomName)) {
+//            List<Integer> ids = chipGroup.getCheckedChipIds();
+//            JSONArray chatroomTags = new JSONArray();
+//
+//            for (Integer id : ids) {
+//                Chip chip = chipGroup.findViewById(id);
+//                chatroomTags.put(chip.getText().toString());
+//            }
+//
+//            JSONObject chatroom = new JSONObject();
+//            try {
+//                chatroom.put("title", chatroomTitle);
+//                chatroom.put("name", chatroomName);
+//                chatroom.put("tags", chatroomTags);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return chatroom;
+//        }
+//        return null;
+//    }
 }
 
 class SearchChatroomDialog extends Dialog {
@@ -501,9 +556,10 @@ class SearchChatroomDialog extends Dialog {
     private ChipGroup chipGroup;
     private ViewFlipper vfChipGroup;
     private TextView tvWarningInvalidTitle;
-
+    private Context context;
     public SearchChatroomDialog(final Context context, String chatroomCategory) {
         super(context);
+        this.context = context;
         this.chatroomCategory = chatroomCategory;
     }
 
@@ -533,6 +589,7 @@ class SearchChatroomDialog extends Dialog {
                 JSONObject chatroomJson = createChatroom();
                 if (chatroomJson != null) {
                     dismiss();
+                    ((CourseActivity) context).searchChatRoom(chatroomJson);
                 }
             }
         });

@@ -19,22 +19,35 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class CourseFragment extends Fragment {
     private static final String ARG_PARAM1 = "cat";
+    private static final String TAG ="CourseFragment";
     private String cat;
 
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseRef;
     RecyclerView recyclerView;
     ChatroomRecyclerAdapter adapter;
     List<ChatroomRecord> chatroomRecords;
+    List<String> bookmarkList;
+    JSONObject critea;
     private static String JSON_URL = "https://jsonkeeper.com/b/Z3R2";
 
     public CourseFragment() { }
@@ -53,6 +66,9 @@ public class CourseFragment extends Fragment {
         if (getArguments() != null) {
             cat = getArguments().getString(ARG_PARAM1);
         }
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        bookmarkList = new ArrayList<String>();
     }
 
     @Nullable
@@ -62,52 +78,154 @@ public class CourseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_course, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         chatroomRecords = new ArrayList<>();
-        extractChatroomRecords();
+        extractBookmarkedList(new Callback(){
+            @Override
+            public void callback() {
+                if(!cat.equals("My Bookmarks")) {
+                    extractChatroomRecords();
+                }else{
+                    extractMyBookmarkRecords();
+                }
+            }
+        });
         return view;
     }
 
-    private void extractChatroomRecords() {
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+
+    private void extractMyBookmarkRecords() {
+        Query query = mDatabaseRef.child("/chatroom");
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject chatroomObject = response.getJSONObject(i);
-                        ChatroomRecord chatroomRecord = new ChatroomRecord();
-                        chatroomRecord.setTitle(chatroomObject.getString("title"));
-                        chatroomRecord.setPosterName(chatroomObject.getString("poster_name"));
-                        chatroomRecord.setCreateDate(chatroomObject.getString("create_date"));
-                        chatroomRecord.setLatestName(chatroomObject.getString("latest_name"));
-                        chatroomRecord.setLatestReply(chatroomObject.getString("latest_reply"));
-
-                        JSONArray tagsJA = chatroomObject.getJSONArray("tag");
-                        List<String> tags = new ArrayList<>();
-                        for (int j = 0; j < tagsJA.length(); j++) {
-                            tags.add(tagsJA.getString(j));
-                        }
-                        chatroomRecord.setTags(tags);
-
-                        chatroomRecord.setChatCount(chatroomObject.getInt("chat_count"));
-                        chatroomRecord.setViewCount(chatroomObject.getInt("view_count"));
-                        chatroomRecord.setBookmarked(chatroomObject.getBoolean("bookmarked"));
-                        chatroomRecords.add(chatroomRecord);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-                        adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
-                        recyclerView.setAdapter(adapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                chatroomRecords.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(bookmarkList.contains(postSnapshot.getKey())){
+                        ChatroomRecord chat = postSnapshot.getValue(ChatroomRecord.class);
+                        chat.setCreateDate(postSnapshot.child("timeStamp").getValue(Long.class));
+                        chat.setId(postSnapshot.getKey());
+                        chat.setBookmarked(true);
+                        chatroomRecords.add(chat);
                     }
                 }
+                Collections.reverse(chatroomRecords);
+                updateUI();
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("tag", "onErrorResponse: " + error.getMessage());
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
             }
         });
-        queue.add(jsonArrayRequest);
     }
+
+    private void extractChatroomRecords() {
+        Query query = mDatabaseRef.child("/chatroom").orderByChild("cat").equalTo(cat);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                chatroomRecords.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    ChatroomRecord chat = postSnapshot.getValue(ChatroomRecord.class);
+                    chat.setCreateDate(postSnapshot.child("timeStamp").getValue(Long.class));
+                    chat.setId(postSnapshot.getKey());
+                    Log.d(TAG, "chatRoomrecord"+chat);
+                    chatroomRecords.add(chat);
+                }
+
+                Collections.reverse(chatroomRecords);
+                for(ChatroomRecord record:chatroomRecords){
+                    if(bookmarkList.contains(record.getId())){
+                        record.setBookmarked(true);
+                    }
+                }
+                //check criteria
+                updateUI();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+
+    private void extractBookmarkedList(Callback callback) {
+        if(mAuth.getCurrentUser() != null) {
+            String userId = mAuth.getCurrentUser().getUid();
+            Query query = mDatabaseRef.child("users/" + userId + "/bookmarked/");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    bookmarkList.clear();
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        String chatId = postSnapshot.getKey();
+                        bookmarkList.add(chatId);
+                    }
+                    callback.callback();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, "cancel" + databaseError);
+                }
+            });
+        }else{
+            callback.callback();
+        }
+    }
+
+    private void updateUI(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
+        recyclerView.setAdapter(adapter);
+    }
+//    private void extractChatroomRecords() {
+//        RequestQueue queue = Volley.newRequestQueue(getContext());
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++) {
+//                    try {
+//                        JSONObject chatroomObject = response.getJSONObject(i);
+//                        ChatroomRecord chatroomRecord = new ChatroomRecord();
+//                        chatroomRecord.setTitle(chatroomObject.getString("title"));
+//                        chatroomRecord.setPosterName(chatroomObject.getString("poster_name"));
+//                        chatroomRecord.setCreateDate(chatroomObject.getString("create_date"));
+//                        chatroomRecord.setLatestName(chatroomObject.getString("latest_name"));
+//                        chatroomRecord.setLatestReply(chatroomObject.getString("latest_reply"));
+//
+//                        JSONArray tagsJA = chatroomObject.getJSONArray("tag");
+//                        List<String> tags = new ArrayList<>();
+//                        for (int j = 0; j < tagsJA.length(); j++) {
+//                            tags.add(tagsJA.getString(j));
+//                        }
+//                        chatroomRecord.setTags(tags);
+//
+//                        chatroomRecord.setChatCount(chatroomObject.getInt("chat_count"));
+//                        chatroomRecord.setViewCount(chatroomObject.getInt("view_count"));
+//                        chatroomRecord.setBookmarked(chatroomObject.getBoolean("bookmarked"));
+//                        chatroomRecords.add(chatroomRecord);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+//                        adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
+//                        recyclerView.setAdapter(adapter);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("tag", "onErrorResponse: " + error.getMessage());
+//            }
+//        });
+//        queue.add(jsonArrayRequest);
+//    }
 
     public void switchChatActivity(String chatroomTitle) {
         startActivity(new Intent(getContext().getApplicationContext(), ChatActivity.class));

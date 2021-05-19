@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "372324070742",
+    "firebase_url": "https://ustchat-comp4651-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ustchat-comp4651",
+    "storage_bucket": "ustchat-comp4651.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372324070742:android:5165dfed14a00d7cacd2f7",
+        "android_client_info": {
+          "package_name": "com.example.ustchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372324070742-ct7j37n0d0j9e1rte0mmdn8mdbeaablp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl_RXxkni4CTExmXGmllaGUp8udqGDh48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372324070742-ct7j37n0d0j9e1rte0mmdn8mdbeaablp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,9 +3,11 @@ package com.example.ustchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
@@ -14,6 +16,15 @@ import android.widget.TextView;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Collections;
 
 public class SettingActivity extends AppCompatActivity {
     private String userID;
@@ -24,10 +35,14 @@ public class SettingActivity extends AppCompatActivity {
     TextView tvUserID, tvITSC;
     MaterialCardView cvAboutUs, cvContactUs, cvFeedback, cvLogout;
     Switch switchNightMode, switchEnableNotification;
-
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabaseRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.activity_setting);
 
         toolbar = findViewById(R.id.toolbar_center_title);
@@ -39,7 +54,10 @@ public class SettingActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.setting);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        badge.setNumber(0);
+//        if(mAuth.getCurrentUser()!=null){
+//            unReadPMCount();
+//        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -91,6 +109,7 @@ public class SettingActivity extends AppCompatActivity {
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
             }
         });
@@ -99,4 +118,28 @@ public class SettingActivity extends AppCompatActivity {
         switchEnableNotification = findViewById(R.id.switch_setting_enable_notification);
 
     }
+
+
+//    private void unReadPMCount(){
+//        Query query = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/");
+//        query.addValueEventListener(new ValueEventListener()
+//        {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                int sum = 0;
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    Log.d("Setting", postSnapshot.getValue(String.class));
+//                    int count  = postSnapshot.getValue(Integer.class);
+//                    sum+=count;
+//                }
+//                Log.d("Setting", ""+sum);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError)
+//            {
+//                Log.d("Setting", "cancel"+databaseError);
+//            }
+//        });
+//    }
 }

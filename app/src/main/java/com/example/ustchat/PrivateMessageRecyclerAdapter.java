@@ -37,8 +37,9 @@ public class PrivateMessageRecyclerAdapter extends RecyclerView.Adapter<PrivateM
         PrivateMessageRecord privateMessageRecord = PrivateMessageRecords.get(position);
         holder.tvTitle.setText(privateMessageRecord.getTitle());
         holder.tvLatestName.setText(privateMessageRecord.getLatestName());
+        holder.tvLatestReplyTime.setText(privateMessageRecord.getLatestReplyTime());
         String latestReply = privateMessageRecord.getLatestReply();
-        if (latestReply.equals("{photo}")) {
+        if (latestReply!= null && latestReply.equals("{photo}")) {
             holder.ivLatestReply.setBackgroundResource(R.drawable.ic_photo);
             holder.tvLatestReply.setTextColor(inflater.getContext().getResources().getColor(R.color.gray_400));
             latestReply = "Photo";
@@ -66,6 +67,7 @@ public class PrivateMessageRecyclerAdapter extends RecyclerView.Adapter<PrivateM
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PrivateMessageChatActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("chatId", PrivateMessageRecords.get(position).getId());
                 bundle.putString("chatroomTitle", PrivateMessageRecords.get(position).getTitle());
                 bundle.putString("username", PrivateMessageRecords.get(position).getUsername());
                 bundle.putString("targetUsername", PrivateMessageRecords.get(position).getTargetName());

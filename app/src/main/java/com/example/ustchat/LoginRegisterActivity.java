@@ -1,5 +1,6 @@
 package com.example.ustchat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,8 +21,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class LoginRegisterActivity extends AppCompatActivity {
+    private static final String TAG = "LoginRegisterActivity";
     Toolbar toolbar;
     TextView tvContinue;
     TextView tvForgotPW;
@@ -31,6 +44,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     Button btnSignup;
     EditText etITSC;
     EditText etPW;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +96,11 @@ public class LoginRegisterActivity extends AppCompatActivity {
         tvWarningInvalidPW.setVisibility(View.GONE);
         tvWarningLoginFailure = findViewById(R.id.tv_login_warning_login_failure);
         tvWarningLoginFailure.setVisibility(View.GONE);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser()!=null && mAuth.getCurrentUser().isEmailVerified()){
+            switchToGeneralCourseActicity();
+        }
     }
 
     @Override
@@ -120,7 +139,24 @@ public class LoginRegisterActivity extends AppCompatActivity {
         String istc = etITSC.getText().toString();
         String password = etPW.getText().toString();
         if (validateLoginSubmission(istc, password)) {
-            switchToGeneralCourseActicity();
+            mAuth.signInWithEmailAndPassword(istc, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Login:success");
+                                if(mAuth.getCurrentUser().isEmailVerified())
+                                    switchToGeneralCourseActicity();
+                                else
+                                    Toast.makeText(LoginRegisterActivity.this, "Please verify your email address first.",
+                                            Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.w(TAG, "Login:failure", task.getException());
+                                Toast.makeText(LoginRegisterActivity.this, "Login failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
     }
 
@@ -180,7 +216,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     // TO-DO
     public void handleForgetPW() {
-
+//        String emailAddress = etEmail.getText().toString().trim();
+//
+//        mAuth.sendPasswordResetEmail(emailAddress)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "Email sent.");
+//                        }
+//                    }
+//                });
     }
 
 }
@@ -191,6 +237,9 @@ class RegisterDialog extends Dialog {
     private EditText etPW;
     private TextView tvWarningInvalidITSC;
     private TextView tvWarningInvalidPW;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseRef;
+    private static final String TAG = "RegisterDialog";
 
     public RegisterDialog(final Context context) {
         super(context);
@@ -215,6 +264,9 @@ class RegisterDialog extends Dialog {
         });
 
         clearWarningMessages();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
     }
 
     @Override
@@ -235,13 +287,46 @@ class RegisterDialog extends Dialog {
     }
 
     public void register() {
-        String istc = etITSC.getText().toString();
+        String itsc = etITSC.getText().toString();
         String password = etPW.getText().toString();
-        if (validateRegistrationSubmission(istc, password)) {
-            // TO-DO : register
+        if (validateRegistrationSubmission(itsc, password)) {
+            String email = itsc + "@connect.ust.hk";
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                sendVerifyEmail();
+                                writeUserToDB();
+                                Log.d(TAG, "createUserWithEmailAndPassword:success");
+                            } else {
+                                Log.w(TAG, "createUserWithEmailAndPassword:failure", task.getException());
+                            }
+                        }
+                    });
         }
     }
 
+    private void sendVerifyEmail() {
+        if(mAuth.getCurrentUser() != null && !mAuth.getCurrentUser().isEmailVerified()){
+            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "sendEmailVerification: email sent");
+                    } else {
+                        Log.e(TAG, "sendEmailVerification", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
+    private void writeUserToDB() {
+        String Uid = mAuth.getCurrentUser().getUid();
+        mDatabaseRef.child("users/"+Uid+"/email/").setValue(mAuth.getCurrentUser().getEmail());
+    }
     public boolean validateRegistrationSubmission(String itsc, String password) {
         boolean success = true;
         boolean itscErrorFlag = false;

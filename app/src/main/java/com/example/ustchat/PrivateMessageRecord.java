@@ -1,18 +1,24 @@
 package com.example.ustchat;
 
+import com.google.firebase.database.Exclude;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PrivateMessageRecord {
     // To-DO : ChatroomRecord
+    private String id;
     private String title;
     private String username;
     private String targetName;
     private String latestName;
     private String latestReply;
-    private String latestReplyTime;
+    private Object latestReplyTime;
     private int unreadCount;
 
     public PrivateMessageRecord() {}
 
-    public PrivateMessageRecord(String title, String username, String targetName, String latestName, String latestReply, String latestReplyTime, int unreadCount) {
+    public PrivateMessageRecord(String title, String username, String targetName, String latestName, String latestReply, Object latestReplyTime, int unreadCount) {
         this.title = title;
         this.username = username;
         this.targetName = targetName;
@@ -60,12 +66,18 @@ public class PrivateMessageRecord {
         this.latestReply = latestReply;
     }
 
-    public String getLatestReplyTime() {
+    public Object getTimeStamp() {
         return latestReplyTime;
     }
 
-    public void setLatestReplyTime(String latestReplyTime) { this.latestReplyTime = latestReplyTime; }
-
+    @Exclude
+    public String getLatestReplyTime() {
+        Date date = new Date((Long) latestReplyTime);
+        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return sfd.format(date);
+    }
+    public void setLatestReplyTime(Object latestReplyTime) { this.latestReplyTime = latestReplyTime; }
+    @Exclude
     public int getUnreadCount() {
         return unreadCount;
     }
@@ -74,5 +86,11 @@ public class PrivateMessageRecord {
         this.unreadCount = unreadCount;
     }
 
-
+    public void setId(String id) {
+        this.id = id;
+    }
+    @Exclude
+    public String getId() {
+        return id;
+    }
 }

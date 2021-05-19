@@ -1,16 +1,22 @@
 package com.example.ustchat;
 
+import com.google.firebase.database.Exclude;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ChatroomChatRecord {
+    private String id;
     private String name;
     private String text;
     private String image;
-    private String time;
+    private Object time;
     private String quotedID;
     private boolean isUser;
 
     public ChatroomChatRecord() {}
 
-    public ChatroomChatRecord(String name, String text, String image, String time, String quotedID, boolean isUser) {
+    public ChatroomChatRecord(String name, String text, String image, Object time, String quotedID, boolean isUser) {
         this.name = name;
         this.text = text;
         this.image = image;
@@ -43,11 +49,17 @@ public class ChatroomChatRecord {
         this.image = image;
     }
 
-    public String getTime() {
+    public Object getTimeStamp(){
         return time;
     }
 
-    public void setTime(String time) {
+    @Exclude
+    public String getTime() {
+        Date date = new Date((Long) time);
+        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return sfd.format(date);
+    }
+    public void setTime(Object time) {
         this.time = time;
     }
 
@@ -59,11 +71,21 @@ public class ChatroomChatRecord {
         this.quotedID = quotedID;
     }
 
+    @Exclude
     public boolean isUser() {
         return isUser;
     }
 
     public void setUser(boolean user) {
         isUser = user;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
     }
 }
