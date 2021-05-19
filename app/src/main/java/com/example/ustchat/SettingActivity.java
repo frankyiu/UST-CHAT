@@ -2,6 +2,7 @@ package com.example.ustchat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -15,7 +16,7 @@ import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements NavigationNotification {
     private String userID;
     private String ITSCAccount;
     Toolbar toolbar;
@@ -37,9 +38,10 @@ public class SettingActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        BadgeDrawable notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -89,7 +91,22 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         switchNightMode = findViewById(R.id.switch_setting_night_mode);
+        switchNightMode.setChecked(Utility.isNightModeOn(this));
+        switchNightMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNightMode(switchNightMode.isChecked());
+            }
+        });
+
         switchEnableNotification = findViewById(R.id.switch_setting_enable_notification);
+        switchEnableNotification.setChecked(Utility.enableNotification);
+        switchEnableNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setEnableNotification(switchEnableNotification.isChecked());
+            }
+        });
 
     }
 
@@ -107,11 +124,20 @@ public class SettingActivity extends AppCompatActivity {
 
     private void setNightMode(boolean nightModeOn) {
         if (nightModeOn) {
-
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         else {
-
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+    }
+
+    public void enableNotificationBadge(boolean enable) {
+        bottomNavigationView.getOrCreateBadge(R.id.private_message).setVisible(enable);
+    }
+
+    private void setEnableNotification(boolean enable) {
+        enableNotificationBadge(enable);
+        Utility.enableNotification = enable;
     }
 
 }

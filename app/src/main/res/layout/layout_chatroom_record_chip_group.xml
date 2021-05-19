@@ -19,6 +19,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_1"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -31,6 +32,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_2"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -43,6 +45,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_3"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -55,6 +58,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_4"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -67,6 +71,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_5"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -79,6 +84,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_6"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -91,6 +97,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_7"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -103,6 +110,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_8"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -115,6 +123,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_9"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -127,6 +136,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_course_tag_10"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -139,6 +149,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_general_tag_2"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -151,6 +162,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_general_tag_3"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -163,6 +175,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_general_tag_4"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -175,6 +188,7 @@
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
             android:text="@string/chip_general_tag_5"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 

@@ -6,6 +6,7 @@
     android:layout_height="360dp"
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/card_color"
     >
 
     <RelativeLayout
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="What is this?"
-            android:textColor="@color/black"
+            android:textColor="@color/text_color"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/ustchat_info_description"
-            android:textColor="@color/black"
+            android:textColor="@color/text_color"
             android:textSize="14sp"
             android:layout_below="@+id/tv_info_title"
             android:layout_marginTop="30dp"
@@ -45,7 +46,7 @@
             android:layout_centerInParent="true"
             android:text="OK"
             android:textColor="@color/white"
-            app:backgroundTint="@color/sign_up_btn_color"
+            app:backgroundTint="#FF767171"
             app:cornerRadius="7dp"
             />
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/preferences_background"
+    android:background="@color/background_color"
     >
 
     <RelativeLayout
@@ -19,6 +19,7 @@
             android:id="@+id/cv_setting_user_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/card_color"
             >
 
             <View
@@ -27,11 +28,11 @@
                 android:background="@color/gray_D5"
                 />
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="User ID"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -53,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cv_setting_user_id"
+            app:cardBackgroundColor="@color/card_color"
             >
             <View
                 android:layout_width="match_parent"
@@ -63,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="ITSC Account"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -102,6 +104,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            app:cardBackgroundColor="@color/card_color"
             app:rippleColor="@color/background_color"
             >
             <View
@@ -114,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="About us"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -128,6 +131,7 @@
             android:layout_below="@+id/cv_setting_about_us"
             android:clickable="true"
             android:focusable="true"
+            app:cardBackgroundColor="@color/card_color"
             app:rippleColor="@color/background_color"
             >
             <View
@@ -139,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="Contact us"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -166,6 +170,7 @@
             android:id="@+id/cv_setting_night_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/card_color"
             >
             <View
                 android:layout_width="match_parent"
@@ -177,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="Night Mode"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -200,6 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cv_setting_night_mode"
+            app:cardBackgroundColor="@color/card_color"
             >
             <View
                 android:layout_width="match_parent"
@@ -210,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="Enable Notification"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -249,6 +255,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            app:cardBackgroundColor="@color/card_color"
             app:rippleColor="@color/background_color"
             >
             <View
@@ -261,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="Logout"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"

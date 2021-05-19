@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         app:title=""
-        android:background="#FFFFFF"
+        android:background="@color/background_color_toolbar"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         >
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Looking for a teammate"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:textSize="14sp"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_gravity="left"
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="w/ "
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_color"
                     android:textSize="14sp"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
@@ -66,7 +66,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <View
-        android:background="@color/toolbar_header_border_color"
+        android:background="@color/gray_D5"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 

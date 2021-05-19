@@ -50,9 +50,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
 
-public class CourseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+public class CourseActivity extends AppCompatActivity implements NavigationNotification,
+        NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
     String category;
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
@@ -66,12 +66,12 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     NavigationView navigationView;
     private ExpandableListView expandableListView;
+    BadgeDrawable notificationBadge;
     EditText etSearch;
     ListView listView;
     PopupWindow popupWindow;
     ArrayAdapter<String> adapter;
     ThreeLevelListAdapter threeLevelListAdapterAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +84,11 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.chatroom);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+
+        notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
 
@@ -245,7 +247,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_chatroom, menu);
         return true;
     }
 
@@ -342,6 +344,10 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onDrawerStateChanged(int newState) { }
+
+    public void enableNotificationBadge(boolean enable) {
+        notificationBadge.setVisible(enable);
+    }
 }
 
 

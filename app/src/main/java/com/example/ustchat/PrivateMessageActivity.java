@@ -28,9 +28,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrivateMessageActivity extends AppCompatActivity {
+public class PrivateMessageActivity extends AppCompatActivity implements NavigationNotification {
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
+    BadgeDrawable notificationBadge;
 
     RecyclerView pmRecyclerView;
     PrivateMessageRecyclerAdapter privateMessageRecyclerAdapter;
@@ -47,9 +48,10 @@ public class PrivateMessageActivity extends AppCompatActivity {
         toolbar.setTitle("");
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
 
@@ -94,8 +96,8 @@ public class PrivateMessageActivity extends AppCompatActivity {
                         privateMessageRecord.setLatestReplyTime(pmRecordObject.getString("latestTime"));
                         privateMessageRecord.setUnreadCount(pmRecordObject.getInt("unreadCount"));
                         privateMessageRecords.add(privateMessageRecord);
-                        pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
+                        pmRecyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageActivity.this));
+                        privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(PrivateMessageActivity.this, privateMessageRecords);
                         pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -109,5 +111,9 @@ public class PrivateMessageActivity extends AppCompatActivity {
             }
         });
         queue.add(jsonArrayRequest);
+    }
+
+    public void enableNotificationBadge(boolean enable) {
+        notificationBadge.setVisible(enable);
     }
 }

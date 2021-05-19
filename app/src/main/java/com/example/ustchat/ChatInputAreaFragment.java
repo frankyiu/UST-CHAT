@@ -58,6 +58,9 @@ public class ChatInputAreaFragment extends Fragment {
         etName = view.findViewById(R.id.et_input_area_name);
         if (userRepliedBefore) {
             etName.setEnabled(false);
+            etName.setTextColor(getResources().getColor(R.color.gray_D5));
+        }
+        else {
             username = generateUsername();
         }
         etName.setText(username);

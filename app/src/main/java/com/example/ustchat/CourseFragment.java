@@ -92,8 +92,11 @@ public class CourseFragment extends Fragment {
                         chatroomRecord.setViewCount(chatroomObject.getInt("view_count"));
                         chatroomRecord.setBookmarked(chatroomObject.getBoolean("bookmarked"));
                         chatroomRecords.add(chatroomRecord);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-                        adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
+                        if (getActivity() == null) {
+                            return;
+                        }
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        adapter = new ChatroomRecyclerAdapter(getActivity(), chatroomRecords);
                         recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();

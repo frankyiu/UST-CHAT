@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/card_color"
     >
     <View
-        android:background="@color/toolbar_header_border_color"
+        android:background="@color/gray_D5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         />
@@ -57,7 +58,7 @@
             android:src="@drawable/ic_cancel"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/white"
+            android:background="@android:color/transparent"
             />
 
         <Space

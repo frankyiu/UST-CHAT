@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/input_area"
     android:layout_width="match_parent"
     android:layout_height="110dp"
+    android:background="@color/card_color"
     >
 
     <View
-        android:background="@color/toolbar_header_border_color"
+        android:background="@color/gray_D5"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        />
 
     <ImageButton
         android:id="@+id/iv_input_area_album"
@@ -30,6 +31,7 @@
         android:layout_marginTop="10dp"
         android:hint="Say something..."
         android:textSize="15sp"
+        android:textColor="@color/text_color"
         android:includeFontPadding="true"
         android:paddingLeft="10dp"
         android:layout_toRightOf="@+id/iv_input_area_album"
@@ -57,7 +59,7 @@
         android:layout_below="@+id/et_input_area_reply"
         android:layout_toRightOf="@+id/iv_input_area_album"
         android:text="Name:"
-        android:textColor="@color/black"
+        android:textColor="@color/text_color"
         />
 
     <EditText
@@ -68,6 +70,7 @@
         android:layout_marginTop="10dp"
         android:text="Name"
         android:textSize="16sp"
+        android:textColor="@color/text_color"
         android:paddingLeft="10dp"
         android:paddingBottom="2dp"
         android:layout_below="@+id/et_input_area_reply"

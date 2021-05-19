@@ -8,7 +8,7 @@
     >
 
     <View
-        android:background="@color/toolbar_header_border_color"
+        android:background="@color/gray_D5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         />
@@ -17,11 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottom_nav"
-        android:background="@color/white"
         app:menu="@menu/menu_nav"
-        app:itemBackground="@color/white"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
+        app:itemBackground="@color/background_color_toolbar"
+        app:itemTextColor="@drawable/selector_nav_item"
+        app:itemIconTint="@drawable/selector_nav_item"
         >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
