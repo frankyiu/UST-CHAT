@@ -369,7 +369,7 @@ class CreateChatroomDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_create_chatroom);
+        setContentView(R.layout.layout_dialog_create_chatroom);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         vfChipGroup = findViewById(R.id.vf_create_chatroom_chip_group);
