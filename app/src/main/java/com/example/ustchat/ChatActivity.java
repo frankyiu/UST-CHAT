@@ -332,7 +332,35 @@ public class ChatActivity extends AppCompatActivity {
     }
     public void deleteMessage(String id) {
         mDatabaseRef.child("message/" + chatId+"/"+id).removeValue();
+        mDatabaseRef.child("chatroom/"+ chatId+"/chatCount/").setValue(ServerValue.increment(-1));
+        //update meta
+        Query query = mDatabaseRef.child("message/"+ chatId).orderByChild("timeStamp").limitToLast(1);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "lastmessage"+postSnapshot.getValue());
+                    String latestName = postSnapshot.child("name").getValue(String.class);
+                    String latestReply = postSnapshot.child("text").getValue(String.class);
+                    if (latestReply.equals("")){
+                        latestReply = "{photo}";
+                    }
+                    mDatabaseRef.child("chatroom/"+ chatId+"/latestName/").setValue(latestName);
+                    mDatabaseRef.child("chatroom/"+ chatId+"/latestReply/").setValue(latestReply);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
     }
+
+
 }
 
 class ReplyHandlerDialog extends Dialog {

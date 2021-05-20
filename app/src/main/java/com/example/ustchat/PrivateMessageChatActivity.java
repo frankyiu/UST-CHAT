@@ -141,6 +141,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
                 privateChatRecords.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PrivateChatRecord chatRecord = postSnapshot.getValue(PrivateChatRecord.class);
+                    chatRecord.setId(postSnapshot.getKey());
                     chatRecord.setTime(postSnapshot.child("timeStamp").getValue(Long.class));
                     if(username !=null){
                         chatRecord.setUser(username.equals(chatRecord.getName()));
@@ -281,7 +282,34 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     }
 
     public void deleteMessage(String id) {
+        Log.d(TAG, "deleteMessage: "+id);
         mDatabaseRef.child("message/" + chatId+"/"+id).removeValue();
+        Query query = mDatabaseRef.child("message/"+ chatId).orderByChild("timeStamp").limitToLast(1);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "lastmessage"+postSnapshot.getValue());
+                    String latestName = postSnapshot.child("name").getValue(String.class);
+                    String latestReply = postSnapshot.child("text").getValue(String.class);
+                    Long timeStamp = postSnapshot.child("timeStamp").getValue(Long.class);
+                    if (latestReply.equals("")){
+                        latestReply = "{photo}";
+                    }
+                    mDatabaseRef.child("privateChat/"+ chatId+"/latestName/").setValue(latestName);
+                    mDatabaseRef.child("privateChat/"+ chatId+"/latestReply/").setValue(latestReply);
+                    mDatabaseRef.child("privateChat/"+ chatId+"/latestReplyTime/").setValue(timeStamp);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
     }
 }
 
