@@ -48,8 +48,8 @@ public class ChatInputAreaFragment extends Fragment {
     private static final String TAG = "ChatInputAreaFragment";
     private final boolean isPrivate;
     private final String chatroomTitle;
-    private String targetUserId;
     private String username;
+    private String chatId;
     private boolean userRepliedBefore;
 
     private EditText etReply;
@@ -62,7 +62,6 @@ public class ChatInputAreaFragment extends Fragment {
     private static final int PICK_IMAGE = 1;
     private Uri imageUri;
 
-    private String chatId;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
     private StorageReference mStoreRef;
@@ -70,13 +69,12 @@ public class ChatInputAreaFragment extends Fragment {
     public ChatInputAreaFragment(String chatId, String chatroomTitle, String username, boolean isPrivate, boolean userRepliedBefore) {
         this.username = username;
         this.userRepliedBefore = userRepliedBefore;
-        this.chatId = chatId;
         this.isPrivate = isPrivate;
         this.chatroomTitle = chatroomTitle;
+        this.chatId = chatId;
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mStoreRef = FirebaseStorage.getInstance().getReference();
-        getTargetUserID();
     }
 
     @Override
@@ -119,12 +117,7 @@ public class ChatInputAreaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (ibSubmitReply.isEnabled()) {
-                    checkUserNameValid(new Callback() {
-                        @Override
-                        public void callback() {
-                            submitTextReply();
-                        }
-                    });
+                    submitTextReply();
                 }
             }
         });
@@ -205,133 +198,42 @@ public class ChatInputAreaFragment extends Fragment {
         // TO-DO : submit a text reply (Backend)
         String message = etReply.getText().toString();
         String name =etName.getText().toString();
-        if(!message.equals("") && !name.equals("")) {
-            String quotedID = "";
-            if(!isPrivate){
-                ChatActivity  chatActivity= (ChatActivity)getActivity();
-                quotedID = chatActivity.getQuotedText();
-            }else{
-                PrivateMessageChatActivity  pChatActivity= (PrivateMessageChatActivity)getActivity();
-                quotedID = pChatActivity.getQuotedText();
-            }
-
-            ChatroomChatRecord chat = new ChatroomChatRecord(name, message, "", ServerValue.TIMESTAMP, quotedID, true);
-            mDatabaseRef.child("message/" + chatId).push().setValue(chat, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                    if(!isPrivate) {
-                        updateChatMeta(name, message);
-                        ChatActivity  chatActivity= (ChatActivity)getActivity();
-                    }else{
-                        updatePrivateChatMeta(name, message);
-                        notifyTargetUser(message);
+        if(!message.isEmpty()&& !name.isEmpty()) {
+            if (!isPrivate) {
+                checkUserNameValid(new Callback() {
+                    @Override
+                    public void callback() {
+                        ChatActivity chatActivity = (ChatActivity) getActivity();
+                        chatActivity.sendTextReply(message, name);
+                        etReply.setText("");
                     }
-                    etReply.setText("");
-                }
-            });
+                });
+            } else {
+                PrivateMessageChatActivity chatActivity = (PrivateMessageChatActivity) getActivity();
+                chatActivity.invokeSendTextReply(message, name);
+                etReply.setText("");
+            }
         }
     }
 
-//    public void submitPrivateTextReply() {
-//        String message = etReply.getText().toString();
-//        String name =etName.getText().toString();
-//        if(!message.equals("") && !name.equals("")) {
-//            PrivateChatRecord chat = new PrivateChatRecord(name, message, "", ServerValue.TIMESTAMP, "", true);
-//
-//            //update pChatRoom meta
-//            updatePrivateChatMeta(name, message);
-//            //update message
-//            mDatabaseRef.child("message/" + chatId).push().setValue(chat);
-//
-//            //update notify TargetUser
-//            notifyTargetUser();
-//            etReply.setText("");
-//        }
-//    }
 
     public void submitImageReply() {
         // TO-DO : Submit an image reply (backend)
-
-        if(imageUri != null){
-            String messageId = mDatabaseRef.child("message/" + chatId).push().getKey();
-            String imgPath = "images/"+chatId+"/"+messageId+"_"+imageUri.getLastPathSegment();
-            StorageReference imageRef = mStoreRef.child(imgPath);
-            UploadTask uploadTask = imageRef.putFile(imageUri);
-
-            // Register observers to listen for when the download is done or if it fails
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+        String name =etName.getText().toString();
+        if(!isPrivate){
+            checkUserNameValid(new Callback() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Log.d(TAG, "onFailure: uploadfile fail");
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String name =etName.getText().toString();
-                    if(!name.equals("")) {
-                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                ChatroomChatRecord chat = new ChatroomChatRecord(name, "",uri.toString(), ServerValue.TIMESTAMP, "", true);
-                                mDatabaseRef.child("message/" + chatId + "/" + messageId).setValue(chat);
-                                if(!isPrivate) {
-                                    //update chatRoom meta
-                                    updateChatMeta(name, "{photo}");
-                                }else{
-                                    mDatabaseRef.child("message/" + chatId + "/" + messageId).setValue(chat);
-                                    //update chatRoom meta
-                                    updatePrivateChatMeta(name, "{photo}");
-                                    notifyTargetUser("{photo}");
-                                }
-                            }
-                        });
-                    }
+                public void callback() {
+                    ChatActivity chatActivity = (ChatActivity) getActivity();
+                    chatActivity.sendImageReply(imageUri,name);
                 }
             });
+        }else{
+            PrivateMessageChatActivity chatActivity = (PrivateMessageChatActivity) getActivity();
+            chatActivity.invokeSendImageReply(imageUri, name);
         }
     }
 
-    private void updateChatMeta(String name, String message){
-        mDatabaseRef.child("chatroom/" + chatId+"/chatCount").setValue(ServerValue.increment(1));
-        mDatabaseRef.child("chatroom/" + chatId+"/latestName").setValue(name);
-        mDatabaseRef.child("chatroom/" + chatId+"/latestReply").setValue(message);
-    }
-    private void updatePrivateChatMeta(String name, String message){
-        mDatabaseRef.child("privateChat/" + chatId+"/latestName").setValue(name);
-        mDatabaseRef.child("privateChat/" + chatId+"/latestReply").setValue(message);
-        mDatabaseRef.child("privateChat/" + chatId+"/latestReplyTime").setValue(ServerValue.TIMESTAMP);
-    }
-
-    private void notifyTargetUser(String message){
-        NotiMessage msg = new NotiMessage(username,message , chatroomTitle);
-        mDatabaseRef.child("users/"+targetUserId+"/privateChat/"+chatId+"/unread/").setValue(ServerValue.increment(1));
-        mDatabaseRef.child("users/"+targetUserId+"/notiMessage/").push().setValue(msg);
-    }
-
-    //only for privateMessage
-    private void getTargetUserID(){
-        Query query = mDatabaseRef.child("nameToId/"+chatId);
-        query.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String id = postSnapshot.child("id").getValue(String.class);
-                    if(!id.equals(mAuth.getCurrentUser().getUid())){
-                        targetUserId = id;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.d(TAG, "cancel"+databaseError);
-            }
-        });
-    }
 }
 
 class ConfirmPhotoDialog extends Dialog {
@@ -359,12 +261,7 @@ class ConfirmPhotoDialog extends Dialog {
         ibSubmit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                chatInputAreaFragment.checkUserNameValid(new Callback() {
-                    @Override
-                    public void callback() {
-                        chatInputAreaFragment.submitImageReply();
-                    }
-                });
+                chatInputAreaFragment.submitImageReply();
                 dismiss();
             }
         });

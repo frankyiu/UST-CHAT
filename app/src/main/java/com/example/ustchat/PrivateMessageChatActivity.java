@@ -1,6 +1,7 @@
 package com.example.ustchat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -40,13 +42,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +70,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     private String username;
     private String targetUsername;
     private String chatId;
+    private String publicChatId;
 
     String quotedText;
     TextView tvTitle;
@@ -72,6 +81,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     List<PrivateChatRecord> privateChatRecords;
     FirebaseAuth mAuth;
     DatabaseReference mDatabaseRef;
+    StorageReference mStoreRef;
     LinearLayout llQuoteArea;
     private static String JSON_URL = "https://jsonkeeper.com/b/VKKN";
 
@@ -88,11 +98,16 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         username = "";
         targetUsername = "";
         chatId = "";
+        publicChatId = "";
+        quotedText="";
         if(bundle != null) {
             chatId = bundle.getString("chatId");
             chatroomTitle = bundle.getString("chatroomTitle");
             username = bundle.getString("username");
             targetUsername = bundle.getString("targetUsername");
+            if(chatId.isEmpty()){
+                publicChatId = bundle.getString("publicChatId");
+            }
         }
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
@@ -115,16 +130,21 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-
-        getBothUserName(new Callback() {
-            @Override
-            public void callback() {
-                tvTargetUsername.setText(targetUsername);
-                extractPrivateChatRecords();
-                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId,chatroomTitle, username, true, true);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
-            }
-        });
+        mStoreRef = FirebaseStorage.getInstance().getReference();
+        if(!chatId.isEmpty()) {
+            getBothUserName(new Callback() {
+                @Override
+                public void callback() {
+                    tvTargetUsername.setText(targetUsername);
+                    extractPrivateChatRecords();
+                    ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, chatroomTitle, username, true, true);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+                }
+            });
+        }else{
+            ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, chatroomTitle, username, true, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
+        }
 
         // TO-DO: hardcode for now
 //        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, true, true);
@@ -316,6 +336,148 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
                 Log.d(TAG, "cancel"+databaseError);
             }
         });
+    }
+
+
+    private void sendTextReply(String message, String name){
+        if(!message.equals("") && !name.equals("")) {
+            ChatroomChatRecord chat = new ChatroomChatRecord(name, message, "", ServerValue.TIMESTAMP, quotedText, true);
+            mDatabaseRef.child("message/" + chatId).push().setValue(chat, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                    updateChatMeta(name, message);
+                    notifyTargetUser(message);
+                }
+            });
+        }
+    }
+    private void notifyTargetUser(String message){
+        Query query = mDatabaseRef.child("nameToId/"+chatId);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String targetUserId = postSnapshot.child("id").getValue(String.class);
+                    if(!targetUserId.equals(mAuth.getCurrentUser().getUid())){
+                        NotiMessage msg = new NotiMessage(username, message , chatroomTitle);
+                        mDatabaseRef.child("users/"+targetUserId+"/privateChat/"+chatId+"/unread/").setValue(ServerValue.increment(1));
+                        mDatabaseRef.child("users/"+targetUserId+"/notiMessage/").push().setValue(msg);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+
+
+    private void updateChatMeta(String name, String message){
+        mDatabaseRef.child("privateChat/" + chatId+"/latestName").setValue(name);
+        mDatabaseRef.child("privateChat/" + chatId+"/latestReply").setValue(message);
+        mDatabaseRef.child("privateChat/" + chatId+"/latestReplyTime").setValue(ServerValue.TIMESTAMP);
+    }
+
+
+    public void createPrivateChat(Callback callback){
+        PrivateMessageRecord PM_Chat = new PrivateMessageRecord();
+        PM_Chat.setTitle(chatroomTitle);
+        mDatabaseRef.child("privateChat/").push().setValue(PM_Chat,  new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError,
+                                   DatabaseReference databaseReference) {
+                String pChatId = databaseReference.getKey();
+                chatId = pChatId;
+                subscribeChatForBothUser(callback);
+            }
+        });
+    }
+
+    public void subscribeChatForBothUser(Callback callback){
+        Query query = mDatabaseRef.child("nameToId/"+publicChatId+"/"+targetUsername);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                String targetUserId = dataSnapshot.child("id").getValue(String.class);
+                mDatabaseRef.child("nameToId/" + chatId).child(username+"/id").setValue(mAuth.getCurrentUser().getUid());
+                mDatabaseRef.child("nameToId/" + chatId).child(targetUsername+"/id").setValue(targetUserId);
+                //subscribe PrivateChat
+                mDatabaseRef.child("users/"+targetUserId+"/privateChat/"+chatId+"/unread/").setValue(0);
+                mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+chatId+"/unread/").setValue(0);
+
+                extractPrivateChatRecords();
+                callback.callback();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+    }
+    public void invokeSendTextReply(String message, String name){
+        if(chatId.isEmpty()){
+            createPrivateChat(new Callback(){
+                @Override
+                public void callback() {
+                    sendTextReply(message, name);
+                }
+            });
+        }else{
+            sendTextReply(message, name);
+        }
+    }
+    public void invokeSendImageReply(Uri imageUri, String name) {
+        if(chatId.isEmpty()){
+            createPrivateChat(new Callback(){
+                @Override
+                public void callback() {
+                    sendImageReply(imageUri, name);
+                }
+            });
+        }else{
+            sendImageReply(imageUri, name);
+        }
+    }
+
+    public void sendImageReply(Uri imageUri, String name) {
+        if(imageUri != null){
+            String messageId = mDatabaseRef.child("message/" + chatId).push().getKey();
+            String imgPath = "images/"+chatId+"/"+messageId+"_"+imageUri.getLastPathSegment();
+            StorageReference imageRef = mStoreRef.child(imgPath);
+            UploadTask uploadTask = imageRef.putFile(imageUri);
+
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    Log.d(TAG, "onFailure: uploadfile fail");
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            ChatroomChatRecord chat = new ChatroomChatRecord(name, "",uri.toString(), ServerValue.TIMESTAMP, "", true);
+                            mDatabaseRef.child("message/" + chatId + "/" + messageId).setValue(chat);                             //update chatRoom meta
+                            updateChatMeta(name, "{photo}");
+                            notifyTargetUser("{photo}");
+                        }
+                    });
+                }
+            });
+        }
     }
 }
 
