@@ -65,7 +65,7 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
         bottomNavigationView.setSelectedItemId(R.id.private_message);
         notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        notificationBadge.setNumber(1);
+//        notificationBadge.setNumber(0);
         enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
@@ -96,6 +96,7 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef  = FirebaseDatabase.getInstance().getReference();
         if(mAuth.getCurrentUser() !=null) {
+            setUpNotiBadge();
             extractMyPMChatUnreadMap(new Callback() {
                 @Override
                 public void callback() {
@@ -162,5 +163,26 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
 
     public void enableNotificationBadge(boolean enable) {
         notificationBadge.setVisible(enable);
+    }
+    private void setUpNotiBadge() {
+        Query query = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/");
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int sum = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Long> map = (Map) postSnapshot.getValue();
+                    sum += map.get("unread").intValue();
+                }
+                notificationBadge.setNumber(sum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d("TAG", "cancel"+databaseError);
+            }
+        });
     }
 }

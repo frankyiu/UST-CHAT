@@ -19,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -41,10 +42,13 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,9 +57,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseActivity extends AppCompatActivity implements NavigationNotification,
         NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
@@ -100,7 +106,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
 
         notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        notificationBadge.setNumber(1);
+//        notificationBadge.setNumber(0);
         enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
@@ -200,11 +206,37 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        if(mAuth.getCurrentUser() != null){
+            setUpNotiBadge();
+        }
+
+    }
+
+    private void setUpNotiBadge() {
+        Query query = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/");
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int sum = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Long> map = (Map) postSnapshot.getValue();
+                    sum += map.get("unread").intValue();
+                }
+                notificationBadge.setNumber(sum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d("TAG", "cancel"+databaseError);
+            }
+        });
     }
     @Override
     public void onResume() {
         super.onResume();
-//        switchChatroomFragment(category);
+        switchChatroomFragment(category);
     }
 
     public void closeDrawer() {

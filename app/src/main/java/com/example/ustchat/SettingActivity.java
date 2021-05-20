@@ -26,6 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collections;
+import java.util.Map;
 
 public class SettingActivity extends AppCompatActivity implements NavigationNotification {
     private String userID;
@@ -38,6 +39,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
     Switch switchNightMode, switchEnableNotification;
     FirebaseAuth mAuth;
     DatabaseReference mDatabaseRef;
+    BadgeDrawable notificationBadge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +55,10 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
-        BadgeDrawable notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
 
-        notificationBadge.setNumber(1);
+//        notificationBadge.setNumber(0);
         enableNotificationBadge(Utility.enableNotification);
 
 
@@ -127,7 +129,9 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
                 setEnableNotification(switchEnableNotification.isChecked());
             }
         });
-
+        if(mAuth.getCurrentUser()!= null){
+            setUpNotiBadge();
+        }
     }
 
     private void openAboutUsDialog() {
@@ -159,6 +163,28 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
     private void setEnableNotification(boolean enable) {
         enableNotificationBadge(enable);
         Utility.enableNotification = enable;
+    }
+
+    private void setUpNotiBadge() {
+        Query query = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/");
+        query.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int sum = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Long> map = (Map) postSnapshot.getValue();
+                    sum += map.get("unread").intValue();
+                }
+                notificationBadge.setNumber(sum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d("TAG", "cancel"+databaseError);
+            }
+        });
     }
 
 }

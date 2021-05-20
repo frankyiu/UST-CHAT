@@ -106,24 +106,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void testing(){
-        FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                        @Override
-                        public void onComplete(@NonNull Task<String> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                return;
-                            }
-
-                            // Get new FCM registration token
-                            String token = task.getResult();
-
-                            // Log and toast
-                            Log.d(TAG, token);
-                        }
-                    });
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_login, menu);
@@ -423,7 +405,7 @@ class ForgotPWDialog extends Dialog {
     private ImageButton ibSubmit;
     private EditText etITSC;
     private TextView tvWarningInvalidITSC;
-
+    private FirebaseAuth mAuth;
     public ForgotPWDialog(final Context context) {
         super(context);
     }
@@ -438,7 +420,7 @@ class ForgotPWDialog extends Dialog {
         etITSC = findViewById(R.id.et_forgot_password_itsc_account);
         ibSubmit = findViewById(R.id.ib_forgot_password_submit);
         tvWarningInvalidITSC = findViewById(R.id.tv_forgot_password_warning_itsc_account);
-
+        mAuth = FirebaseAuth.getInstance();
         TextView tvDescription = findViewById(R.id.tv_forgot_password_description);
         if (Build.VERSION.SDK_INT >= 26) {
             tvDescription.setJustificationMode(0x00000001);
@@ -475,6 +457,15 @@ class ForgotPWDialog extends Dialog {
         String istc = etITSC.getText().toString();
         if (validateForgotPasswordSubmission(istc)) {
             // TO-DO : help users reset password
+            mAuth.sendPasswordResetEmail(istc+"@connect.ust.hk")
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("forgetPassword", "Email sent.");
+                            }
+                        }
+                    });
         }
     }
 
