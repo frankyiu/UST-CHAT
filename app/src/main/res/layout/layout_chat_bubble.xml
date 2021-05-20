@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_chat_bubble"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_chat_bubble"
@@ -18,8 +16,7 @@
         app:cardBackgroundColor="@color/background_color_chat_bubble"
         android:clickable="true"
         android:focusable="true"
-        app:rippleColor="@color/gray_D5"
-        >
+        app:rippleColor="@color/gray_D5">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,8 +25,7 @@
             android:paddingRight="15dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_chat_name"
@@ -40,9 +36,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/orange"
-                android:layout_marginBottom="2dp"
-                >
-            </TextView>
+                android:layout_marginBottom="2dp"></TextView>
 
             <LinearLayout
                 android:id="@+id/ll_chat_quote"
@@ -62,8 +56,7 @@
                 <ImageView
                     android:id="@+id/tv_chat_quote_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tv_chat_quote_text"
@@ -82,17 +75,14 @@
                 android:id="@+id/ll_chat_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/tv_chat_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:maxWidth="300dp"
-                    >
-                </ImageView>
+                    android:maxWidth="300dp"></ImageView>
 
                 <TextView
                     android:id="@+id/tv_chat_text"
@@ -102,9 +92,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
                     android:layout_marginBottom="2dp"
-                    android:maxWidth = "300sp"
-                    >
-                </TextView>
+                    android:maxWidth="300sp"></TextView>
             </LinearLayout>
 
             <TextView
@@ -114,8 +102,7 @@
                 android:text="2021-04-22 00:42:17"
                 android:textColor="@color/gray_600"
                 android:textSize="12sp"
-                android:layout_gravity="end"
-                />
+                android:layout_gravity="end" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

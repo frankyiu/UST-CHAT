@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_info"
     android:layout_width="320dp"
     android:layout_height="360dp"
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/card_color"
-    >
+    app:cardBackgroundColor="@color/card_color">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
-        >
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/tv_info_title"
@@ -24,8 +22,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_info_text"
@@ -35,8 +32,7 @@
             android:textColor="@color/text_color"
             android:textSize="14sp"
             android:layout_below="@+id/tv_info_title"
-            android:layout_marginTop="30dp"
-            />
+            android:layout_marginTop="30dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_info_ok"
@@ -47,8 +43,7 @@
             android:text="OK"
             android:textColor="@color/white"
             app:backgroundTint="#FF767171"
-            app:cornerRadius="7dp"
-            />
+            app:cornerRadius="7dp" />
 
 
     </RelativeLayout>

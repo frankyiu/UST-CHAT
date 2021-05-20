@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipgroup_tag_general"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tag_chit_chat"
@@ -22,8 +20,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_general_tag_1"
             android:textColor="@color/black"
-            android:textSize="@dimen/chip_text_size"
-            />
+            android:textSize="@dimen/chip_text_size" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tag_question"
@@ -36,8 +33,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_general_tag_2"
             android:textColor="@color/black"
-            android:textSize="@dimen/chip_text_size"
-            />
+            android:textSize="@dimen/chip_text_size" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tag_graduation"
@@ -50,8 +46,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_general_tag_3"
             android:textColor="@color/black"
-            android:textSize="@dimen/chip_text_size"
-            />
+            android:textSize="@dimen/chip_text_size" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tag_rant"
@@ -64,8 +59,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_general_tag_4"
             android:textColor="@color/black"
-            android:textSize="@dimen/chip_text_size"
-            />
+            android:textSize="@dimen/chip_text_size" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tag_show_off"
@@ -78,8 +72,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_general_tag_5"
             android:textColor="@color/black"
-            android:textSize="@dimen/chip_text_size"
-            />
+            android:textSize="@dimen/chip_text_size" />
 
     </com.google.android.material.chip.ChipGroup>
 </LinearLayout>

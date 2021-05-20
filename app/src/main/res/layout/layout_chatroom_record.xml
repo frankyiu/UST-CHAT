@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
-    >
+    android:padding="4dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_chatroom"
@@ -18,14 +16,13 @@
         app:strokeWidth="1dp"
         android:clickable="true"
         android:focusable="true"
-        app:rippleColor="@color/background_color"
-        >
+        app:rippleColor="@color/background_color">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
+
             <TextView
                 android:id="@+id/tv_chatroom_record_title"
                 android:layout_width="match_parent"
@@ -33,9 +30,7 @@
                 android:text="{Title}"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:textColor="@color/text_color"
-                >
-            </TextView>
+                android:textColor="@color/text_color"></TextView>
 
             <TextView
                 android:id="@+id/tv_chatroom_record_latest_name"
@@ -46,9 +41,7 @@
                 android:textColor="@color/orange"
                 android:textSize="14sp"
                 android:layout_below="@+id/tv_chatroom_record_title"
-                android:gravity="center_vertical"
-                >
-            </TextView>
+                android:gravity="center_vertical"></TextView>
 
             <LinearLayout
                 android:id="@+id/ll_chatroom_latest_reply"
@@ -56,14 +49,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_below="@+id/tv_chatroom_record_title"
-                android:layout_toRightOf="@+id/tv_chatroom_record_latest_name"
-                >
+                android:layout_toRightOf="@+id/tv_chatroom_record_latest_name">
 
                 <ImageView
                     android:id="@+id/iv_chatroom_record_latest_reply"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tv_chatroom_record_latest_reply"
@@ -73,9 +64,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="12sp"
                     android:gravity="center_vertical"
-                    android:maxLines="1"
-                    >
-                </TextView>
+                    android:maxLines="1"></TextView>
             </LinearLayout>
 
             <LinearLayout
@@ -84,11 +73,9 @@
                 android:layout_height="30dp"
                 android:layout_below="@id/ll_chatroom_latest_reply"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                >
-                <include
-                    layout="@layout/layout_chatroom_record_chip_group"
-                    />
+                android:layout_marginBottom="10dp">
+
+                <include layout="@layout/layout_chatroom_record_chip_group" />
             </LinearLayout>
 
             <ImageView
@@ -101,7 +88,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_bookmark"/>
+                android:src="@drawable/ic_bookmark" />
 
             <ImageView
                 android:id="@+id/iv_chatroom_record_chat_icon"
@@ -110,8 +97,7 @@
                 android:src="@drawable/ic_chat_bubble"
                 app:tint="@color/text_color"
                 android:scaleType="fitXY"
-                android:layout_below="@+id/vf_chatroom_record_chip_group"
-                />
+                android:layout_below="@+id/vf_chatroom_record_chip_group" />
 
             <TextView
                 android:id="@+id/tv_chatroom_record_chat_count"
@@ -123,9 +109,7 @@
                 android:textSize="11sp"
                 android:gravity="center_vertical"
                 android:layout_below="@+id/vf_chatroom_record_chip_group"
-                android:layout_toRightOf="@+id/iv_chatroom_record_chat_icon"
-                >
-            </TextView>
+                android:layout_toRightOf="@+id/iv_chatroom_record_chat_icon"></TextView>
 
             <ImageView
                 android:id="@+id/chatroom_view_count_icon"
@@ -135,8 +119,7 @@
                 app:tint="@color/text_color"
                 android:scaleType="fitXY"
                 android:layout_below="@+id/vf_chatroom_record_chip_group"
-                android:layout_toRightOf="@+id/tv_chatroom_record_chat_count"
-                />
+                android:layout_toRightOf="@+id/tv_chatroom_record_chat_count" />
 
             <TextView
                 android:id="@+id/tv_chatroom_record_view_count"
@@ -148,9 +131,7 @@
                 android:textSize="11sp"
                 android:gravity="center_vertical"
                 android:layout_below="@+id/vf_chatroom_record_chip_group"
-                android:layout_toRightOf="@+id/chatroom_view_count_icon"
-                >
-            </TextView>
+                android:layout_toRightOf="@+id/chatroom_view_count_icon"></TextView>
 
 
             <TextView
@@ -162,9 +143,7 @@
                 android:textSize="14sp"
                 android:layout_below="@+id/iv_chatroom_record_bookmark"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                >
-            </TextView>
+                android:layout_alignParentEnd="true"></TextView>
 
             <TextView
                 android:id="@+id/tv_chatroom_record_poster_name"
@@ -177,8 +156,7 @@
                 android:layout_below="@+id/iv_chatroom_record_bookmark"
                 android:layout_toLeftOf="@+id/tv_chatroom_record_create_date"
 
-                >
-            </TextView>
+                ></TextView>
 
         </RelativeLayout>
 

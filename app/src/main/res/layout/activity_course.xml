@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -9,21 +8,18 @@
     android:background="@color/background_color"
     tools:context=".CourseActivity"
     tools:openDrawer="start"
-    android:fitsSystemWindows="true"
-    >
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_toolbar_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include
-                layout="@layout/layout_toolbar_course"
-                />
+
+            <include layout="@layout/layout_toolbar_course" />
         </LinearLayout>
 
         <FrameLayout
@@ -31,23 +27,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_nav_wrapper"
-            android:layout_below="@+id/ll_toolbar_setting"
-            />
+            android:layout_below="@+id/ll_toolbar_setting" />
 
         <LinearLayout
             android:id="@+id/bottom_nav_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
-            <include
-                layout="@layout/layout_bottom_navigation"
-                />
+
+            <include layout="@layout/layout_bottom_navigation" />
         </LinearLayout>
     </RelativeLayout>
 
-    <include
-        layout="@layout/layout_course_list_navigation"
-        />
+    <include layout="@layout/layout_course_list_navigation" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

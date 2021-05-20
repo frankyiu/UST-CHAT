@@ -1,8 +1,5 @@
 package com.example.ustchat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class LoginRegisterActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -108,14 +108,14 @@ public class LoginRegisterActivity extends AppCompatActivity {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     public void login() {
@@ -134,8 +134,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
             tvWarningInvalidITSC.setVisibility(View.VISIBLE);
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             success = false;
-        }
-        else {
+        } else {
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidITSC.setVisibility(View.GONE);
         }
@@ -145,8 +144,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
             tvWarningInvalidPW.setVisibility(View.VISIBLE);
             etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             success = false;
-        }
-        else {
+        } else {
             etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidPW.setVisibility(View.GONE);
         }
@@ -158,8 +156,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
             if (existInDatabase) {
                 tvWarningLoginFailure.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 tvWarningInvalidPW.setText(R.string.et_warning_login_failure);
                 tvWarningLoginFailure.setVisibility(View.VISIBLE);
                 success = false;
@@ -221,7 +218,7 @@ class RegisterDialog extends Dialog {
             tvDescription.setJustificationMode(0x00000001);
         }
 
-        ibRegister.setOnClickListener(new View.OnClickListener(){
+        ibRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 register();
@@ -238,14 +235,14 @@ class RegisterDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     public void register() {
@@ -265,8 +262,7 @@ class RegisterDialog extends Dialog {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
             itscErrorFlag = true;
             success = false;
-        }
-        else if (!itsc.matches("[a-z]+")) {
+        } else if (!itsc.matches("[a-z]+")) {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_invalid);
             itscErrorFlag = true;
             success = false;
@@ -276,8 +272,7 @@ class RegisterDialog extends Dialog {
             tvWarningInvalidPW.setText(R.string.et_warning_login_password_empty);
             pwErrorFlag = true;
             success = false;
-        }
-        else if (password.length() < 7) {
+        } else if (password.length() < 7) {
             tvWarningInvalidPW.setText(R.string.et_warning_login_password_invalid);
             pwErrorFlag = true;
             success = false;
@@ -286,8 +281,7 @@ class RegisterDialog extends Dialog {
         if (itscErrorFlag) {
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidITSC.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidITSC.setVisibility(View.GONE);
         }
@@ -295,8 +289,7 @@ class RegisterDialog extends Dialog {
         if (pwErrorFlag) {
             etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidPW.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidPW.setVisibility(View.GONE);
         }
@@ -336,7 +329,7 @@ class ForgotPWDialog extends Dialog {
             tvDescription.setJustificationMode(0x00000001);
         }
 
-        ibSubmit.setOnClickListener(new View.OnClickListener(){
+        ibSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleForgotPassword();
@@ -353,14 +346,14 @@ class ForgotPWDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     public void handleForgotPassword() {
@@ -376,8 +369,7 @@ class ForgotPWDialog extends Dialog {
         if (itsc.isEmpty()) {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
             success = false;
-        }
-        else if (!itsc.matches("[a-z]+")) {
+        } else if (!itsc.matches("[a-z]+")) {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_invalid);
             success = false;
         }
@@ -385,8 +377,7 @@ class ForgotPWDialog extends Dialog {
         if (!success) {
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidITSC.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidITSC.setVisibility(View.GONE);
         }

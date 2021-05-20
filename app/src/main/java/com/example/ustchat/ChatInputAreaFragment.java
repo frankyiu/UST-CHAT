@@ -10,9 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
 
@@ -59,8 +58,7 @@ public class ChatInputAreaFragment extends Fragment {
         if (userRepliedBefore) {
             etName.setEnabled(false);
             etName.setTextColor(getResources().getColor(R.color.gray_D5));
-        }
-        else {
+        } else {
             username = generateUsername();
         }
         etName.setText(username);
@@ -70,17 +68,18 @@ public class ChatInputAreaFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().isEmpty()) {
                     ibSubmitReply.setEnabled(false);
-                }
-                else {
+                } else {
                     ibSubmitReply.setEnabled(true);
                 }
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         ibSubmitReply = view.findViewById(R.id.iv_input_area_submit);
@@ -123,8 +122,7 @@ public class ChatInputAreaFragment extends Fragment {
                 bitmap.setDensity(Bitmap.DENSITY_NONE);
                 Drawable drawable = new BitmapDrawable(bitmap);
                 openConfirmPhotoDialog(drawable);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -184,7 +182,7 @@ class ConfirmPhotoDialog extends Dialog {
         tvPhoto = findViewById(R.id.tv_confirm_image_image);
         tvPhoto.setImageDrawable(photo);
 
-        ibSubmit.setOnClickListener(new View.OnClickListener(){
+        ibSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chatInputAreaFragment.submitImageReply();

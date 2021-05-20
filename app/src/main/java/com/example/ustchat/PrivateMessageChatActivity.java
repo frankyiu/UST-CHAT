@@ -1,11 +1,5 @@
 package com.example.ustchat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -33,6 +27,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -76,7 +76,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         chatroomTitle = "";
         username = "";
         targetUsername = "";
-        if(bundle != null) {
+        if (bundle != null) {
             chatroomTitle = bundle.getString("chatroomTitle");
             username = bundle.getString("username");
             targetUsername = bundle.getString("targetUsername");
@@ -98,14 +98,14 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
 
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view_chatroom);
         privateChatRecords = new ArrayList<>();
         extractPrivateChatRecords();
     }
 
     private void extractPrivateChatRecords() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
@@ -163,8 +163,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         if (privateChatRecord.getImage().isEmpty()) {
             tvQuotedImage.setVisibility(View.GONE);
             tvQuotedText.setText(privateChatRecord.getText());
-        }
-        else {
+        } else {
             tvQuotedImage.setVisibility(View.VISIBLE);
             tvQuotedText.setText("");
         }
@@ -185,14 +184,14 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
 }
@@ -240,7 +239,7 @@ class PrivateReplyHandlerDialog extends Dialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0: // copy
                         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                         // TO-DO: if the it is an image...
@@ -254,8 +253,7 @@ class PrivateReplyHandlerDialog extends Dialog {
                         if (privateChatRecord.isUser()) {
                             // TO-DO: delete the reply (Backend)
 
-                        }
-                        else { //cancel
+                        } else { //cancel
 
                         }
                         break;

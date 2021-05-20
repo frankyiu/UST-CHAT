@@ -51,14 +51,12 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
         int viewCnt = chatroomRecord.getViewCount();
         if (chatCnt < 100) {
             holder.tvChatCnt.setText(String.valueOf(chatCnt));
-        }
-        else {
+        } else {
             holder.tvChatCnt.setText("99+");
         }
         if (viewCnt < 100) {
             holder.tvViewCnt.setText(String.valueOf(viewCnt));
-        }
-        else {
+        } else {
             holder.tvViewCnt.setText("99+");
         }
         holder.tvPosterName.setText(chatroomRecord.getPosterName());
@@ -112,16 +110,15 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
 
         public void fillBookmarkIconColor() {
             if (isBookmarked) {
-                ivBookmark.setColorFilter(Color.argb(255, 0 , 0, 0));
-            }
-            else {
-                ivBookmark.setColorFilter(Color.argb(255, 127 , 127, 127));
+                ivBookmark.setColorFilter(Color.argb(255, 0, 0, 0));
+            } else {
+                ivBookmark.setColorFilter(Color.argb(255, 127, 127, 127));
             }
         }
 
-        View.OnClickListener mToggleBookmarkIcon = new View.OnClickListener(){
+        View.OnClickListener mToggleBookmarkIcon = new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 isBookmarked = !isBookmarked;
                 fillBookmarkIconColor();
             }

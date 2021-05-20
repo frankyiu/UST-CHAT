@@ -10,7 +10,8 @@ public class PrivateMessageRecord {
     private String latestReplyTime;
     private int unreadCount;
 
-    public PrivateMessageRecord() {}
+    public PrivateMessageRecord() {
+    }
 
     public PrivateMessageRecord(String title, String username, String targetName, String latestName, String latestReply, String latestReplyTime, int unreadCount) {
         this.title = title;
@@ -30,7 +31,9 @@ public class PrivateMessageRecord {
         this.title = title;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -64,7 +67,9 @@ public class PrivateMessageRecord {
         return latestReplyTime;
     }
 
-    public void setLatestReplyTime(String latestReplyTime) { this.latestReplyTime = latestReplyTime; }
+    public void setLatestReplyTime(String latestReplyTime) {
+        this.latestReplyTime = latestReplyTime;
+    }
 
     public int getUnreadCount() {
         return unreadCount;

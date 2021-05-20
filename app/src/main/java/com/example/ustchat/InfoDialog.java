@@ -38,7 +38,7 @@ public class InfoDialog extends Dialog {
         }
         MaterialButton mbOK = findViewById(R.id.btn_info_ok);
 
-        mbOK.setOnClickListener(new View.OnClickListener(){
+        mbOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();

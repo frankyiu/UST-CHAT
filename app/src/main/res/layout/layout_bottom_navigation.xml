@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <View
         android:background="@color/gray_D5"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        />
+        android:layout_height="1dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -20,8 +17,7 @@
         app:menu="@menu/menu_nav"
         app:itemBackground="@color/background_color_toolbar"
         app:itemTextColor="@drawable/selector_nav_item"
-        app:itemIconTint="@drawable/selector_nav_item"
-        >
+        app:itemIconTint="@drawable/selector_nav_item">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

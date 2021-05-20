@@ -7,7 +7,8 @@ public class PrivateChatRecord {
     private String quotedID;
     private boolean isUser;
 
-    public PrivateChatRecord() {}
+    public PrivateChatRecord() {
+    }
 
     public PrivateChatRecord(String text, String image, String time, String quotedID, boolean isUser) {
         this.text = text;

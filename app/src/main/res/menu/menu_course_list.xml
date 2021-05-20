@@ -6,17 +6,16 @@
         <item
             android:id="@+id/my_bookmarks"
             android:title="My Bookmarks"
-            android:icon="@drawable/ic_bookmark"/>
+            android:icon="@drawable/ic_bookmark" />
         <item
             android:id="@+id/general_chatroom"
             android:title="General Chatroom"
-            android:icon="@drawable/ic_general_chatroom"/>
+            android:icon="@drawable/ic_general_chatroom" />
         <item
             android:id="@+id/course_chatrooms"
             android:title="Course Chatrooms"
             android:icon="@drawable/ic_course_chatrooms"
-            android:enabled="false"
-            />
+            android:enabled="false" />
     </group>
 
 

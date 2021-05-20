@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_pm_chat"
@@ -15,14 +13,12 @@
         app:title=""
         android:background="@color/background_color_toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        >
+        android:theme="?attr/actionBarTheme">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_pm_chat_title"
@@ -32,14 +28,12 @@
                 android:textColor="@color/text_color"
                 android:textSize="14sp"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="left"
-                />
+                android:layout_gravity="left" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_pm_chat_with"
@@ -57,7 +51,7 @@
                     android:text="Student54321"
                     android:textColor="@color/orange"
                     android:textSize="14sp"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
             </LinearLayout>
         </LinearLayout>

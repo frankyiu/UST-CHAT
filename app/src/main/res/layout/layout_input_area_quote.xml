@@ -1,16 +1,14 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_chat_input_area_quote"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/card_color"
-    >
+    android:background="@color/card_color">
+
     <View
         android:background="@color/gray_D5"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        />
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -31,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:src="@drawable/ic_photo"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_chat_input_area_quote_text"
@@ -43,8 +40,7 @@
             android:textColor="@color/gray_400"
             android:layout_marginBottom="2dp"
             android:maxLines="1"
-            android:maxWidth="300sp"
-            />
+            android:maxWidth="300sp" />
 
         <Space
             android:layout_width="0dp"
@@ -58,11 +54,10 @@
             android:src="@drawable/ic_cancel"
             android:clickable="true"
             android:focusable="true"
-            android:background="@android:color/transparent"
-            />
+            android:background="@android:color/transparent" />
 
         <Space
             android:layout_width="20dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
     </LinearLayout>
 </LinearLayout>
