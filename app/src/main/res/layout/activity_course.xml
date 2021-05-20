@@ -12,39 +12,41 @@
     tools:openDrawer="start"
     android:fitsSystemWindows="true"
     >
-
-    <RelativeLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <LinearLayout
-            android:id="@+id/ll_toolbar_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <include
-                layout="@layout/layout_toolbar_course"
-                />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/frame_container"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottom_nav_wrapper"
-            android:layout_below="@+id/ll_toolbar_setting"
-            />
+            >
 
-        <LinearLayout
-            android:id="@+id/bottom_nav_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-            <include
-                layout="@layout/layout_bottom_navigation"
+            <LinearLayout
+                android:id="@+id/ll_toolbar_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    layout="@layout/layout_toolbar_course"
+                    />
+            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/bottom_nav_wrapper"
+                android:layout_below="@+id/ll_toolbar_setting"
                 />
-        </LinearLayout>
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/bottom_nav_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+                <include
+                    layout="@layout/layout_bottom_navigation"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         layout="@layout/layout_course_list_navigation"

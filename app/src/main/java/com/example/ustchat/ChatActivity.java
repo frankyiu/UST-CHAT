@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -70,6 +71,8 @@ public class ChatActivity extends AppCompatActivity {
     List<ChatroomChatRecord> chatroomChatRecords;
 
     LinearLayout llQuoteArea;
+    String quotedText;
+    String quotedImgString;
 
     String chatId;
     FirebaseAuth mAuth;
@@ -90,6 +93,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         chatroomTitle = ""; // or other values
+        quotedText = "";
         targetUserId = "";
         if(bundle != null) {
             chatroomTitle = bundle.getString("chatroomTitle");
@@ -212,6 +216,14 @@ public class ChatActivity extends AppCompatActivity {
 //        queue.add(jsonArrayRequest);
     }
 
+    public String getQuotedText(){
+        return quotedText;
+    }
+
+    public String getQuotedImgString(){
+        return quotedImgString;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -238,10 +250,12 @@ public class ChatActivity extends AppCompatActivity {
         if (chatroomChatRecord.getImage().isEmpty()) {
             tvQuotedImage.setVisibility(View.GONE);
             tvQuotedText.setText(chatroomChatRecord.getText());
+            quotedText = chatroomChatRecord.getText();
         }
         else {
             tvQuotedImage.setVisibility(View.VISIBLE);
             tvQuotedText.setText("");
+            quotedImgString = chatroomChatRecord.getImage();
         }
 
         ImageButton ibQuotedCancel = llQuoteArea.findViewById(R.id.iv_chat_input_area_quote_cancel);
@@ -249,6 +263,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 llQuoteArea.setVisibility(View.GONE);
+                quotedText = "";
             }
         });
     }

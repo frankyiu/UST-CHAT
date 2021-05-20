@@ -63,6 +63,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     private String targetUsername;
     private String chatId;
 
+    String quotedText;
     TextView tvTitle;
     TextView tvTargetUsername;
 
@@ -130,6 +131,9 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
 //        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
     }
 
+    public String getQuotedText() {
+        return quotedText;
+    }
 
     private void extractPrivateChatRecords() {
         Query query = mDatabaseRef.child("message/"+chatId);
@@ -249,6 +253,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         if (privateChatRecord.getImage().isEmpty()) {
             tvQuotedImage.setVisibility(View.GONE);
             tvQuotedText.setText(privateChatRecord.getText());
+            quotedText = privateChatRecord.getText();
         }
         else {
             tvQuotedImage.setVisibility(View.VISIBLE);
@@ -260,6 +265,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 llQuoteArea.setVisibility(View.GONE);
+                quotedText = "";
             }
         });
     }

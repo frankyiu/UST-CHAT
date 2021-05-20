@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -62,6 +63,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
     DrawerLayout drawerLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     // data for the three level expandable list view
     List<String> catNames;
@@ -185,6 +187,15 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();;
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh() {
+                switchChatroomFragment(category);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
     @Override
     public void onResume() {

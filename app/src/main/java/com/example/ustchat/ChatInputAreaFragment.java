@@ -13,6 +13,7 @@ import android.net.UrlQuerySanitizer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -204,17 +206,29 @@ public class ChatInputAreaFragment extends Fragment {
         String message = etReply.getText().toString();
         String name =etName.getText().toString();
         if(!message.equals("") && !name.equals("")) {
-            ChatroomChatRecord chat = new ChatroomChatRecord(name, message, "", ServerValue.TIMESTAMP, "", true);
-
-            mDatabaseRef.child("message/" + chatId).push().setValue(chat);
-            if(!isPrivate) {
-                updateChatMeta(name, message);
+            String quotedID = "";
+            if(!isPrivate){
+                ChatActivity  chatActivity= (ChatActivity)getActivity();
+                quotedID = chatActivity.getQuotedText();
             }else{
-                updatePrivateChatMeta(name, message);
-                notifyTargetUser(message);
+                PrivateMessageChatActivity  pChatActivity= (PrivateMessageChatActivity)getActivity();
+                quotedID = pChatActivity.getQuotedText();
             }
 
-            etReply.setText("");
+            ChatroomChatRecord chat = new ChatroomChatRecord(name, message, "", ServerValue.TIMESTAMP, quotedID, true);
+            mDatabaseRef.child("message/" + chatId).push().setValue(chat, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                    if(!isPrivate) {
+                        updateChatMeta(name, message);
+                        ChatActivity  chatActivity= (ChatActivity)getActivity();
+                    }else{
+                        updatePrivateChatMeta(name, message);
+                        notifyTargetUser(message);
+                    }
+                    etReply.setText("");
+                }
+            });
         }
     }
 
