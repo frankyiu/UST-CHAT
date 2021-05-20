@@ -33,12 +33,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class CourseFragment extends Fragment {
     private static final String ARG_PARAM1 = "cat";
     private static final String TAG ="CourseFragment";
+    private static final String ARG_PARAM2 = "criteria";
     private String cat;
 
     FirebaseAuth mAuth;
@@ -47,15 +49,20 @@ public class CourseFragment extends Fragment {
     ChatroomRecyclerAdapter adapter;
     List<ChatroomRecord> chatroomRecords;
     List<String> bookmarkList;
-    JSONObject critea;
+    JSONObject criteria;
     private static String JSON_URL = "https://jsonkeeper.com/b/Z3R2";
 
     public CourseFragment() { }
 
-    public static CourseFragment newInstance(String cat) {
+    public static CourseFragment newInstance(String cat, JSONObject criteria) {
         CourseFragment fragment = new CourseFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, cat);
+        if(criteria != null){
+            args.putString(ARG_PARAM2, criteria.toString());
+        }else{
+            args.putString(ARG_PARAM2, "null");
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,6 +72,14 @@ public class CourseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             cat = getArguments().getString(ARG_PARAM1);
+            String criteriaString = getArguments().getString(ARG_PARAM2);
+            if(!criteriaString.equals("null")){
+                try {
+                    criteria = new JSONObject(criteriaString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
@@ -180,9 +195,45 @@ public class CourseFragment extends Fragment {
     }
 
     private void updateUI(){
+        if(criteria != null) {
+            try {
+                filterChatRoom();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void filterChatRoom() throws JSONException {
+        System.out.println("criteria" + criteria);
+        String title = criteria.getString("title");
+        JSONArray tagsJA = criteria.getJSONArray("tags");
+        List<String> tags = new ArrayList<>();
+        for (int j = 0; j < tagsJA.length(); j++) {
+            tags.add(tagsJA.getString(j));
+        }
+        // filter list
+        Iterator<ChatroomRecord> i = chatroomRecords.iterator();
+
+        while (i.hasNext()) {
+            ChatroomRecord chat = i.next(); // must be called before you can call i.remove()
+            boolean remove = false;
+            if (!chat.getTitle().matches("(.*)"+title+"(.*)")){
+                remove = true;
+            }
+            List<String> tempList = chat.getTags() == null? new ArrayList<String>(): chat.getTags();
+            for(String tag : tags){
+                 if(!tempList.contains(tag)){
+                    remove = true;
+                }
+            }
+            if(remove) {
+                i.remove();
+            }
+        }
     }
 //    private void extractChatroomRecords() {
 //        RequestQueue queue = Volley.newRequestQueue(getContext());

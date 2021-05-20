@@ -186,6 +186,11 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+//        switchChatroomFragment(category);
+    }
 
     public void closeDrawer() {
         navigationView.getMenu().findItem(R.id.my_bookmarks).setChecked(false);
@@ -307,7 +312,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
     void switchChatroomFragment(String category) {
         this.category = category;
         toolbar.setTitle(category);
-        CourseFragment courseFragment = CourseFragment.newInstance(category);
+        CourseFragment courseFragment = CourseFragment.newInstance(category, null);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, courseFragment).commit();
     }
 
@@ -377,8 +382,8 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         }
 
     }
-    public void searchChatRoom(JSONObject critea){
-        CourseFragment courseFragment = CourseFragment.newInstance(category);
+    public void searchChatRoom(JSONObject criteria){
+        CourseFragment courseFragment = CourseFragment.newInstance(category, criteria);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, courseFragment).commit();
     }
 }
