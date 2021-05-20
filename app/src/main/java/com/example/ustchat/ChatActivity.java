@@ -138,30 +138,32 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getNameListener(Callback callback) {
-        String id= mAuth.getCurrentUser().getUid();
-        Query query = mDatabaseRef.child("nameToId/"+chatId).orderByChild("id").equalTo(id);
-        query.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                if(dataSnapshot.exists()) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        userRepliedBefore = true;
-                        username = postSnapshot.getKey();
+        if(mAuth.getCurrentUser() != null) {
+            String id= mAuth.getCurrentUser().getUid();
+            Query query = mDatabaseRef.child("nameToId/" + chatId).orderByChild("id").equalTo(id);
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            userRepliedBefore = true;
+                            username = postSnapshot.getKey();
+                        }
+                    } else {
+                        userRepliedBefore = false;
+                        username = null;
                     }
-                }else{
-                    userRepliedBefore = false;
-                    username = null;
+                    callback.callback();
                 }
-                callback.callback();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.d(TAG, "cancel"+databaseError);
-            }
-        });
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, "cancel" + databaseError);
+                }
+            });
+        }else{
+            callback.callback();
+        }
     }
 
     private void extractChatroomChatRecords() {

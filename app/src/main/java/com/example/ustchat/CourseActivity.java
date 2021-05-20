@@ -90,6 +90,9 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         populateChatroomList();
         setUpExpandableListViewAdapter();
 
+        Intent serviceIntent = new Intent(this, MessagingService.class);
+        startService(serviceIntent);
+
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.chatroom);

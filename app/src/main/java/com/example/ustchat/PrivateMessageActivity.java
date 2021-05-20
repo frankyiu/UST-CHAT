@@ -92,12 +92,14 @@ public class PrivateMessageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef  = FirebaseDatabase.getInstance().getReference();
-        extractMyPMChatUnreadMap(new Callback(){
-            @Override
-            public void callback() {
-                extractPMRecords();
-            }
-        });
+        if(mAuth.getCurrentUser() !=null) {
+            extractMyPMChatUnreadMap(new Callback() {
+                @Override
+                public void callback() {
+                    extractPMRecords();
+                }
+            });
+        }
     }
 
     private void extractMyPMChatUnreadMap(Callback callback) {

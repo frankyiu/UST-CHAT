@@ -100,25 +100,10 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null && mAuth.getCurrentUser().isEmailVerified()){
-            //update FCM token
-            Intent serviceIntent = new Intent(this, MessagingService.class);
-            startService(serviceIntent);
             switchToGeneralCourseActicity();
         }
     }
-//    private void testing2(){
-//        String registrationToken = "YOUR_REGISTRATION_TOKEN";
-//
-//        Message message = Message.Builder()
-//                .putData("score", "850")
-//                .putData("time", "2:45")
-//                .setToken(registrationToken)
-//                .build();
-//
-//
-//        String response = FirebaseMessaging.getInstance().send(message);
-//        System.out.println("Successfully sent message: " + response);
-//    }
+
     private void testing(){
         FirebaseMessaging.getInstance().getToken()
                     .addOnCompleteListener(new OnCompleteListener<String>() {

@@ -87,6 +87,7 @@ public class ChatInputAreaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_input_area, container, false);
 
         etReply = view.findViewById(R.id.et_input_area_reply);
+
         etName = view.findViewById(R.id.et_input_area_name);
         if (userRepliedBefore) {
             etName.setEnabled(false);
@@ -132,7 +133,10 @@ public class ChatInputAreaFragment extends Fragment {
                 startActivityForResult(Intent.createChooser(gallery, "Select Photo"), PICK_IMAGE);
             }
         });
-
+        if(mAuth.getCurrentUser() ==null){
+            etReply.setEnabled(false);
+            ibAlbum.setEnabled(false);
+        }
         return view;
     }
 

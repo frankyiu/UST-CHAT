@@ -3,6 +3,7 @@ package com.example.ustchat;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -78,15 +79,19 @@ public class MessagingService extends Service {
     private void pushNotification(NotiMessage msg){
         Log.d("My Service", "pushNotification");
         String channelId = "0";
+        int requestID = (int) System.currentTimeMillis();
         NotificationChannel channel = new NotificationChannel(
                 channelId,
                 "USTCHAT-messaging",
                 NotificationManager.IMPORTANCE_HIGH);
-
+        Intent resultIntent = new Intent(this, PrivateMessageActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification n  = new Notification.Builder(this)
                 .setContentTitle(msg.getTitle())
                 .setContentText(msg.getFrom()+" : "+msg.getContent())
                 .setSmallIcon(R.drawable.ic_bell)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
                 .setChannelId(channelId).build();
 
         mNotificationManager.createNotificationChannel(channel);
