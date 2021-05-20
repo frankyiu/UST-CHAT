@@ -27,9 +27,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 
 
 public class LoginRegisterActivity extends AppCompatActivity {
@@ -99,10 +100,43 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null && mAuth.getCurrentUser().isEmailVerified()){
+            //update FCM token
+            Intent serviceIntent = new Intent(this, MessagingService.class);
+            startService(serviceIntent);
             switchToGeneralCourseActicity();
         }
     }
+//    private void testing2(){
+//        String registrationToken = "YOUR_REGISTRATION_TOKEN";
+//
+//        Message message = Message.Builder()
+//                .putData("score", "850")
+//                .putData("time", "2:45")
+//                .setToken(registrationToken)
+//                .build();
+//
+//
+//        String response = FirebaseMessaging.getInstance().send(message);
+//        System.out.println("Successfully sent message: " + response);
+//    }
+    private void testing(){
+        FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
 
+                            // Get new FCM registration token
+                            String token = task.getResult();
+
+                            // Log and toast
+                            Log.d(TAG, token);
+                        }
+                    });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_login, menu);

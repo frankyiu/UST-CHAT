@@ -114,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
             public void callback() {
                 mDatabaseRef.child("chatroom/"+chatId+"/viewCount/").setValue(ServerValue.increment(1));
                 extractChatroomChatRecords();
-                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, false, userRepliedBefore);
+                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, chatroomTitle, username, false, userRepliedBefore);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
             }
         });

@@ -120,7 +120,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
             public void callback() {
                 tvTargetUsername.setText(targetUsername);
                 extractPrivateChatRecords();
-                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, true, true);
+                ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId,chatroomTitle, username, true, true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
             }
         });

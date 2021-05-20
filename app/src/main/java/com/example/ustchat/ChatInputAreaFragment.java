@@ -45,6 +45,7 @@ import java.io.IOException;
 public class ChatInputAreaFragment extends Fragment {
     private static final String TAG = "ChatInputAreaFragment";
     private final boolean isPrivate;
+    private final String chatroomTitle;
     private String targetUserId;
     private String username;
     private boolean userRepliedBefore;
@@ -64,11 +65,12 @@ public class ChatInputAreaFragment extends Fragment {
     private DatabaseReference mDatabaseRef;
     private StorageReference mStoreRef;
 
-    public ChatInputAreaFragment(String chatId, String username, boolean isPrivate, boolean userRepliedBefore) {
+    public ChatInputAreaFragment(String chatId, String chatroomTitle, String username, boolean isPrivate, boolean userRepliedBefore) {
         this.username = username;
         this.userRepliedBefore = userRepliedBefore;
         this.chatId = chatId;
         this.isPrivate = isPrivate;
+        this.chatroomTitle = chatroomTitle;
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mStoreRef = FirebaseStorage.getInstance().getReference();
@@ -209,7 +211,7 @@ public class ChatInputAreaFragment extends Fragment {
                 updateChatMeta(name, message);
             }else{
                 updatePrivateChatMeta(name, message);
-                notifyTargetUser();
+                notifyTargetUser(message);
             }
 
             etReply.setText("");
@@ -266,7 +268,7 @@ public class ChatInputAreaFragment extends Fragment {
                                     mDatabaseRef.child("message/" + chatId + "/" + messageId).setValue(chat);
                                     //update chatRoom meta
                                     updatePrivateChatMeta(name, "{photo}");
-                                    notifyTargetUser();
+                                    notifyTargetUser("{photo}");
                                 }
                             }
                         });
@@ -287,8 +289,10 @@ public class ChatInputAreaFragment extends Fragment {
         mDatabaseRef.child("privateChat/" + chatId+"/latestReplyTime").setValue(ServerValue.TIMESTAMP);
     }
 
-    private void notifyTargetUser(){
+    private void notifyTargetUser(String message){
+        NotiMessage msg = new NotiMessage(username,message , chatroomTitle);
         mDatabaseRef.child("users/"+targetUserId+"/privateChat/"+chatId+"/unread/").setValue(ServerValue.increment(1));
+        mDatabaseRef.child("users/"+targetUserId+"/notiMessage/").push().setValue(msg);
     }
 
     //only for privateMessage
