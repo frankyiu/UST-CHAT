@@ -17,7 +17,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -58,7 +57,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class CourseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+public class CourseActivity extends AppCompatActivity implements NavigationNotification,
+        NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
     String category;
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
@@ -73,6 +73,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     NavigationView navigationView;
     private ExpandableListView expandableListView;
+    BadgeDrawable notificationBadge;
     EditText etSearch;
     ListView listView;
     PopupWindow popupWindow;
@@ -96,9 +97,11 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.chatroom);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+
+        notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
 
@@ -139,12 +142,10 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -276,7 +277,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_chatroom, menu);
         return true;
     }
 
@@ -384,7 +385,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
                     String uniqueKey = databaseReference.getKey();
                     mDatabaseRef.child("nameToId/" + uniqueKey).child(chatroom.getPosterName()+"/id").setValue(uId);
 
-                    Intent intent = new Intent(CourseActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(CourseActivity.this, ChatroomChatActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("chatroomTitle", chatroom.getTitle());
                     bundle.putString("chatId",uniqueKey);
@@ -396,9 +397,12 @@ public class CourseActivity extends AppCompatActivity implements NavigationView.
         }
 
     }
-    public void searchChatRoom(JSONObject criteria){
+    public void searchChatRoom(JSONObject criteria) {
         CourseFragment courseFragment = CourseFragment.newInstance(category, criteria);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, courseFragment).commit();
+    }
+    public void enableNotificationBadge(boolean enable) {
+        notificationBadge.setVisible(enable);
     }
 }
 
@@ -423,7 +427,7 @@ class CreateChatroomDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_create_chatroom);
+        setContentView(R.layout.layout_dialog_create_chatroom);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         vfChipGroup = findViewById(R.id.vf_create_chatroom_chip_group);
@@ -489,9 +493,9 @@ class CreateChatroomDialog extends Dialog {
         return super.dispatchTouchEvent( event );
     }
 
-    //TO-DO: generate a student name
+    // generate a random student name for a chatroom in the format of Student[\d]{5}
     public String generateStudentName() {
-        return "Student12345";
+        return "Student" + Utility.generateIntegerWithLeadingZeros(100000, 5);
     }
 
     public boolean validateChatroomSubmission(String chatroomTitle, String chatroomName) {

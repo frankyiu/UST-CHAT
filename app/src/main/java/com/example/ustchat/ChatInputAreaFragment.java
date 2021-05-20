@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 
@@ -91,6 +92,10 @@ public class ChatInputAreaFragment extends Fragment {
         etName = view.findViewById(R.id.et_input_area_name);
         if (userRepliedBefore) {
             etName.setEnabled(false);
+            etName.setTextColor(getResources().getColor(R.color.gray_D5));
+        }
+        else {
+            username = generateUsername();
         }
         etName.setText(username);
 
@@ -201,21 +206,25 @@ public class ChatInputAreaFragment extends Fragment {
     public void submitTextReply() {
         // TO-DO : submit a text reply (Backend)
         String message = etReply.getText().toString();
-        String name =etName.getText().toString();
-        if(!message.isEmpty()&& !name.isEmpty()) {
+        String name = etName.getText().toString();
+        if (!message.isEmpty() && !name.isEmpty()) {
             if (!isPrivate) {
                 checkUserNameValid(new Callback() {
                     @Override
                     public void callback() {
-                        ChatActivity chatActivity = (ChatActivity) getActivity();
+                        ChatroomChatActivity chatActivity = (ChatroomChatActivity) getActivity();
                         chatActivity.sendTextReply(message, name);
                         etReply.setText("");
+                        LinearLayout llQuoteArea = getActivity().findViewById(R.id.ll_chat_input_area_quote);
+                        llQuoteArea.setVisibility(View.GONE);
                     }
                 });
             } else {
                 PrivateMessageChatActivity chatActivity = (PrivateMessageChatActivity) getActivity();
                 chatActivity.invokeSendTextReply(message, name);
                 etReply.setText("");
+                LinearLayout llQuoteArea = getActivity().findViewById(R.id.ll_chat_input_area_quote);
+                llQuoteArea.setVisibility(View.GONE);
             }
         }
     }
@@ -228,7 +237,7 @@ public class ChatInputAreaFragment extends Fragment {
             checkUserNameValid(new Callback() {
                 @Override
                 public void callback() {
-                    ChatActivity chatActivity = (ChatActivity) getActivity();
+                    ChatroomChatActivity chatActivity = (ChatroomChatActivity) getActivity();
                     chatActivity.sendImageReply(imageUri,name);
                 }
             });
@@ -236,6 +245,19 @@ public class ChatInputAreaFragment extends Fragment {
             PrivateMessageChatActivity chatActivity = (PrivateMessageChatActivity) getActivity();
             chatActivity.invokeSendImageReply(imageUri, name);
         }
+
+        // cancel quote area if there is quote area
+        LinearLayout llQuoteArea = getActivity().findViewById(R.id.ll_chat_input_area_quote);
+        llQuoteArea.setVisibility(View.GONE);
+    }
+
+    public String generateUsername() {
+        // Generate a username in the format of Student[\d]{5} that does not exist in the chatroom
+        // used when the user has not replied in the chatroom before
+        String proposedUsername = "Student" + Utility.generateIntegerWithLeadingZeros(100000, 5);
+        // TO-DO : need to check if it exists
+
+        return proposedUsername;
     }
 
 }

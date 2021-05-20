@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -87,7 +89,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         tvForgotPW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleForgetPW();
+                openForgotPasswordDialog();
             }
         });
 
@@ -132,7 +134,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.login_info) {
-            // openDialog();
+            openInfoDialog();
         }
         return true;
     }
@@ -194,7 +196,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty()) {
-            tvWarningInvalidPW.setText(R.string.et_warning_login_ITSC_invalid);
+            tvWarningInvalidPW.setText(R.string.et_warning_login_password_empty);
             tvWarningInvalidPW.setVisibility(View.VISIBLE);
             etPW.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             success = false;
@@ -224,13 +226,12 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     public void openRegisterDialog() {
         RegisterDialog dialogRegister = new RegisterDialog(this);
-        dialogRegister.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogRegister.show();
     }
 
-    public void switchToGeneralCourseActicity() {
-        startActivity(new Intent(getApplicationContext(), CourseActivity.class));
-        overridePendingTransition(0, 0);
+    public void openForgotPasswordDialog() {
+        ForgotPWDialog dialogForgotPW = new ForgotPWDialog(this);
+        dialogForgotPW.show();
     }
 
     // TO-DO
@@ -246,6 +247,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
+    }
+    private void openInfoDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_info_title),
+                getResources().getString(R.string.ustchat_info_description));
+        dialogInfo.show();
+    }
+
+    public void switchToGeneralCourseActicity() {
+        startActivity(new Intent(getApplicationContext(), CourseActivity.class));
+        overridePendingTransition(0, 0);
     }
 
 }
@@ -264,16 +275,23 @@ class RegisterDialog extends Dialog {
         super(context);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_create_account);
+        setContentView(R.layout.layout_dialog_create_account);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         etITSC = findViewById(R.id.et_create_account_itsc_account);
         etPW = findViewById(R.id.et_create_account_pw);
         ibRegister = findViewById(R.id.ib_create_account_submit);
         tvWarningInvalidITSC = findViewById(R.id.tv_create_account_warning_itsc_account);
         tvWarningInvalidPW = findViewById(R.id.tv_create_account_warning_pw);
+
+        TextView tvDescription = findViewById(R.id.tv_create_account_description);
+        if (Build.VERSION.SDK_INT >= 26) {
+            tvDescription.setJustificationMode(0x00000001);
+        }
 
         ibRegister.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -399,4 +417,88 @@ class RegisterDialog extends Dialog {
         tvWarningInvalidPW.setVisibility(View.GONE);
     }
 
+}
+
+class ForgotPWDialog extends Dialog {
+    private ImageButton ibSubmit;
+    private EditText etITSC;
+    private TextView tvWarningInvalidITSC;
+
+    public ForgotPWDialog(final Context context) {
+        super(context);
+    }
+
+    @SuppressLint("WrongConstant")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_dialog_forgot_password);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        etITSC = findViewById(R.id.et_forgot_password_itsc_account);
+        ibSubmit = findViewById(R.id.ib_forgot_password_submit);
+        tvWarningInvalidITSC = findViewById(R.id.tv_forgot_password_warning_itsc_account);
+
+        TextView tvDescription = findViewById(R.id.tv_forgot_password_description);
+        if (Build.VERSION.SDK_INT >= 26) {
+            tvDescription.setJustificationMode(0x00000001);
+        }
+
+        ibSubmit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                handleForgotPassword();
+            }
+        });
+
+        tvWarningInvalidITSC.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
+    public void handleForgotPassword() {
+        String istc = etITSC.getText().toString();
+        if (validateForgotPasswordSubmission(istc)) {
+            // TO-DO : help users reset password
+        }
+    }
+
+    public boolean validateForgotPasswordSubmission(String itsc) {
+        boolean success = true;
+
+        if (itsc.isEmpty()) {
+            tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
+            success = false;
+        }
+        else if (!itsc.matches("[a-z]+")) {
+            tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_invalid);
+            success = false;
+        }
+
+        if (!success) {
+            etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
+            tvWarningInvalidITSC.setVisibility(View.VISIBLE);
+        }
+        else {
+            etITSC.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            tvWarningInvalidITSC.setVisibility(View.GONE);
+        }
+
+        return success;
+    }
 }

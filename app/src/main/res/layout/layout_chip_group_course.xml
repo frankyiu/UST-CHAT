@@ -18,6 +18,7 @@
             app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
             app:rippleColor="@color/chip_bg_ripple_color"
             app:chipBackgroundColor="@color/chip_bg_color"
+            android:textColor="@color/black"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_1"
             android:textSize="@dimen/chip_text_size"
@@ -33,6 +34,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_2"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -46,6 +48,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_3"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -59,6 +62,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_4"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -72,6 +76,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_5"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -85,6 +90,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_6"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -98,6 +104,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_7"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -111,6 +118,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_8"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -124,6 +132,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_9"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
 
@@ -137,6 +146,7 @@
             app:chipBackgroundColor="@color/chip_bg_color"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:text="@string/chip_course_tag_10"
+            android:textColor="@color/black"
             android:textSize="@dimen/chip_text_size"
             />
     </com.google.android.material.chip.ChipGroup>

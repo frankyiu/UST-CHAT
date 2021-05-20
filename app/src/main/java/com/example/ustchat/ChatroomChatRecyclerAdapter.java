@@ -81,7 +81,7 @@ public class ChatroomChatRecyclerAdapter extends RecyclerView.Adapter<ChatroomCh
         holder.cvChatroomChat.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ((ChatActivity) context).openReplyHandlerDialog(chatroomChatRecords.get(position));
+                ((ChatroomChatActivity) context).openReplyHandlerDialog(chatroomChatRecords.get(position));
                 return false;
             }
         });

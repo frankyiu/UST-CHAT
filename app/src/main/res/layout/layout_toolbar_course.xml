@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FFFFFF"
+        android:background="@color/background_color_toolbar"
         app:title="Title"
-        app:titleTextColor="@color/toolbar_title_text_color"
+        app:titleTextColor="@color/text_color"
         app:titleMarginStart="40dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -23,7 +23,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <View
-        android:background="@color/toolbar_header_border_color"
+        android:background="@color/gray_D5"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 

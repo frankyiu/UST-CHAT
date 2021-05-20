@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:theme="@style/Theme.MaterialComponents.DayNight"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/card_color"
         android:clickable="true"
         android:focusable="true"
         app:rippleColor="@color/background_color"
@@ -25,12 +24,12 @@
             >
 
             <TextView
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="Looking for a teammate"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="#000000"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/tv_pm_title"
                 android:maxLines="1"
@@ -56,7 +55,7 @@
                 android:layout_height="20dp"
                 android:text=":"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:textSize="14sp"
                 android:layout_below="@+id/tv_pm_title"
                 android:layout_toRightOf="@+id/tv_pm_latest_name"
@@ -84,7 +83,7 @@
                     android:layout_width="260dp"
                     android:layout_height="20dp"
                     android:text="1234567890123456789012345678901234567"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_color"
                     android:textSize="12sp"
                     android:gravity="center_vertical"
                     android:maxLines="1"
@@ -119,16 +118,6 @@
                 android:layout_alignParentEnd="true"
                 />
 
-<!--            <com.google.android.material.badge.BadgeDrawable-->
-<!--                xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--                style="@style/Widget.MaterialComponents.Badge"-->
-<!--                app:number="1"-->
-<!--                android:layout_below="@+id/tv_pm_title"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                app:maxCharacterCount="10"/>-->
-
-
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -136,7 +125,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/preferences_divider"
+        android:background="@color/gray_D5"
         android:layout_below="@+id/cv_pm"
         />
 

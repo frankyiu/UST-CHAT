@@ -1,4 +1,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false" android:color="#3F000000" />
-    <item android:color="#89000000" />
+    <item android:state_enabled="false"
+        android:color="@color/submit_enable_false" />
+    <item android:color="@color/submit_enable_true" />
 </selector>

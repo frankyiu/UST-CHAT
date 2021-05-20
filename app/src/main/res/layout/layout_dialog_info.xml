@@ -8,17 +8,18 @@
     app:cardCornerRadius="20dp"
     app:cardBackgroundColor="@color/card_color"
     >
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="15dp"
         >
 
         <TextView
-            android:id="@+id/tv_confirm_image_title"
+            android:id="@+id/tv_info_title"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="Confirm the photo"
+            android:text="What is this?"
             android:textColor="@color/text_color"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -26,24 +27,30 @@
             android:gravity="center"
             />
 
-        <ImageView
-            android:id="@+id/tv_confirm_image_image"
+        <TextView
+            android:id="@+id/tv_info_text"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_below="@id/tv_confirm_image_title"
-            android:layout_centerInParent="true"
+            android:text="@string/ustchat_info_description"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+            android:layout_below="@+id/tv_info_title"
             android:layout_marginTop="30dp"
             />
 
-        <ImageButton
-            android:id="@+id/btn_confirm_image_submit"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_info_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:background="?android:selectableItemBackgroundBorderless"
+            android:layout_centerInParent="true"
+            android:text="OK"
+            android:textColor="@color/white"
+            app:backgroundTint="#FF767171"
+            app:cornerRadius="7dp"
             />
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

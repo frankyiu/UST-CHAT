@@ -2,6 +2,7 @@ package com.example.ustchat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collections;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements NavigationNotification {
     private String userID;
     private String ITSCAccount;
     Toolbar toolbar;
@@ -52,12 +53,12 @@ public class SettingActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        BadgeDrawable notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(0);
-//        if(mAuth.getCurrentUser()!=null){
-//            unReadPMCount();
-//        }
+
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -87,7 +88,7 @@ public class SettingActivity extends AppCompatActivity {
         cvAboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openAboutUsDialog();
             }
         });
 
@@ -95,15 +96,7 @@ public class SettingActivity extends AppCompatActivity {
         cvContactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-
-        cvFeedback = findViewById(R.id.cv_setting_feedback);
-        cvFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                openContactUsDialog();
             }
         });
 
@@ -111,37 +104,61 @@ public class SettingActivity extends AppCompatActivity {
         cvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Logout
                 mAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
             }
         });
 
         switchNightMode = findViewById(R.id.switch_setting_night_mode);
+        switchNightMode.setChecked(Utility.isNightModeOn(this));
+        switchNightMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNightMode(switchNightMode.isChecked());
+            }
+        });
+
         switchEnableNotification = findViewById(R.id.switch_setting_enable_notification);
+        switchEnableNotification.setChecked(Utility.enableNotification);
+        switchEnableNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setEnableNotification(switchEnableNotification.isChecked());
+            }
+        });
 
     }
 
+    private void openAboutUsDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_about_us_title),
+                getResources().getString(R.string.ustchat_about_us_description));
+        dialogInfo.show();
+    }
 
-//    private void unReadPMCount(){
-//        Query query = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/");
-//        query.addValueEventListener(new ValueEventListener()
-//        {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                int sum = 0;
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                    Log.d("Setting", postSnapshot.getValue(String.class));
-//                    int count  = postSnapshot.getValue(Integer.class);
-//                    sum+=count;
-//                }
-//                Log.d("Setting", ""+sum);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError)
-//            {
-//                Log.d("Setting", "cancel"+databaseError);
-//            }
-//        });
-//    }
+
+    private void openContactUsDialog() {
+        InfoDialog dialogInfo = new InfoDialog(this, getResources().getString(R.string.ustchat_contact_us_title),
+                getResources().getString(R.string.ustchat_contact_us_description));
+        dialogInfo.show();
+    }
+
+    private void setNightMode(boolean nightModeOn) {
+        if (nightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public void enableNotificationBadge(boolean enable) {
+        bottomNavigationView.getOrCreateBadge(R.id.private_message).setVisible(enable);
+    }
+
+    private void setEnableNotification(boolean enable) {
+        enableNotificationBadge(enable);
+        Utility.enableNotification = enable;
+    }
+
 }

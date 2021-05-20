@@ -202,9 +202,11 @@ public class CourseFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
-        recyclerView.setAdapter(adapter);
+        if(getActivity()!=null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+            adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private void filterChatRoom() throws JSONException {
@@ -279,7 +281,7 @@ public class CourseFragment extends Fragment {
 //    }
 
     public void switchChatActivity(String chatroomTitle) {
-        startActivity(new Intent(getContext().getApplicationContext(), ChatActivity.class));
+        startActivity(new Intent(getContext().getApplicationContext(), ChatroomChatActivity.class));
         ((CourseActivity) getContext()).overridePendingTransition(0, 0);
     }
 

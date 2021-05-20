@@ -7,102 +7,98 @@
     android:layout_height="360dp"
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/card_color"
     >
+
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="348dp"
         android:padding="15dp"
         tools:ignore="MissingClass">
 
         <TextView
             android:id="@+id/tv_search_chatroom"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Search a chatroom"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dip"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="5dip"
+            android:text="Search a chatroom"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_search_chatroom_title"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Title:"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_search_chatroom"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
-            android:layout_below="@id/tv_search_chatroom"
-            />
+            android:text="Title:"
+            android:textColor="@color/text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/et_search_chatroom_title"
-            android:inputType="text"
-            android:layout_below="@id/tv_search_chatroom_title"
+            android:inputType="textNoSuggestions"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_search_chatroom_title"
             android:background="@drawable/rounded_edittext"
-            android:textSize="12sp"
-            android:padding="5dp"
             android:hint="type your title here..."
+            android:textColor="@color/text_color"
             android:maxLines="1"
-            />
+            android:padding="5dp"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_search_chatroom_warning_invalid_title"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_search_chatroom_title"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="title can't be empty."
             android:textColor="@color/red"
             android:textSize="10sp"
-            android:textStyle="bold"
-            android:layout_below="@id/et_search_chatroom_title"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_search_chatroom_tag"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Tags:"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_search_chatroom_title"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
-            android:layout_below="@id/et_search_chatroom_title"
-            />
+            android:text="Tags:"
+            android:textColor="@color/text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <ViewFlipper
             android:id="@+id/vf_search_chatroom_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_search_chatroom_tag"
-            >
+            android:layout_below="@id/tv_search_chatroom_tag">
+
             <include
                 android:id="@+id/vf_search_chatroom_chip_course"
-                layout="@layout/layout_chip_group_course"
-                />
+                layout="@layout/layout_chip_group_course" />
+
             <include
                 android:id="@+id/vf_search_chatroom_chip_general"
-                layout="@layout/layout_chip_group_general"
-                />
+                layout="@layout/layout_chip_group_general" />
         </ViewFlipper>
 
         <ImageButton
             android:id="@+id/btn_search_chatroom_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:background="?android:selectableItemBackgroundBorderless"
-            />
+            android:src="@drawable/ic_send" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

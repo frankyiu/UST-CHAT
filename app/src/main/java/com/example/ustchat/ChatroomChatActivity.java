@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -68,8 +67,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity {
+
+public class ChatroomChatActivity extends AppCompatActivity {
     private static final String TAG = "ChatActivity";
+
     Toolbar toolbar;
     String chatroomTitle;
     String targetUserId;
@@ -97,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chatroom_chat);
 
         Bundle bundle = getIntent().getExtras();
         chatroomTitle = ""; // or other values
@@ -180,11 +181,11 @@ public class ChatActivity extends AppCompatActivity {
                     chatRecord.setId(postSnapshot.getKey());
                     if(username !=null){
                         chatRecord.setUser(username.equals(chatRecord.getName()));
-                    }
 
+                    }
                     chatroomChatRecords.add(chatRecord);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
-                    adapter = new ChatroomChatRecyclerAdapter(ChatActivity.this, chatroomChatRecords);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ChatroomChatActivity.this));
+                    adapter = new ChatroomChatRecyclerAdapter(ChatroomChatActivity.this, chatroomChatRecords);
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -246,7 +247,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void openReplyHandlerDialog(ChatroomChatRecord chatroomChatRecord) {
-        Dialog dialog = new ReplyHandlerDialog(ChatActivity.this, chatroomChatRecord, null);
+        Dialog dialog = new ReplyHandlerDialog(ChatroomChatActivity.this, chatroomChatRecord, null);
         dialog.show();
     }
 
@@ -273,6 +274,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 llQuoteArea.setVisibility(View.GONE);
                 quotedText = "";
+
             }
         });
     }
@@ -294,8 +296,9 @@ public class ChatActivity extends AppCompatActivity {
         return super.dispatchTouchEvent( event );
     }
 
+
     public void startPrivateMessageChat(String targetUserName) {
-        Intent intent = new Intent(ChatActivity.this, PrivateMessageChatActivity.class);
+        Intent intent = new Intent(ChatroomChatActivity.this, PrivateMessageChatActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("chatId", "");
         bundle.putString("chatroomTitle", chatroomTitle);
@@ -356,7 +359,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void createPrivateMessageActivity(String targetUser){
-        Intent intent = new Intent(ChatActivity.this, PrivateMessageChatActivity.class);
+        Intent intent = new Intent(ChatroomChatActivity.this, PrivateMessageChatActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("chatId", "");
         bundle.putString("chatroomTitle", chatroomTitle);
@@ -503,17 +506,17 @@ class ReplyHandlerDialog extends Dialog {
                         clipboard.setPrimaryClip(clip);
                         break;
                     case 1: // quote
-                        ((ChatActivity) context).quote(chatroomChatRecord);
+                        ((ChatroomChatActivity) context).quote(chatroomChatRecord);
                         break;
                     case 2:
                         if (chatroomChatRecord.isUser()) {
                             // TO-DO: delete the reply (Backend)
-                            ((ChatActivity) context).deleteMessage(chatroomChatRecord.getId());
+                            ((ChatroomChatActivity) context).deleteMessage(chatroomChatRecord.getId());
                         }
                         else {
                             // TO-DO: send a private message
                             // should create a new json
-                            ((ChatActivity) context).startPrivateMessageChat(chatroomChatRecord.getName());
+                            ((ChatroomChatActivity) context).startPrivateMessageChat(chatroomChatRecord.getName());
                         }
                         break;
                     case 3: // cancel

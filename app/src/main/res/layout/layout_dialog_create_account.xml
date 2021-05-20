@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="260dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/card_color"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        tools:ignore="MissingClass">
+
+        <TextView
+            android:id="@+id/tv_create_count_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/create_account_title"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dip"
+            android:layout_centerHorizontal="true"
+            />
+
+        <EditText
+            android:id="@+id/et_create_account_itsc_account"
+            android:inputType="text"
+            android:layout_below="@id/tv_create_count_title"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="12sp"
+            android:textColor="@color/text_color"
+            android:padding="5dp"
+            android:layout_marginBottom="1dp"
+            android:hint="ITSC Account"
+            android:maxLines="1"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_count_email_suffix"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="\@connect.ust.hk"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+            android:layout_below="@id/tv_create_count_title"
+            android:layout_marginTop="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_account_warning_itsc_account"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="ITSC account is required."
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_below="@id/et_create_account_itsc_account"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+
+        <EditText
+            android:id="@+id/et_create_account_pw"
+            android:inputType="text"
+            android:layout_below="@id/et_create_account_itsc_account"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="12sp"
+            android:textColor="@color/text_color"
+            android:padding="5dp"
+            android:layout_marginTop="20dp"
+            android:hint="USTChat password"
+            android:maxLines="1"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_account_warning_pw"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Password is required."
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_below="@id/et_create_account_pw"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_account_description"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/create_account_description"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/et_create_account_pw"
+            />
+
+
+        <ImageButton
+            android:id="@+id/ib_create_account_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="?android:selectableItemBackgroundBorderless"
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

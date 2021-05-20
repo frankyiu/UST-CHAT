@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.MaterialComponents.DayNight"
         app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="@color/background_color"
+        app:cardBackgroundColor="@color/background_color_chat_bubble"
         android:clickable="true"
         android:focusable="true"
-        app:rippleColor="@color/gray_600"
+        app:rippleColor="@color/gray_D5"
         >
 
         <LinearLayout
@@ -33,6 +33,7 @@
 
             <TextView
                 android:id="@+id/tv_chat_name"
+                android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Student54321"
@@ -66,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/tv_chat_quote_text"
-                    android:inputType="text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="2dp"
@@ -98,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="testing..."
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_color"
                     android:textSize="14sp"
                     android:layout_marginBottom="2dp"
                     android:maxWidth = "300sp"

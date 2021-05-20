@@ -3,6 +3,10 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="create_account_title">Create a USTChat account</string>
+    <string name="forget_password_title">Reset your password</string>
+    <string name="forget_password_description">To reset your password, please provide your ITSC account in the text bar. An verification email will be sent to the email address and the password can be reset. </string>
+
     <string name="et_hint_login_ITSC">ITSC Account</string>
     <string name="et_hint_login_password">USTChat password</string>
     <string name="et_warning_login_ITSC_empty">ITSC account required.</string>
@@ -16,7 +20,13 @@
     <string name="btn_text_login_sign_up">Student Sign-up</string>
     <string name="link_continue_as_a_visitor"><u>continue as a visitor</u></string>
 
+    <string name="ustchat_info_title">What is USTChat?</string>
+    <string name="ustchat_info_description">USTChat is a mobile application project for COMP4521 in UST. It is a chatroom apps focused mainly on academic discussion for HKUST students, which allows students to discuss assignments and projects of a specific course, find and recruit group members, share resources and make comments on the course, and chit-chat about things related to the course. </string>
     <string name="create_account_description">A verification code will be sent to your ITSC email address ending in @connect.ust.hk. Enter the code to proceed in the next step."</string>
+    <string name="ustchat_about_us_title">About us</string>
+    <string name="ustchat_about_us_description">We are final year students in UST. \nAuthors: Sky, Frank\nCredits: USTSPACE (providing the course codes)</string>
+    <string name="ustchat_contact_us_title">Contact us</string>
+    <string name="ustchat_contact_us_description">To be continued...</string>
 
 
     <string name="chip_general_tag_1">Chit-Chat</string>
@@ -35,8 +45,7 @@
     <string name="chip_course_tag_8">Exam</string>
     <string name="chip_course_tag_9">Assignment</string>
     <string name="chip_course_tag_10">Project</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
 </resources>

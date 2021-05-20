@@ -38,10 +38,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PrivateMessageActivity extends AppCompatActivity {
+
+public class PrivateMessageActivity extends AppCompatActivity implements NavigationNotification {
     private static final String TAG = "PrivateMessageActivity";
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
+    BadgeDrawable notificationBadge;
 
     RecyclerView pmRecyclerView;
     PrivateMessageRecyclerAdapter privateMessageRecyclerAdapter;
@@ -61,9 +63,10 @@ public class PrivateMessageActivity extends AppCompatActivity {
         toolbar.setTitle("");
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
+        notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
         //TO-DO : hardcode for now
-        badge.setNumber(1);
+        notificationBadge.setNumber(1);
+        enableNotificationBadge(Utility.enableNotification);
 
         setSupportActionBar(toolbar);
 
@@ -156,37 +159,8 @@ public class PrivateMessageActivity extends AppCompatActivity {
         });
     }
 
-//    private void extractPMRecords(){
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                for (int i = 0; i < response.length(); i++) {
-//                    try {
-//                        JSONObject pmRecordObject = response.getJSONObject(i);
-//                        PrivateMessageRecord privateMessageRecord = new PrivateMessageRecord();
-//                        privateMessageRecord.setTitle(pmRecordObject.getString("title"));
-//                        privateMessageRecord.setUsername(pmRecordObject.getString("username"));
-//                        privateMessageRecord.setTargetName(pmRecordObject.getString("targetName"));
-//                        privateMessageRecord.setLatestName(pmRecordObject.getString("latestName"));
-//                        privateMessageRecord.setLatestReply(pmRecordObject.getString("latestReply"));
-//                        privateMessageRecord.setLatestReplyTime(pmRecordObject.getString("latestTime"));
-//                        privateMessageRecord.setUnreadCount(pmRecordObject.getInt("unreadCount"));
-//                        privateMessageRecords.add(privateMessageRecord);
-//                        pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//                        privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
-//                        pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("tag", "onErrorResponse: " + error.getMessage());
-//            }
-//        });
-//        queue.add(jsonArrayRequest);
-//    }
+
+    public void enableNotificationBadge(boolean enable) {
+        notificationBadge.setVisible(enable);
+    }
 }

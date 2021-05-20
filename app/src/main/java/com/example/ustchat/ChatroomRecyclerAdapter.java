@@ -94,7 +94,7 @@ public class ChatroomRecyclerAdapter extends RecyclerView.Adapter<ChatroomRecycl
         holder.cvChatroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                Intent intent = new Intent(v.getContext(), ChatroomChatActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("chatroomTitle", chatroomRecords.get(position).getTitle());
                 bundle.putString("chatId", chatroomRecords.get(position).getId());

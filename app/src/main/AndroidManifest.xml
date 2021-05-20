@@ -17,7 +17,7 @@
             android:exported="true"></service>
 
         <activity android:name=".PrivateMessageChatActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatroomChatActivity" />
         <activity android:name=".LoginRegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

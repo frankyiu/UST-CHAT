@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     app:headerLayout="@layout/layout_course_list_header"
     app:menu="@menu/menu_course_list"
+    android:backgroundTint="@color/background_color_nav"
     >
 
     <EditText
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="139dp"
-            android:background="@color/preferences_divider"/>
+            android:background="@color/gray_D5"/>
     </LinearLayout>
 
 
@@ -47,7 +48,7 @@
         android:id="@+id/expandible_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/background_color_nav"
         android:dividerHeight="0dp"
         android:groupIndicator="@null"
         android:layout_marginTop="260dp"
