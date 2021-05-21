@@ -54,7 +54,9 @@ public class MessagingService extends Service {
                 {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         NotiMessage msg = postSnapshot.getValue(NotiMessage.class);
-                        pushNotification(msg);
+                        if(Utility.enableNotification) {
+                            pushNotification(msg);
+                        }
                     }
                     mDataRef.child("users/"+mAuth.getUid()+"/notiMessage/").removeValue();
                 }

@@ -83,8 +83,10 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
 
         tvUserID = findViewById(R.id.tv_setting_user_id);
         tvITSC = findViewById(R.id.tv_setting_itsc);
-        tvUserID.setText(mAuth.getCurrentUser().getUid());
-        tvITSC.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);
+        if(mAuth.getCurrentUser() != null){
+            tvUserID.setText(mAuth.getCurrentUser().getUid());
+            tvITSC.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);
+        }
 
         cvAboutUs = findViewById(R.id.cv_setting_about_us);
         cvAboutUs.setOnClickListener(new View.OnClickListener() {

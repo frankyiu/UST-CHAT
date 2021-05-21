@@ -155,7 +155,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.w(TAG, "Login:failure", task.getException());
-                                Toast.makeText(LoginRegisterActivity.this, "Login failed.",
+                                Toast.makeText(LoginRegisterActivity.this, "Login Fail: "+task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
