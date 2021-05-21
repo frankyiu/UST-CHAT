@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -95,7 +96,9 @@ public class ChatInputAreaFragment extends Fragment {
             etName.setTextColor(getResources().getColor(R.color.gray_D5));
         }
         else {
-            username = generateUsername();
+            if(mAuth.getCurrentUser() != null){
+                generateUsername();
+            }
         }
         etName.setText(username);
 
@@ -168,8 +171,7 @@ public class ChatInputAreaFragment extends Fragment {
     }
 
 
-    public void checkUserNameValid( Callback callback){
-        String name = etName.getText().toString();
+    public void checkUserNameValid(String name, Callback callback){
 
         Query query = mDatabaseRef.child("nameToId/"+chatId).child(name);
         //checkNameExist
@@ -178,11 +180,12 @@ public class ChatInputAreaFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                //TODO add popup for using other name
                 if(dataSnapshot.exists()){
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         if(!mAuth.getCurrentUser().getUid().equals(postSnapshot.getValue(String.class))) {
                             Log.d(TAG, "other user used your name");
+                            Toast.makeText((ChatroomChatActivity)getActivity(), "Name repeated. Please pick another one",
+                                    Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -209,7 +212,7 @@ public class ChatInputAreaFragment extends Fragment {
         String name = etName.getText().toString();
         if (!message.isEmpty() && !name.isEmpty()) {
             if (!isPrivate) {
-                checkUserNameValid(new Callback() {
+                checkUserNameValid(etName.getText().toString(), new Callback() {
                     @Override
                     public void callback() {
                         ChatroomChatActivity chatActivity = (ChatroomChatActivity) getActivity();
@@ -234,7 +237,7 @@ public class ChatInputAreaFragment extends Fragment {
         // TO-DO : Submit an image reply (backend)
         String name =etName.getText().toString();
         if(!isPrivate){
-            checkUserNameValid(new Callback() {
+            checkUserNameValid(etName.getText().toString(), new Callback() {
                 @Override
                 public void callback() {
                     ChatroomChatActivity chatActivity = (ChatroomChatActivity) getActivity();
@@ -251,13 +254,36 @@ public class ChatInputAreaFragment extends Fragment {
         llQuoteArea.setVisibility(View.GONE);
     }
 
-    public String generateUsername() {
+    public void generateUsername() {
         // Generate a username in the format of Student[\d]{5} that does not exist in the chatroom
         // used when the user has not replied in the chatroom before
         String proposedUsername = "Student" + Utility.generateIntegerWithLeadingZeros(100000, 5);
         // TO-DO : need to check if it exists
+        Query query = mDatabaseRef.child("nameToId/"+chatId).child(proposedUsername);
+        //checkNameExist
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        if(!mAuth.getCurrentUser().getUid().equals(postSnapshot.getValue(String.class))) {
+                            generateUsername();
+                        }
+                    }
+                }else{
+                    username = proposedUsername;
+                    etName.setText(username);
+                }
+            }
 
-        return proposedUsername;
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -40,6 +41,11 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
     FirebaseAuth mAuth;
     DatabaseReference mDatabaseRef;
     BadgeDrawable notificationBadge;
+
+    public static final String SHARE_PREFS = "sharedPrefs";
+    public static final String NIGHT_MODE = "nightMode";
+    public static final String NOTIFICATION = "notification";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,13 +119,16 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
             }
         });
-
         switchNightMode = findViewById(R.id.switch_setting_night_mode);
         switchNightMode.setChecked(Utility.isNightModeOn(this));
         switchNightMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setNightMode(switchNightMode.isChecked());
+                SharedPreferences sharedPref = getSharedPreferences(SHARE_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(NIGHT_MODE,switchNightMode.isChecked());
+                editor.apply();
             }
         });
 
@@ -129,6 +138,10 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
             @Override
             public void onClick(View v) {
                 setEnableNotification(switchEnableNotification.isChecked());
+                SharedPreferences sharedPref = getSharedPreferences(SHARE_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(NOTIFICATION,switchEnableNotification.isChecked());
+                editor.apply();
             }
         });
         if(mAuth.getCurrentUser()!= null){
@@ -149,7 +162,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
         dialogInfo.show();
     }
 
-    private void setNightMode(boolean nightModeOn) {
+    public static void setNightMode(boolean nightModeOn) {
         if (nightModeOn) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }

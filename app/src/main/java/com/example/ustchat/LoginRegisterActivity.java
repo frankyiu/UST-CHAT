@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -99,6 +100,13 @@ public class LoginRegisterActivity extends AppCompatActivity {
         tvWarningInvalidPW.setVisibility(View.GONE);
         tvWarningLoginFailure = findViewById(R.id.tv_login_warning_login_failure);
         tvWarningLoginFailure.setVisibility(View.GONE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.SHARE_PREFS, MODE_PRIVATE);
+        boolean isNightMode = sharedPreferences.getBoolean(SettingActivity.NIGHT_MODE, false);
+        boolean isNotification = sharedPreferences.getBoolean(SettingActivity.NOTIFICATION, true);
+
+        SettingActivity.setNightMode(isNightMode);
+        Utility.enableNotification = isNotification;
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null && mAuth.getCurrentUser().isEmailVerified()){
