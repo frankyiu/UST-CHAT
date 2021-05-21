@@ -102,9 +102,9 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_message_chat);
 
         Bundle bundle = getIntent().getExtras();
-        chatroomTitle = "";
-        username = "";
-        targetUsername = "";
+        chatroomTitle = "Default Chatroom";
+        username = "Student12345";
+        targetUsername = "Student12345";
         chatId = "";
         publicChatId = "";
         quotedText="";

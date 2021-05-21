@@ -108,7 +108,7 @@ public class ChatroomChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom_chat);
 
         Bundle bundle = getIntent().getExtras();
-        chatroomTitle = ""; // or other values
+        chatroomTitle = "Default ChatRoom"; // or other values
         quotedText = "";
         targetUserId = "";
         if(bundle != null) {

@@ -125,5 +125,6 @@ public class FirebaseTesting {
         if(mAuth.getCurrentUser()!=null){
             mAuth.signOut();
         }
+        mDatabaseReference.removeValue();
     }
 }

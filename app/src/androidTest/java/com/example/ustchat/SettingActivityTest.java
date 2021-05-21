@@ -1,5 +1,6 @@
 package com.example.ustchat;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -55,11 +56,15 @@ public class SettingActivityTest {
 
     @Test
     public void settingActivityTestNightMode() {
+        if (Utility.isNightModeOn(mActivityTestRule.getActivity())) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         assert !Utility.isNightModeOn(mActivityTestRule.getActivity());
         onView(withId(R.id.switch_setting_night_mode)).perform(click());
         assert Utility.isNightModeOn(mActivityTestRule.getActivity());
         onView(withId(R.id.switch_setting_night_mode)).perform(click());
         assert !Utility.isNightModeOn(mActivityTestRule.getActivity());
+
     }
 
     @Test
