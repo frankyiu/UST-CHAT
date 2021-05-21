@@ -117,6 +117,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
                 // Logout
                 mAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
+                stopService(new Intent(getApplicationContext(), MessagingService.class));
             }
         });
         switchNightMode = findViewById(R.id.switch_setting_night_mode);

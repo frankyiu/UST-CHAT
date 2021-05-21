@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -112,6 +113,11 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.SHARE_PREFS, MODE_PRIVATE);
+        boolean isNightMode = sharedPreferences.getBoolean(SettingActivity.NIGHT_MODE, false);
+        boolean isNotification = sharedPreferences.getBoolean(SettingActivity.NOTIFICATION, true);
+        SettingActivity.setNightMode(isNightMode);
+        Utility.enableNotification = isNotification;
 
         toolbar = findViewById(R.id.toolbar_pm_chat);
         setSupportActionBar(toolbar);

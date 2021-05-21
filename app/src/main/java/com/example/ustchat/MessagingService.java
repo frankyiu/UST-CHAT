@@ -52,13 +52,17 @@ public class MessagingService extends Service {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot)
                 {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        NotiMessage msg = postSnapshot.getValue(NotiMessage.class);
-                        if(Utility.enableNotification) {
-                            pushNotification(msg);
+                    if(mAuth.getCurrentUser() == null){
+                        stopSelf();
+                    }else{
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            NotiMessage msg = postSnapshot.getValue(NotiMessage.class);
+                            if(Utility.enableNotification) {
+                                pushNotification(msg);
+                            }
                         }
+                        mDataRef.child("users/"+mAuth.getUid()+"/notiMessage/").removeValue();
                     }
-                    mDataRef.child("users/"+mAuth.getUid()+"/notiMessage/").removeValue();
                 }
 
                 @Override

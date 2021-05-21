@@ -97,7 +97,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
         populateChatroomList();
         setUpExpandableListViewAdapter();
 
-        Intent serviceIntent = new Intent(this, MessagingService.class);
+        Intent serviceIntent = new Intent(getApplicationContext(), MessagingService.class);
         startService(serviceIntent);
 
         toolbar = findViewById(R.id.toolbar);
