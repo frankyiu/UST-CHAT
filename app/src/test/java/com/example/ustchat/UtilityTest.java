@@ -2,12 +2,13 @@ package com.example.ustchat;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UtilityTest {
     @Test
-    public void addition_isCorrect() {
-
-        assertEquals(4, 2 + 2);
+    public void sampleStudentNameDigit_isTrue() {
+        String sampleStudentNameDigit = Utility.generateIntegerWithLeadingZeros(100000, 5);
+        assertTrue(sampleStudentNameDigit.matches("[\\d]{5}"));
     }
+
 }
