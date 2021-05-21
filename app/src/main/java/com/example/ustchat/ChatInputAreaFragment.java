@@ -93,7 +93,7 @@ public class ChatInputAreaFragment extends Fragment {
             }
         });
 
-        ibAlbum = view.findViewById(R.id.iv_input_area_album);
+        ibAlbum = view.findViewById(R.id.ib_input_area_album);
         ibAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

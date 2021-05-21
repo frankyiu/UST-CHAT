@@ -100,7 +100,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
         navigationView.setNavigationItemSelectedListener(this);
         etSearch = findViewById(R.id.et_course_list_search);
 
-        popupWindow = new PopupWindow(getApplication());
+        popupWindow = new PopupWindow(this);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.popup_window_course_list_search));
         popupWindow.setContentView(listView);
         popupWindow.setHeight(700);
@@ -377,7 +377,7 @@ class CreateChatroomDialog extends Dialog {
         vfChipGroup = findViewById(R.id.vf_create_chatroom_chip_group);
         etTitle = findViewById(R.id.et_create_chatroom_title);
         etName = findViewById(R.id.et_create_chatroom_name);
-        ibCreateChatroom = findViewById(R.id.btn_create_chatroom_submit);
+        ibCreateChatroom = findViewById(R.id.ib_create_chatroom_submit);
         tvWarningInvalidTitle = findViewById(R.id.tv_create_chatroom_warning_invalid_title);
         tvWarningInvalidName = findViewById(R.id.tv_create_chatroom_warning_invalid_name);
 

@@ -14,7 +14,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_chatroom"
+        android:id="@+id/recycler_view_pm_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_pm_chat_input_area"

@@ -2,11 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_create_chatroom"
     android:layout_width="320dp"
     android:layout_height="360dp"
     android:layout_gravity="center"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/card_color">
+    app:cardBackgroundColor="@color/card_color"
+    >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -130,7 +132,7 @@
             android:layout_below="@id/et_create_chatroom_name" />
 
         <ImageButton
-            android:id="@+id/btn_create_chatroom_submit"
+            android:id="@+id/ib_create_chatroom_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send"

@@ -86,7 +86,7 @@ public class ChatroomChatActivity extends AppCompatActivity {
 
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
-        recyclerView = findViewById(R.id.recycler_view_chatroom);
+        recyclerView = findViewById(R.id.recycler_view_chatroom_chat);
         chatroomChatRecords = new ArrayList<>();
         extractChatroomChatRecords();
 

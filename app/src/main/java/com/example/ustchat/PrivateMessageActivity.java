@@ -74,7 +74,7 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        pmRecyclerView = findViewById(R.id.recycler_view_chatroom);
+        pmRecyclerView = findViewById(R.id.recycler_view_pm);
         privateMessageRecords = new ArrayList<>();
         extractPMRecords();
     }

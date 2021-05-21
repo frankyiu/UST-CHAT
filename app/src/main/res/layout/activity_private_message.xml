@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
-        android:id="@+id/recycler_view_chatroom"
+        android:id="@+id/recycler_view_pm"
         android:layout_above="@+id/bottom_nav_wrapper"
         android:layout_below="@+id/ll_toolbar_setting" />
 

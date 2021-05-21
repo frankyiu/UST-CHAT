@@ -73,9 +73,9 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_message_chat);
 
         Bundle bundle = getIntent().getExtras();
-        chatroomTitle = "";
-        username = "";
-        targetUsername = "";
+        chatroomTitle = "Sample Title";
+        username = "Student12345";
+        targetUsername = "Student54321";
         if (bundle != null) {
             chatroomTitle = bundle.getString("chatroomTitle");
             username = bundle.getString("username");
@@ -98,7 +98,7 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
 
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
-        recyclerView = findViewById(R.id.recycler_view_chatroom);
+        recyclerView = findViewById(R.id.recycler_view_pm_chat);
         privateChatRecords = new ArrayList<>();
         extractPrivateChatRecords();
     }

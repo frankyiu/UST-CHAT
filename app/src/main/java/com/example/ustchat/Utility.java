@@ -24,7 +24,8 @@ public class Utility {
             Drawable drawable = new BitmapDrawable(bitmap);
             inputStream.close();
             return drawable;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }

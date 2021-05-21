@@ -11,7 +11,7 @@
         android:layout_height="1dp" />
 
     <ImageButton
-        android:id="@+id/iv_input_area_album"
+        android:id="@+id/ib_input_area_album"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_album"
@@ -30,7 +30,7 @@
         android:textColor="@color/text_color"
         android:includeFontPadding="true"
         android:paddingLeft="10dp"
-        android:layout_toRightOf="@+id/iv_input_area_album"
+        android:layout_toRightOf="@+id/ib_input_area_album"
         android:background="@drawable/et_input_area_reply_style" />
 
     <ImageButton
@@ -51,7 +51,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="12dp"
         android:layout_below="@+id/et_input_area_reply"
-        android:layout_toRightOf="@+id/iv_input_area_album"
+        android:layout_toRightOf="@+id/ib_input_area_album"
         android:text="Name:"
         android:textColor="@color/text_color" />
 

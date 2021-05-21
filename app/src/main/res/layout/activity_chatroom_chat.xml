@@ -14,7 +14,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_chatroom"
+        android:id="@+id/recycler_view_chatroom_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color_chat"

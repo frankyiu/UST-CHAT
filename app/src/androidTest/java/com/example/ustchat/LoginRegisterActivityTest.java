@@ -45,12 +45,12 @@ public class LoginRegisterActivityTest {
         onView(withId(R.id.tv_login_warning_password)).check(matches(withText("password required.")));
     }
 
-//    @Test
-//    public void loginRegisterActivityTestLogin() {
-//        onView(withId(R.id.et_login_itsc)).perform(typeText("ccyeungaf"), closeSoftKeyboard());
-//        onView(withId(R.id.et_login_password)).perform(typeText("1234567p"), closeSoftKeyboard());
-//        onView(withId(R.id.btn_login_login)).perform(click(), closeSoftKeyboard());
-//    }
+    @Test
+    public void loginRegisterActivityTestLogin() {
+        onView(withId(R.id.et_login_itsc)).perform(typeText("ccyeungaf"), closeSoftKeyboard());
+        onView(withId(R.id.et_login_password)).perform(typeText("1234567p"), closeSoftKeyboard());
+        onView(withId(R.id.btn_login_login)).perform(click(), closeSoftKeyboard());
+    }
 
     @Test
     public void loginRegisterActivityTestInfoDialog() {
