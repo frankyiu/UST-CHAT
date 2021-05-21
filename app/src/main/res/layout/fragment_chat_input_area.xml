@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/input_area"
     android:layout_width="match_parent"
     android:layout_height="110dp"
-    android:background="@color/card_color"
-    >
+    android:background="@color/card_color">
 
     <View
         android:background="@color/gray_D5"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        />
+        android:layout_height="1dp" />
 
     <ImageButton
-        android:id="@+id/iv_input_area_album"
+        android:id="@+id/ib_input_area_album"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_album"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:background="?android:selectableItemBackgroundBorderless"
-        />
+        android:background="?android:selectableItemBackgroundBorderless" />
 
     <EditText
         android:id="@+id/et_input_area_reply"
@@ -34,9 +30,8 @@
         android:textColor="@color/text_color"
         android:includeFontPadding="true"
         android:paddingLeft="10dp"
-        android:layout_toRightOf="@+id/iv_input_area_album"
-        android:background="@drawable/et_input_area_reply_style"
-        />
+        android:layout_toRightOf="@+id/ib_input_area_album"
+        android:background="@drawable/et_input_area_reply_style" />
 
     <ImageButton
         android:id="@+id/iv_input_area_submit"
@@ -47,8 +42,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/et_input_area_reply"
         android:background="?android:selectableItemBackgroundBorderless"
-        android:tint="@drawable/selector_enable"
-        />
+        android:tint="@drawable/selector_enable" />
 
     <TextView
         android:id="@+id/tv_input_area_name"
@@ -57,10 +51,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="12dp"
         android:layout_below="@+id/et_input_area_reply"
-        android:layout_toRightOf="@+id/iv_input_area_album"
+        android:layout_toRightOf="@+id/ib_input_area_album"
         android:text="Name:"
-        android:textColor="@color/text_color"
-        />
+        android:textColor="@color/text_color" />
 
     <EditText
         android:id="@+id/et_input_area_name"
@@ -75,7 +68,6 @@
         android:paddingBottom="2dp"
         android:layout_below="@+id/et_input_area_reply"
         android:layout_toRightOf="@+id/tv_input_area_name"
-        android:background="@drawable/et_input_area_reply_style"
-        />
+        android:background="@drawable/et_input_area_reply_style" />
 
 </RelativeLayout>

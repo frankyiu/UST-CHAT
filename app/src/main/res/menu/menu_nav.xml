@@ -4,19 +4,16 @@
     <item
         android:id="@+id/chatroom"
         android:title="Chatroom"
-        android:icon="@drawable/ic_chatroom"
-        />
+        android:icon="@drawable/ic_chatroom" />
 
     <item
         android:id="@+id/private_message"
         android:title="PM"
-        android:icon="@drawable/ic_pm"
-        />
+        android:icon="@drawable/ic_pm" />
 
     <item
         android:id="@+id/setting"
         android:title="Setting"
-        android:icon="@drawable/ic_setting"
-        />
+        android:icon="@drawable/ic_setting" />
 
 </menu>

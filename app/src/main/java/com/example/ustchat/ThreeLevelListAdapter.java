@@ -1,6 +1,5 @@
 package com.example.ustchat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +37,19 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) { return data.get(groupPosition).size() > 0 ? 1 : 0; }
+    public int getChildrenCount(int groupPosition) {
+        return data.get(groupPosition).size() > 0 ? 1 : 0;
+    }
 
     @Override
-    public Object getGroup(int groupPosition) { return groupPosition; }
+    public Object getGroup(int groupPosition) {
+        return groupPosition;
+    }
 
     @Override
-    public Object getChild(int group, int child) { return child; }
+    public Object getChild(int group, int child) {
+        return child;
+    }
 
     @Override
     public long getGroupId(int groupPosition) {

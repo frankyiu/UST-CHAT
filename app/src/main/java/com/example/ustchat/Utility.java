@@ -8,7 +8,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Random;
 
 public class Utility {
@@ -24,7 +26,8 @@ public class Utility {
             Drawable drawable = new BitmapDrawable(bitmap);
             inputStream.close();
             return drawable;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }

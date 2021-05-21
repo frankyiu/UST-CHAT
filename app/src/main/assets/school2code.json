@@ -1,6 +1,6 @@
 {
-  "B&M School":{
-    "ACCT":[
+  "B&M School": {
+    "ACCT": [
       "ACCT1010",
       "ACCT1610",
       "ACCT2010",
@@ -53,7 +53,7 @@
       "ACCT7900H",
       "ACCT7990"
     ],
-    "ECON":[
+    "ECON": [
       "ECON1503",
       "ECON2000",
       "ECON2103",
@@ -188,7 +188,7 @@
       "ECON6990",
       "ECON7990"
     ],
-    "FINA":[
+    "FINA": [
       "FINA1203",
       "FINA1303",
       "FINA2101",
@@ -332,7 +332,7 @@
       "FINA7980T",
       "FINA7990"
     ],
-    "GBUS":[
+    "GBUS": [
       "GBUS1000",
       "GBUS2010",
       "GBUS2020",
@@ -350,7 +350,7 @@
       "GBUS4930",
       "GBUS4940"
     ],
-    "ISOM":[
+    "ISOM": [
       "ISOM1090",
       "ISOM1380",
       "ISOM1500",
@@ -517,7 +517,7 @@
       "ISOM7000L",
       "ISOM7990"
     ],
-    "MARK":[
+    "MARK": [
       "MARK1220",
       "MARK1230",
       "MARK1330",
@@ -584,7 +584,7 @@
       "MARK6990",
       "MARK7990"
     ],
-    "MGMT":[
+    "MGMT": [
       "MGMT1110",
       "MGMT1120",
       "MGMT1130",
@@ -697,7 +697,7 @@
       "MGMT7150",
       "MGMT7990"
     ],
-    "SBMT":[
+    "SBMT": [
       "SBMT1100",
       "SBMT1111",
       "SBMT2010",
@@ -826,8 +826,8 @@
       "SBMT6780"
     ]
   },
-  "Engineering School":{
-    "BIEN":[
+  "Engineering School": {
+    "BIEN": [
       "BIEN1010",
       "BIEN2010",
       "BIEN2310",
@@ -867,7 +867,7 @@
       "BIEN6990",
       "BIEN7990"
     ],
-    "BMED":[
+    "BMED": [
       "BMED1100",
       "BMED4950",
       "BMED4950A",
@@ -876,7 +876,7 @@
       "BMED4950E",
       "BMED4950F"
     ],
-    "CENG":[
+    "CENG": [
       "CENG1000",
       "CENG1010",
       "CENG1500",
@@ -990,7 +990,7 @@
       "CENG6990",
       "CENG7990"
     ],
-    "CIVL":[
+    "CIVL": [
       "CIVL1010",
       "CIVL1020",
       "CIVL1030",
@@ -1148,7 +1148,7 @@
       "CIVL6990",
       "CIVL7990"
     ],
-    "COMP":[
+    "COMP": [
       "COMP1001",
       "COMP1002",
       "COMP1003",
@@ -1311,7 +1311,7 @@
       "COMP6990",
       "COMP7990"
     ],
-    "CPEG":[
+    "CPEG": [
       "CPEG1971",
       "CPEG2930",
       "CPEG3930",
@@ -1321,7 +1321,7 @@
       "CPEG4911",
       "CPEG4912"
     ],
-    "ELEC":[
+    "ELEC": [
       "ELEC1010",
       "ELEC1020",
       "ELEC1030",
@@ -1477,7 +1477,7 @@
       "ELEC6990",
       "ELEC7990"
     ],
-    "ENGG":[
+    "ENGG": [
       "ENGG1010",
       "ENGG1100",
       "ENGG1110",
@@ -1566,7 +1566,7 @@
       "ENGG6780",
       "ENGG6990"
     ],
-    "IEDA":[
+    "IEDA": [
       "IEDA1010",
       "IEDA1020",
       "IEDA1990",
@@ -1635,7 +1635,7 @@
       "IEDA6990",
       "IEDA7990"
     ],
-    "IELM":[
+    "IELM": [
       "IELM1010",
       "IELM1020",
       "IELM1990",
@@ -1701,7 +1701,7 @@
       "IELM6990",
       "IELM7990"
     ],
-    "ISDN":[
+    "ISDN": [
       "ISDN1000",
       "ISDN1002",
       "ISDN1003",
@@ -1745,7 +1745,7 @@
       "ISDN6100",
       "ISDN6990"
     ],
-    "MECH":[
+    "MECH": [
       "MECH1020",
       "MECH1030",
       "MECH1070",
@@ -1883,24 +1883,24 @@
       "MECH6990",
       "MECH7990"
     ],
-    "SUST":[
+    "SUST": [
       "SUST1000"
     ]
   },
-  "Science School":{
-    "BIBU":[
+  "Science School": {
+    "BIBU": [
       "BIBU1010",
       "BIBU4820",
       "BIBU4830",
       "BIBU4840",
       "BIBU4850"
     ],
-    "BIPH":[
+    "BIPH": [
       "BIPH2010",
       "BIPH3010",
       "BIPH4010"
     ],
-    "CHEM":[
+    "CHEM": [
       "CHEM1002",
       "CHEM1004",
       "CHEM1008",
@@ -2010,7 +2010,7 @@
       "CHEM6990",
       "CHEM7990"
     ],
-    "ENVS":[
+    "ENVS": [
       "ENVS2001",
       "ENVS2002",
       "ENVS2002A",
@@ -2063,7 +2063,7 @@
       "ENVS6990",
       "ENVS7990"
     ],
-    "LIFS":[
+    "LIFS": [
       "LIFS1010",
       "LIFS1020",
       "LIFS1030",
@@ -2212,7 +2212,7 @@
       "LIFS6990",
       "LIFS7990"
     ],
-    "MATH":[
+    "MATH": [
       "MATH1003",
       "MATH1012",
       "MATH1013",
@@ -2491,7 +2491,7 @@
       "MATH6990",
       "MATH7990"
     ],
-    "OCES":[
+    "OCES": [
       "OCES1001",
       "OCES1030",
       "OCES2001",
@@ -2511,7 +2511,7 @@
       "OCES5320",
       "OCES6770"
     ],
-    "PHYS":[
+    "PHYS": [
       "PHYS1001",
       "PHYS1002",
       "PHYS1003",
@@ -2617,7 +2617,7 @@
       "PHYS6990",
       "PHYS7990"
     ],
-    "SCED":[
+    "SCED": [
       "SCED3130",
       "SCED3140",
       "SCED4110",
@@ -2643,7 +2643,7 @@
       "SCED4640",
       "SCED4720"
     ],
-    "SCIE":[
+    "SCIE": [
       "SCIE1000",
       "SCIE1010",
       "SCIE1010A",
@@ -2675,8 +2675,8 @@
       "SCIE4860"
     ]
   },
-  "H&S School":{
-    "HART":[
+  "H&S School": {
+    "HART": [
       "HART1001",
       "HART1011",
       "HART1012",
@@ -2715,7 +2715,7 @@
       "HART1045",
       "HART1046"
     ],
-    "HUMA":[
+    "HUMA": [
       "HUMA1000",
       "HUMA1000A",
       "HUMA1000B",
@@ -2962,7 +2962,7 @@
       "HUMA6990",
       "HUMA7990"
     ],
-    "SHSS":[
+    "SHSS": [
       "SHSS1010",
       "SHSS1020",
       "SHSS1020A",
@@ -2977,7 +2977,7 @@
       "SHSS4993",
       "SHSS6770"
     ],
-    "SOSC":[
+    "SOSC": [
       "SOSC1000A",
       "SOSC1000C",
       "SOSC1000D",
@@ -3138,8 +3138,8 @@
       "SOSC7990"
     ]
   },
-  "Interdisciplinary Programs":{
-    "ENVR":[
+  "Interdisciplinary Programs": {
+    "ENVR": [
       "ENVR1001",
       "ENVR1010",
       "ENVR1030",
@@ -3255,10 +3255,10 @@
       "ENVR6990",
       "ENVR7990"
     ],
-    "LAGR":[
+    "LAGR": [
       "LAGR2080"
     ],
-    "RMBI":[
+    "RMBI": [
       "RMBI1010",
       "RMBI1020",
       "RMBI2001",
@@ -3282,8 +3282,8 @@
       "RMBI4990"
     ]
   },
-  "Unclassified Programs":{
-    "ENTR":[
+  "Unclassified Programs": {
+    "ENTR": [
       "ENTR1001",
       "ENTR2010",
       "ENTR3010",
@@ -3360,7 +3360,7 @@
       "ENTR4904R",
       "ENTR4911"
     ],
-    "GNED":[
+    "GNED": [
       "GNED2000",
       "GNED2510",
       "GNED2620",
@@ -3368,10 +3368,10 @@
       "GNED2710C",
       "GNED2710D"
     ],
-    "HLTH":[
+    "HLTH": [
       "HLTH1010"
     ],
-    "LABU":[
+    "LABU": [
       "LABU2020",
       "LABU2020G",
       "LABU2040",
@@ -3382,7 +3382,7 @@
       "LABU2060",
       "LABU2060G"
     ],
-    "LANG":[
+    "LANG": [
       "LANG1001",
       "LANG1002A",
       "LANG1002I",
@@ -3473,7 +3473,7 @@
       "LANG5101",
       "LANG5330"
     ],
-    "TEMG":[
+    "TEMG": [
       "TEMG1010",
       "TEMG3950",
       "TEMG4000",
@@ -3508,7 +3508,7 @@
       "TEMG4960D",
       "TEMG4960F"
     ],
-    "UROP":[
+    "UROP": [
       "UROP1000",
       "UROP1100",
       "UROP1100A",

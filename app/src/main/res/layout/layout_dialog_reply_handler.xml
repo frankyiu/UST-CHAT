@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_reply_handler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="20dp"
@@ -12,8 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,8 +20,7 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            >
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/lv_reply_handler_name"
@@ -50,8 +48,7 @@
             android:id="@+id/lv_reply_handler_choices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false">
-        </ListView>
+            android:baselineAligned="false"></ListView>
 
     </LinearLayout>
 

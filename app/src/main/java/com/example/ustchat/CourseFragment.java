@@ -2,16 +2,15 @@ package com.example.ustchat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,7 +51,8 @@ public class CourseFragment extends Fragment {
     JSONObject criteria;
     private static String JSON_URL = "https://jsonkeeper.com/b/Z3R2";
 
-    public CourseFragment() { }
+    public CourseFragment() {
+    }
 
     public static CourseFragment newInstance(String cat, JSONObject criteria) {
         CourseFragment fragment = new CourseFragment();
@@ -91,7 +91,7 @@ public class CourseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_course, container, false);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recycler_view_chatroom);
         chatroomRecords = new ArrayList<>();
         extractBookmarkedList(new Callback(){
             @Override
@@ -139,6 +139,7 @@ public class CourseFragment extends Fragment {
         Query query = mDatabaseRef.child("/chatroom").orderByChild("cat").equalTo(cat);
         query.addListenerForSingleValueEvent(new ValueEventListener()
         {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
@@ -203,14 +204,13 @@ public class CourseFragment extends Fragment {
             }
         }
         if(getActivity()!=null) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-            adapter = new ChatroomRecyclerAdapter(getActivity().getApplicationContext(), chatroomRecords);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            adapter = new ChatroomRecyclerAdapter(getActivity(), chatroomRecords);
             recyclerView.setAdapter(adapter);
         }
     }
 
     private void filterChatRoom() throws JSONException {
-        System.out.println("criteria" + criteria);
         String title = criteria.getString("title");
         JSONArray tagsJA = criteria.getJSONArray("tags");
         List<String> tags = new ArrayList<>();

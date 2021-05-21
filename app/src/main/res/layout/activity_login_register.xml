@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
-    tools:context=".LoginRegisterActivity"
-    >
+    tools:context=".LoginRegisterActivity">
 
     <include
         layout="@layout/layout_toolbar_center_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +20,6 @@
 
         <TextView
             android:id="@+id/tv_login_logo"
-            android:inputType="textNoSuggestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
@@ -31,9 +27,8 @@
             android:textStyle="bold"
             android:textColor="@color/text_color"
             android:layout_marginTop="60dp"
-            android:paddingBottom="60dp"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_marginBottom="60dp"
+            android:layout_centerHorizontal="true" />
 
         <EditText
             android:id="@+id/et_login_itsc"
@@ -45,8 +40,7 @@
             android:textSize="16sp"
             android:paddingLeft="10dp"
             android:layout_below="@+id/tv_login_logo"
-            android:maxLines="1"
-            />
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/tv_login_warning_itsc"
@@ -59,8 +53,7 @@
             android:textStyle="bold"
             android:paddingLeft="10dp"
             android:layout_marginTop="-7dp"
-            android:layout_below="@+id/et_login_itsc"
-            />
+            android:layout_below="@+id/et_login_itsc" />
 
         <EditText
             android:id="@+id/et_login_password"
@@ -87,8 +80,7 @@
             android:paddingLeft="10dp"
             android:layout_marginTop="-7dp"
             android:layout_below="@+id/et_login_password"
-            android:background="@null"
-            />
+            android:background="@null" />
 
         <TextView
             android:id="@+id/tv_login_forgot_password"
@@ -98,8 +90,7 @@
             android:layout_alignRight="@+id/et_login_password"
             android:layout_below="@+id/et_login_password"
             android:text="@string/tv_text_login_forgot_password"
-            android:textSize="10dp"
-            />
+            android:textSize="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login_login"
@@ -115,8 +106,7 @@
             app:backgroundTint="@color/background_color"
             app:strokeWidth="1dp"
             app:strokeColor="@color/text_color"
-            app:cornerRadius="7dp"
-            />
+            app:cornerRadius="7dp" />
 
         <TextView
             android:id="@+id/tv_login_warning_login_failure"
@@ -130,8 +120,7 @@
             android:paddingLeft="10dp"
             android:layout_marginTop="-20dp"
             android:layout_below="@+id/btn_login_login"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_centerHorizontal="true" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -145,8 +134,7 @@
             android:textColor="@color/white"
             app:backgroundTint="#FF767171"
             android:layout_below="@+id/btn_login_login"
-            app:cornerRadius="7dp"
-            />
+            app:cornerRadius="7dp" />
 
         <TextView
             android:id="@+id/tv_login_continue_as_a_visitor"
@@ -156,8 +144,7 @@
             android:layout_centerInParent="true"
             android:textSize="15sp"
             android:layout_below="@+id/btn_login_sign_up"
-            android:text="@string/link_continue_as_a_visitor"
-            />
+            android:text="@string/link_continue_as_a_visitor" />
 
     </RelativeLayout>
 

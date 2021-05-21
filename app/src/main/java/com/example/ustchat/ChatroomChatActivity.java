@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -38,6 +39,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -94,7 +101,7 @@ public class ChatroomChatActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         super.onCreate(savedInstanceState);
@@ -105,6 +112,7 @@ public class ChatroomChatActivity extends AppCompatActivity {
         quotedText = "";
         targetUserId = "";
         if(bundle != null) {
+
             chatroomTitle = bundle.getString("chatroomTitle");
             chatId = bundle.getString("chatId");
         }
@@ -117,7 +125,7 @@ public class ChatroomChatActivity extends AppCompatActivity {
 
         llQuoteArea = findViewById(R.id.ll_chat_input_area_quote);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view_chatroom_chat);
         chatroomChatRecords = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
@@ -274,7 +282,6 @@ public class ChatroomChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 llQuoteArea.setVisibility(View.GONE);
                 quotedText = "";
-
             }
         });
     }
@@ -286,14 +293,14 @@ public class ChatroomChatActivity extends AppCompatActivity {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
 
@@ -481,8 +488,7 @@ class ReplyHandlerDialog extends Dialog {
         ls.add("Reply");
         if (chatroomChatRecord.isUser()) {
             ls.add("Delete");
-        }
-        else {
+        } else {
             ls.add("Send a private message");
         }
         ls.add("Cancel");
@@ -498,7 +504,7 @@ class ReplyHandlerDialog extends Dialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0: // copy
                         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                         // TO-DO: if the it is an image...

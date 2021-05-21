@@ -1,16 +1,16 @@
 package com.example.ustchat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -89,9 +89,10 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        pmRecyclerView = findViewById(R.id.recyclerView);
+        pmRecyclerView = findViewById(R.id.recycler_view_pm);
         privateMessageRecords = new ArrayList<>();
         myPMChatUnreadMap = new HashMap<>();
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef  = FirebaseDatabase.getInstance().getReference();
@@ -147,8 +148,8 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
                     }
                 }
                 Collections.reverse(privateMessageRecords);
-                pmRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(getApplicationContext(), privateMessageRecords);
+                pmRecyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageActivity.this));
+                privateMessageRecyclerAdapter = new PrivateMessageRecyclerAdapter(PrivateMessageActivity.this, privateMessageRecords);
                 pmRecyclerView.setAdapter(privateMessageRecyclerAdapter);
             }
 

@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -39,8 +41,7 @@ public class ChatroomChatRecyclerAdapter extends RecyclerView.Adapter<ChatroomCh
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (chatroomChatRecord.isUser()) {
             params.gravity = Gravity.RIGHT;
-        }
-        else {
+        } else {
             params.gravity = Gravity.LEFT;
         }
         holder.cvChatroomChat.setLayoutParams(params);
@@ -60,8 +61,7 @@ public class ChatroomChatRecyclerAdapter extends RecyclerView.Adapter<ChatroomCh
                 holder.ivQuotedImage.setVisibility(View.VISIBLE);
                 holder.ivQuotedImage.setBackgroundResource(R.drawable.ic_photo);
                 quotatedID = "Photo";
-            }
-            else {
+            } else {
                 holder.ivQuotedImage.setVisibility(View.GONE);
             }
             holder.ivQuotedText.setText(quotatedID);

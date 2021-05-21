@@ -14,7 +14,8 @@ public class ChatroomChatRecord {
     private String quotedID;
     private boolean isUser;
 
-    public ChatroomChatRecord() {}
+    public ChatroomChatRecord() {
+    }
 
     public ChatroomChatRecord(String name, String text, String image, Object time, String quotedID, boolean isUser) {
         this.name = name;

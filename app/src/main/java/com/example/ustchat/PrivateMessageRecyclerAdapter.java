@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -49,13 +50,11 @@ public class PrivateMessageRecyclerAdapter extends RecyclerView.Adapter<PrivateM
         int unreadCount = privateMessageRecord.getUnreadCount();
         if (unreadCount == 0) {
             holder.tvUnreadCounter.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             String unreadCountStr;
             if (unreadCount > 99) {
                 unreadCountStr = "99+";
-            }
-            else {
+            } else {
                 unreadCountStr = String.valueOf(unreadCount);
             }
             holder.tvLatestReplyTime.setTextColor(inflater.getContext().getResources().getColor(R.color.pm_unread_counter_bg_color));

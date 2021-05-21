@@ -19,7 +19,8 @@ public class ChatroomRecord {
     private int chatCount;
     private boolean isBookmarked;
 
-    public ChatroomRecord() {}
+    public ChatroomRecord() {
+    }
 
     public ChatroomRecord(String cat,String title, String posterName, Object createDate,
                           String latestName, String latestReply, List<String> tags,
@@ -105,6 +106,7 @@ public class ChatroomRecord {
     public void setChatCount(int chatCount) {
         this.chatCount = chatCount;
     }
+
     @Exclude
     public boolean isBookmarked() {  return isBookmarked; }
 

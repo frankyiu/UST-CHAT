@@ -14,7 +14,8 @@ public class PrivateChatRecord {
     private String quotedID;
     private boolean isUser;
 
-    public PrivateChatRecord() {}
+    public PrivateChatRecord() {
+    }
 
     public PrivateChatRecord(String name, String text, String image, Object time, String quotedID, boolean isUser) {
         this.name = name;

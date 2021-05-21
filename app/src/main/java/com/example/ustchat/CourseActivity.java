@@ -36,6 +36,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
@@ -64,7 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CourseActivity extends AppCompatActivity implements NavigationNotification,
-        NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+        NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
     String category;
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
@@ -119,7 +127,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
         navigationView.setNavigationItemSelectedListener(this);
         etSearch = findViewById(R.id.et_course_list_search);
 
-        popupWindow = new PopupWindow(getApplication());
+        popupWindow = new PopupWindow(this);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.popup_window_course_list_search));
         popupWindow.setContentView(listView);
         popupWindow.setHeight(700);
@@ -139,8 +147,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
                 if (hasFocus) {
                     popupWindow.setWidth(etSearch.getMeasuredWidth());
                     popupWindow.showAsDropDown(view, 0, 0);
-                }
-                else {
+                } else {
                     popupWindow.dismiss();
                 }
             }
@@ -148,10 +155,12 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -164,6 +173,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
+
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
@@ -266,7 +276,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
             JSONObject school2majorJson = new JSONObject(new String(buffer, "UTF-8"));
 
             Iterator<String> school2majorkeys = school2majorJson.keys();
-            while(school2majorkeys.hasNext()){
+            while (school2majorkeys.hasNext()) {
                 String schoolKey = school2majorkeys.next();
                 catNames.add(schoolKey);
 
@@ -275,7 +285,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
 
                 JSONObject major2courseJson = school2majorJson.getJSONObject(schoolKey);
                 Iterator<String> major2courseKeys = major2courseJson.keys();
-                while(major2courseKeys.hasNext()) {
+                while (major2courseKeys.hasNext()) {
                     String majorKey = major2courseKeys.next();
                     majorList.add(majorKey);
                     JSONArray courseJsonArr = major2courseJson.getJSONArray(majorKey);
@@ -300,8 +310,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             closeDrawer();
         }
         super.onBackPressed();
@@ -318,8 +327,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
         int id = item.getItemId();
         if (id == R.id.search) {
             openSearchChatroomDialog();
-        }
-        else if (id == R.id.create_chatroom) {
+        } else if (id == R.id.create_chatroom) {
             //TO-DO: check if log-in
             //check if segment is not my bookmark
             if (!toolbar.getTitle().equals("My Bookmarks")) {
@@ -369,8 +377,7 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
         if (id == R.id.my_bookmarks) {
             closeDrawer();
             switchChatroomFragment("My Bookmarks");
-        }
-        else if (id == R.id.general_chatroom) {
+        } else if (id == R.id.general_chatroom) {
             closeDrawer();
             switchChatroomFragment("General Chatroom");
         }
@@ -383,21 +390,23 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
-    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) { }
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+    }
 
     @Override
-    public void onDrawerOpened(@NonNull View drawerView) { }
+    public void onDrawerOpened(@NonNull View drawerView) {
+    }
 
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
@@ -405,7 +414,8 @@ public class CourseActivity extends AppCompatActivity implements NavigationNotif
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) { }
+    public void onDrawerStateChanged(int newState) {
+    }
 
     public void createChatRoom(ChatroomRecord chatroom){
         if(mAuth.getCurrentUser() != null) {
@@ -465,20 +475,19 @@ class CreateChatroomDialog extends Dialog {
         vfChipGroup = findViewById(R.id.vf_create_chatroom_chip_group);
         etTitle = findViewById(R.id.et_create_chatroom_title);
         etName = findViewById(R.id.et_create_chatroom_name);
-        ibCreateChatroom = findViewById(R.id.btn_create_chatroom_submit);
+        ibCreateChatroom = findViewById(R.id.ib_create_chatroom_submit);
         tvWarningInvalidTitle = findViewById(R.id.tv_create_chatroom_warning_invalid_title);
         tvWarningInvalidName = findViewById(R.id.tv_create_chatroom_warning_invalid_name);
 
         if (chatroomCategory.equals("General Chatroom")) {
             vfChipGroup.setDisplayedChild(vfChipGroup.indexOfChild(findViewById(R.id.vf_create_chatroom_chip_general)));
             chipGroup = findViewById(R.id.chipgroup_tag_general);
-        }
-        else {
+        } else {
             vfChipGroup.setDisplayedChild(vfChipGroup.indexOfChild(findViewById(R.id.vf_create_chatroom_chip_course)));
             chipGroup = findViewById(R.id.chipgroup_tag_course);
         }
 
-        ibCreateChatroom.setOnClickListener(new View.OnClickListener(){
+        ibCreateChatroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChatroomRecord chatroomRecord = createChatroom();
@@ -492,7 +501,8 @@ class CreateChatroomDialog extends Dialog {
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                     if (checked) {
                         if (chipGroup.getCheckedChipIds().size() > 3) {
                             chip.setChecked(false);
@@ -515,14 +525,14 @@ class CreateChatroomDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     // generate a random student name for a chatroom in the format of Student[\d]{5}
@@ -537,8 +547,7 @@ class CreateChatroomDialog extends Dialog {
             etTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidTitle.setVisibility(View.VISIBLE);
             success = false;
-        }
-        else {
+        } else {
             etTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidTitle.setVisibility(View.GONE);
         }
@@ -547,8 +556,7 @@ class CreateChatroomDialog extends Dialog {
             etName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidName.setVisibility(View.VISIBLE);
             success = false;
-        }
-        else {
+        } else {
             etName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidName.setVisibility(View.GONE);
         }
@@ -632,13 +640,12 @@ class SearchChatroomDialog extends Dialog {
         if (chatroomCategory.equals("General Chatroom")) {
             vfChipGroup.setDisplayedChild(vfChipGroup.indexOfChild(findViewById(R.id.vf_search_chatroom_chip_general)));
             chipGroup = findViewById(R.id.chipgroup_tag_general);
-        }
-        else {
+        } else {
             vfChipGroup.setDisplayedChild(vfChipGroup.indexOfChild(findViewById(R.id.vf_search_chatroom_chip_course)));
             chipGroup = findViewById(R.id.chipgroup_tag_course);
         }
 
-        ibSubmit.setOnClickListener(new View.OnClickListener(){
+        ibSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JSONObject chatroomJson = createChatroom();
@@ -652,7 +659,8 @@ class SearchChatroomDialog extends Dialog {
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                     if (checked) {
                         if (chipGroup.getCheckedChipIds().size() > 3) {
                             chip.setChecked(false);
@@ -672,14 +680,14 @@ class SearchChatroomDialog extends Dialog {
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getX(), (int)event.getY())) {
+                if (!outRect.contains((int) event.getX(), (int) event.getY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     public boolean validateChatroomSubmission(String chatroomTitle) {
@@ -689,8 +697,7 @@ class SearchChatroomDialog extends Dialog {
             etTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
             tvWarningInvalidTitle.setVisibility(View.VISIBLE);
             success = false;
-        }
-        else {
+        } else {
             etTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             tvWarningInvalidTitle.setVisibility(View.GONE);
         }

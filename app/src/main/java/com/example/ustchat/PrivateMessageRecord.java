@@ -16,7 +16,8 @@ public class PrivateMessageRecord {
     private Object latestReplyTime;
     private int unreadCount;
 
-    public PrivateMessageRecord() {}
+    public PrivateMessageRecord() {
+    }
 
     public PrivateMessageRecord(String title, String username, String targetName, String latestName, String latestReply, Object latestReplyTime, int unreadCount) {
         this.title = title;
@@ -36,7 +37,9 @@ public class PrivateMessageRecord {
         this.title = title;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -77,6 +80,7 @@ public class PrivateMessageRecord {
         return sfd.format(date);
     }
     public void setLatestReplyTime(Object latestReplyTime) { this.latestReplyTime = latestReplyTime; }
+
     @Exclude
     public int getUnreadCount() {
         return unreadCount;
