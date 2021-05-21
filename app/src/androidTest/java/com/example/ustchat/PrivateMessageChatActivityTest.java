@@ -26,6 +26,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
@@ -61,7 +62,7 @@ public class PrivateMessageChatActivityTest {
     public void privateMessageChatActivityTest() {
         onView(withId(R.id.tv_pm_chat_title)).check(matches(isDisplayed()));
         onView(withId(R.id.tv_pm_chat_name)).check(matches(isDisplayed()));
-        onView(withId(R.id.recycler_view_chatroom)).check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view_pm_chat)).check(matches(isDisplayed()));
         onView(withId(R.id.fl_input_area)).check(matches(isDisplayed()));
         onView(withId(R.id.ll_chat_input_area_quote)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
@@ -90,6 +91,11 @@ public class PrivateMessageChatActivityTest {
         onView(withId(R.id.dialog_reply_handler)).check(matches(isDisplayed()));
         onView(withText("Reply")).perform(click());
         onView(withId(R.id.ll_chat_input_area_quote)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        onView(withId(R.id.dialog_reply_handler)).check(doesNotExist());
+
+        onView(allOf(withId(R.id.cv_chat_bubble), childAtPosition(childAtPosition(withId(R.id.recycler_view_pm_chat), 0), 0), isDisplayed())).perform(longClick());
+        onView(withText("Cancel")).perform(click());
+        onView(withId(R.id.dialog_reply_handler)).check(doesNotExist());
     }
 
     private static Matcher<View> childAtPosition(

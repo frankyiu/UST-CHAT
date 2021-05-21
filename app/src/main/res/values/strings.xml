@@ -22,7 +22,7 @@
 
     <string name="ustchat_info_title">What is USTChat?</string>
     <string name="ustchat_info_description">USTChat is a mobile application project for COMP4521 in UST. It is a chatroom apps focused mainly on academic discussion for HKUST students, which allows students to discuss assignments and projects of a specific course, find and recruit group members, share resources and make comments on the course, and chit-chat about things related to the course. </string>
-    <string name="create_account_description">A verification code will be sent to your ITSC email address ending in @connect.ust.hk. Enter the code to proceed in the next step."</string>
+    <string name="create_account_description">A verification email will be sent to your ITSC email address ending in @connect.ust.hk. Please verify your account before login. Click the arrow button to resend the email."</string>
     <string name="ustchat_about_us_title">About us</string>
     <string name="ustchat_about_us_description">We are final year students in UST. \nAuthors: Sky, Frank\nCredits: USTSPACE (providing the course codes)</string>
     <string name="ustchat_contact_us_title">Contact us</string>

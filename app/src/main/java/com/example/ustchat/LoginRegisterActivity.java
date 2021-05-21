@@ -262,7 +262,8 @@ class RegisterDialog extends Dialog {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_empty);
             itscErrorFlag = true;
             success = false;
-        } else if (!itsc.matches("[a-z]+")) {
+        }
+        else if (!itsc.matches("[a-z]+")) {
             tvWarningInvalidITSC.setText(R.string.et_warning_login_ITSC_invalid);
             itscErrorFlag = true;
             success = false;
@@ -270,10 +271,6 @@ class RegisterDialog extends Dialog {
 
         if (password.isEmpty()) {
             tvWarningInvalidPW.setText(R.string.et_warning_login_password_empty);
-            pwErrorFlag = true;
-            success = false;
-        } else if (password.length() < 7) {
-            tvWarningInvalidPW.setText(R.string.et_warning_login_password_invalid);
             pwErrorFlag = true;
             success = false;
         }
