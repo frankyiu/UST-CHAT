@@ -223,7 +223,7 @@ public class CourseFragment extends Fragment {
         while (i.hasNext()) {
             ChatroomRecord chat = i.next(); // must be called before you can call i.remove()
             boolean remove = false;
-            if (!chat.getTitle().matches("(.*)"+title+"(.*)")){
+            if (!chat.getTitle().toLowerCase().matches("(.*)"+title.toLowerCase()+"(.*)")){
                 remove = true;
             }
             List<String> tempList = chat.getTags() == null? new ArrayList<String>(): chat.getTags();

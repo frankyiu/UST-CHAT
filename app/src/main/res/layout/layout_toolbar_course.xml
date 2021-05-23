@@ -11,11 +11,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/background_color_toolbar"
-        app:title="Title"
-        app:titleTextColor="@color/text_color"
-        app:titleMarginStart="40dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="?attr/actionBarTheme"
+        app:title="Title"
+        app:titleMarginStart="20dp"
+        app:titleTextColor="@color/text_color">
 
     </androidx.appcompat.widget.Toolbar>
 

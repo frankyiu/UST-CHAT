@@ -32,7 +32,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 
 
@@ -52,10 +51,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
     EditText etITSC;
     EditText etPW;
     FirebaseAuth mAuth;
+    private static FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(firebaseDatabase == null){
+            firebaseDatabase=FirebaseDatabase.getInstance();
+            firebaseDatabase.setPersistenceEnabled(true);
+        }
+
         setContentView(R.layout.activity_login_register);
 
         toolbar = findViewById(R.id.toolbar_center_title);
@@ -247,6 +253,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     public void switchToGeneralCourseActicity() {
         startActivity(new Intent(getApplicationContext(), CourseActivity.class));
         overridePendingTransition(0, 0);
+        finish();
     }
 
 }
@@ -259,10 +266,12 @@ class RegisterDialog extends Dialog {
     private TextView tvWarningInvalidPW;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
+    private Context context;
     private static final String TAG = "RegisterDialog";
 
     public RegisterDialog(final Context context) {
         super(context);
+        this.context = context;
     }
 
     @SuppressLint("WrongConstant")
@@ -342,6 +351,8 @@ class RegisterDialog extends Dialog {
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "sendEmailVerification: email sent");
+                        Toast.makeText((LoginRegisterActivity)context, "A verification email sent, please check your mail box",
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e(TAG, "sendEmailVerification", task.getException());
                     }
@@ -407,8 +418,10 @@ class ForgotPWDialog extends Dialog {
     private EditText etITSC;
     private TextView tvWarningInvalidITSC;
     private FirebaseAuth mAuth;
+    private Context context;
     public ForgotPWDialog(final Context context) {
         super(context);
+        this.context = context;
     }
 
     @SuppressLint("WrongConstant")
@@ -457,13 +470,14 @@ class ForgotPWDialog extends Dialog {
     public void handleForgotPassword() {
         String istc = etITSC.getText().toString();
         if (validateForgotPasswordSubmission(istc)) {
-            // TO-DO : help users reset password
             mAuth.sendPasswordResetEmail(istc+"@connect.ust.hk")
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d("forgetPassword", "Email sent.");
+                                Toast.makeText((LoginRegisterActivity)context, "A verification email sent, please check your mail box",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

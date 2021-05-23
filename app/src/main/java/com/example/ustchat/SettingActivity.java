@@ -67,7 +67,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.setting);
         notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
-        //TO-DO : hardcode for now
 
 //        notificationBadge.setNumber(0);
         enableNotificationBadge(Utility.enableNotification);
@@ -123,6 +122,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationNoti
                 mAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginRegisterActivity.class));
                 stopService(new Intent(getApplicationContext(), MessagingService.class));
+                finish();
             }
         });
         switchNightMode = findViewById(R.id.switch_setting_night_mode);

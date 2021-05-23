@@ -91,7 +91,8 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
     DatabaseReference mDatabaseRef;
     StorageReference mStoreRef;
     LinearLayout llQuoteArea;
-    private static String JSON_URL = "https://jsonkeeper.com/b/VKKN";
+    private ValueEventListener mListener;
+//    private static String JSON_URL = "https://jsonkeeper.com/b/VKKN";
 
     @SuppressLint("NewApi")
     @Override
@@ -119,12 +120,6 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
         }
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-
-        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.SHARE_PREFS, MODE_PRIVATE);
-        boolean isNightMode = sharedPreferences.getBoolean(SettingActivity.NIGHT_MODE, false);
-        boolean isNotification = sharedPreferences.getBoolean(SettingActivity.NOTIFICATION, true);
-        SettingActivity.setNightMode(isNightMode);
-        Utility.enableNotification = isNotification;
 
         toolbar = findViewById(R.id.toolbar_pm_chat);
         setSupportActionBar(toolbar);
@@ -159,13 +154,17 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
         }
 
-        // TO-DO: hardcode for now
-//        ChatInputAreaFragment chatInputAreaFragment = new ChatInputAreaFragment(chatId, username, true, true);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fl_input_area, chatInputAreaFragment).commit();
     }
 
     public String getQuotedText() {
         return quotedText;
+    }
+
+    @Override
+    public void onDestroy() {
+        mDatabaseRef.child("users/" + mAuth.getCurrentUser().getUid() + "/privateChat/" + chatId + "/unread/").removeEventListener(mListener);
+        super.onDestroy();
+        return;
     }
 
     private void extractPrivateChatRecords() {
@@ -186,7 +185,6 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
                     privateChatRecords.add(chatRecord);
                 }
                 //clear unread
-                mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+chatId+"/unread/").setValue(0);
                 //update view
                 recyclerView.setLayoutManager(new LinearLayoutManager(PrivateMessageChatActivity.this));
                 adapter = new PrivateChatRecyclerAdapter(PrivateMessageChatActivity.this, privateChatRecords);
@@ -199,6 +197,22 @@ public class PrivateMessageChatActivity extends AppCompatActivity {
                 Log.d(TAG, "cancel"+databaseError);
             }
         });
+        Query query2 = mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+chatId+"/unread/");
+        mListener  = query2.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                mDatabaseRef.child("users/"+mAuth.getCurrentUser().getUid()+"/privateChat/"+chatId+"/unread/").setValue(0);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.d(TAG, "cancel"+databaseError);
+            }
+        });
+
 //        RequestQueue queue = Volley.newRequestQueue(this);
 //        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,new Response.Listener<JSONArray>() {
 //            @Override

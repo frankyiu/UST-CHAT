@@ -1,6 +1,7 @@
 package com.example.ustchat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -51,7 +52,7 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
     Map<String, Integer> myPMChatUnreadMap;
     FirebaseAuth mAuth;
     DatabaseReference mDatabaseRef;
-    private static String JSON_URL = "https://jsonkeeper.com/b/IVWS";
+//    private static String JSON_URL = "https://jsonkeeper.com/b/IVWS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,13 @@ public class PrivateMessageActivity extends AppCompatActivity implements Navigat
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.private_message);
         notificationBadge = bottomNavigationView.getOrCreateBadge(R.id.private_message);
-        //TO-DO : hardcode for now
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingActivity.SHARE_PREFS, MODE_PRIVATE);
+        boolean isNightMode = sharedPreferences.getBoolean(SettingActivity.NIGHT_MODE, false);
+        boolean isNotification = sharedPreferences.getBoolean(SettingActivity.NOTIFICATION, true);
+        SettingActivity.setNightMode(isNightMode);
+        Utility.enableNotification = isNotification;
+
 //        notificationBadge.setNumber(0);
         enableNotificationBadge(Utility.enableNotification);
 

@@ -48,7 +48,6 @@ public class MessagingService extends Service {
             Query query = mDataRef.child("users/"+mAuth.getUid()+"/notiMessage/");
             query.addValueEventListener(new ValueEventListener()
             {
-                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot)
                 {
@@ -58,7 +57,11 @@ public class MessagingService extends Service {
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             NotiMessage msg = postSnapshot.getValue(NotiMessage.class);
                             if(Utility.enableNotification) {
-                                pushNotification(msg);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    pushNotification(msg);
+                                }else{
+                                    pushNotification_lessthanO(msg);
+                                }
                             }
                         }
                         mDataRef.child("users/"+mAuth.getUid()+"/notiMessage/").removeValue();
@@ -101,6 +104,23 @@ public class MessagingService extends Service {
                 .setChannelId(channelId).build();
 
         mNotificationManager.createNotificationChannel(channel);
+        mNotificationManager.notify(++Counter, n);
+    }
+
+    private void pushNotification_lessthanO(NotiMessage msg){
+        Log.d("My Service", "pushNotification");
+        String channelId = "0";
+        int requestID = (int) System.currentTimeMillis();
+        Intent resultIntent = new Intent(this, PrivateMessageActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification n  = new Notification.Builder(this)
+                .setContentTitle(msg.getTitle())
+                .setContentText(msg.getFrom()+" : "+msg.getContent())
+                .setSmallIcon(R.drawable.ic_bell)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .build();
+
         mNotificationManager.notify(++Counter, n);
     }
 
