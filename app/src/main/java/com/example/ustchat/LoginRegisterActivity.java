@@ -338,6 +338,8 @@ class RegisterDialog extends Dialog {
                                 Log.d(TAG, "createUserWithEmailAndPassword:success");
                             } else {
                                 Log.w(TAG, "createUserWithEmailAndPassword:failure", task.getException());
+                                Toast.makeText((LoginRegisterActivity) context, "Register Fail: "+task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
