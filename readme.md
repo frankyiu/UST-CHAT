@@ -1,1 +1,2 @@
-This is a app for UST CHAT
+# UST-CHAT
+A chatroom like app built using Android Studio
