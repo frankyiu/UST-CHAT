@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrivateMessageActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_toolbar_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/layout_toolbar_center_title" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        android:id="@+id/recycler_view_pm"
+        android:layout_above="@+id/bottom_nav_wrapper"
+        android:layout_below="@+id/ll_toolbar_setting" />
+
+    <LinearLayout
+        android:id="@+id/bottom_nav_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/layout_bottom_navigation" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="360dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/card_color">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_confirm_image_title"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Confirm the photo"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/tv_confirm_image_image"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/tv_confirm_image_title"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp" />
+
+        <ImageButton
+            android:id="@+id/btn_confirm_image_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="?android:selectableItemBackgroundBorderless" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

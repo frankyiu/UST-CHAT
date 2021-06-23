@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/background_color_nav"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:gravity="center_vertical|center_horizontal|center"
+    >
+
+    <TextView
+        android:id="@+id/nav_header_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USTChat"
+        android:textColor="@color/text_color"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>

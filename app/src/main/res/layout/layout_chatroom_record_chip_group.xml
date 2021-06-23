@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipgroup_chatroom_create_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_chit_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_sharing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_3"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_recruitment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_4"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_lecture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_5"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_6"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_tutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_7"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_exam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_8"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_assignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_9"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_course_tag_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_general_tag_2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_graduation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_general_tag_3"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_rant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_general_tag_4"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chatroom_record_tag_show_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="@dimen/chip_min_height"
+            app:chipMinTouchTargetSize="@dimen/chip_min_touch_target_size"
+            app:rippleColor="@color/chip_bg_ripple_color"
+            app:chipBackgroundColor="@color/tag_chip_bg_color_checked"
+            android:text="@string/chip_general_tag_5"
+            android:textColor="@color/black"
+            android:textSize="@dimen/chip_text_size" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+</LinearLayout>

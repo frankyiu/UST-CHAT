@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">USTChat</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="create_account_title">Create a USTChat account</string>
+    <string name="forget_password_title">Reset your password</string>
+    <string name="forget_password_description">To reset your password, please provide your ITSC account in the text bar. An verification email will be sent to the email address and the password can be reset. </string>
+
+    <string name="et_hint_login_ITSC">ITSC Account</string>
+    <string name="et_hint_login_password">USTChat password</string>
+    <string name="et_warning_login_ITSC_empty">ITSC account required.</string>
+    <string name="et_warning_login_ITSC_invalid">invalid ITSC account.</string>
+    <string name="et_warning_login_password_empty">password required.</string>
+    <string name="et_warning_login_password_invalid">invalid password.</string>
+    <string name="et_warning_login_failure">login failure: account does not exist.</string>
+
+    <string name="tv_text_login_forgot_password">forgot your password?</string>
+    <string name="btn_text_login_login">Login</string>
+    <string name="btn_text_login_sign_up">Student Sign-up</string>
+    <string name="link_continue_as_a_visitor"><u>continue as a visitor</u></string>
+
+    <string name="ustchat_info_title">What is USTChat?</string>
+    <string name="ustchat_info_description">USTChat is a mobile application project for COMP4521 in UST. It is a chatroom apps focused mainly on academic discussion for HKUST students, which allows students to discuss assignments and projects of a specific course, find and recruit group members, share resources and make comments on the course, and chit-chat about things related to the course. </string>
+    <string name="create_account_description">A verification email will be sent to your ITSC email address ending in @connect.ust.hk. Please verify your account before login. Click the arrow button to resend the email."</string>
+    <string name="ustchat_about_us_title">About us</string>
+    <string name="ustchat_about_us_description">We are final year students in UST. \nAuthors: Sky, Frank\nCredits: USTSPACE (providing the course codes)</string>
+    <string name="ustchat_contact_us_title">Contact us</string>
+    <string name="ustchat_contact_us_description">To be continued...</string>
+
+
+    <string name="chip_general_tag_1">Chit-Chat</string>
+    <string name="chip_general_tag_2">Question</string>
+    <string name="chip_general_tag_3">Graduation</string>
+    <string name="chip_general_tag_4">Rant</string>
+    <string name="chip_general_tag_5">Show-off</string>
+
+    <string name="chip_course_tag_1">Chit-Chat</string>
+    <string name="chip_course_tag_2">Sharing</string>
+    <string name="chip_course_tag_3">Review</string>
+    <string name="chip_course_tag_4">Recruitment</string>
+    <string name="chip_course_tag_5">Lecture</string>
+    <string name="chip_course_tag_6">Lab</string>
+    <string name="chip_course_tag_7">Tutorial</string>
+    <string name="chip_course_tag_8">Exam</string>
+    <string name="chip_course_tag_9">Assignment</string>
+    <string name="chip_course_tag_10">Project</string>
+
+
+</resources>

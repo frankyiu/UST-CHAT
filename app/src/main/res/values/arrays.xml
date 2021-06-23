@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Language">
+        <item>English</item>
+        <item>Cantonese</item>
+        <item>Chinese</item>
+    </string-array>
+
+    <string-array name="languageAlias">
+        <item>"eng"</item>
+        <item>"can"</item>
+        <item>"chi"</item>
+    </string-array>
+
+    <string-array name="courseChatroomTags">
+        <item>"Chit-Chat"</item>
+        <item>"Sharing"</item>
+        <item>"Review"</item>
+        <item>"Recruitment"</item>
+        <item>"Lecture"</item>
+        <item>"Lab"</item>
+        <item>"Tutorial"</item>
+        <item>"Exam"</item>
+        <item>"Assignment"</item>
+        <item>"Project"</item>
+    </string-array>
+
+    <string-array name="generalChatroomTags">
+        <item>"Chit-Chat"</item>
+        <item>"Question"</item>
+        <item>"Graduation"</item>
+        <item>"Rant"</item>
+        <item>"Show-off"</item>
+    </string-array>
+
+</resources>

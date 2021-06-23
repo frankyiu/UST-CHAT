@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_pm"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:theme="@style/Theme.MaterialComponents.DayNight"
+        app:cardBackgroundColor="@color/card_color"
+        android:clickable="true"
+        android:focusable="true"
+        app:rippleColor="@color/background_color">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Looking for a teammate"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/text_color"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/tv_pm_title"
+                android:maxLines="1"></TextView>
+
+            <TextView
+                android:id="@+id/tv_pm_latest_name"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="{Latest Name}"
+                android:textStyle="bold"
+                android:textColor="#ED7D31"
+                android:textSize="14sp"
+                android:layout_below="@+id/tv_pm_title"
+                android:gravity="center_vertical"></TextView>
+
+            <TextView
+                android:id="@+id/tv_pm_latest_name_colon"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text=":"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:textSize="14sp"
+                android:layout_below="@+id/tv_pm_title"
+                android:layout_toRightOf="@+id/tv_pm_latest_name"
+                android:paddingRight="5dp"></TextView>
+
+            <LinearLayout
+                android:id="@+id/ll_pm_latest_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/tv_pm_title"
+                android:layout_toRightOf="@+id/tv_pm_latest_name_colon">
+
+                <ImageView
+                    android:id="@+id/iv_pm_latest_reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_pm_latest_reply"
+                    android:layout_width="260dp"
+                    android:layout_height="20dp"
+                    android:text="1234567890123456789012345678901234567"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_pm_latest_reply_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2021-05-11 12:38"
+                android:textColor="@color/gray_600"
+                android:textSize="11sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"></TextView>
+
+            <TextView
+                android:id="@+id/tv_pm_unread_counter"
+                android:layout_width="22dp"
+                android:layout_height="18dp"
+                android:text="20+"
+                android:background="@drawable/pm_unread_counter"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_below="@+id/tv_pm_title"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_D5"
+        android:layout_below="@+id/cv_pm" />
+
+</RelativeLayout>
